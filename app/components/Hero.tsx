@@ -138,7 +138,7 @@ function PhoneMockup() {
 
   export function Hero() {
     return (
-      <section className="relative min-h-screen w-full flex items-center justify-center overflow-hidden pt-20 bg-white dark:bg-zinc-950">
+      <section className="relative min-h-screen w-full flex items-center justify-center overflow-hidden pt-32 lg:pt-40 pb-20 bg-white dark:bg-zinc-950">
   
         {/* Background atmosphere - keeping it simple grid only */}
         <div className="absolute inset-0 pointer-events-none">

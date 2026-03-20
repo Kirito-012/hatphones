@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
 import { Moon, Sun, Menu, X } from "lucide-react";
-import { motion, useScroll, useMotionValueEvent } from "framer-motion";
+import { motion, useScroll, useMotionValueEvent, AnimatePresence } from "framer-motion";
 
 export function Navbar() {
   const { theme, setTheme } = useTheme();
@@ -34,76 +34,86 @@ export function Navbar() {
       }}
       animate={hidden ? "hidden" : "visible"}
       transition={{ duration: 0.3, ease: "easeInOut" }}
-      className="fixed top-0 left-0 right-0 z-50 w-full bg-white dark:bg-zinc-950 border-b-4 border-zinc-900 dark:border-white/20 px-4 md:px-6 py-4 flex items-center justify-between"
+      className="fixed top-0 left-0 right-0 z-50 w-full bg-white/95 dark:bg-zinc-950/95 backdrop-blur-md border-b border-zinc-200 dark:border-white/10 px-4 md:px-6 py-4 flex items-center justify-between"
     >
       
       {/* Logo */}
-      <div className="flex items-center gap-3 lg:gap-4 group cursor-pointer mr-2 lg:mr-0 shrink-0">
-        <div className="w-8 h-8 lg:w-10 lg:h-10 bg-zinc-900 dark:bg-white border-2 border-transparent dark:border-white/20 flex items-center justify-center text-white dark:text-black font-black text-lg lg:text-xl shadow-[3px_3px_0px_0px_rgba(24,24,27,1)] dark:shadow-[3px_3px_0px_0px_rgba(255,255,255,0.4)] transition-transform group-hover:-translate-y-0.5 group-hover:-translate-x-0.5">
-          H
-        </div>
-        <span className="text-xl lg:text-2xl font-black tracking-tight text-zinc-900 dark:text-zinc-50 uppercase hidden sm:block">
-          Hatphones
+      <div className="flex items-center group cursor-pointer lg:mr-0 shrink-0 select-none">
+        <span className="text-xl lg:text-2xl font-black tracking-tighter text-black dark:text-white leading-none uppercase">
+          HAT <span className="font-light opacity-80">PHONES</span>
         </span>
       </div>
 
       {/* Desktop Navigation */}
-      <nav className="hidden md:flex items-center gap-2 lg:gap-4">
+      <nav className="hidden md:flex items-center gap-2 lg:gap-6">
         {["Home", "Buy", "Sell", "Repair", "Value Check", "Contact"].map((item) => (
           <a
             key={item}
-            href={`#${item.toLowerCase().replace(" ", "-")}`}
-            className="text-xs lg:text-sm font-black uppercase tracking-widest text-zinc-900 dark:text-zinc-100 px-3 py-2 border-2 border-transparent hover:border-zinc-900 dark:hover:border-white/20 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-all hover:-translate-y-0.5 hover:-translate-x-0.5 hover:shadow-[3px_3px_0px_0px_rgba(24,24,27,1)] dark:hover:shadow-[3px_3px_0px_0px_rgba(255,255,255,0.2)] active:translate-y-0 active:translate-x-0 active:shadow-none"
+            href={item === "Home" ? "/" : item === "Contact" ? "/contact" : item === "Buy" ? "/buy" : `/#${item.toLowerCase().replace(" ", "-")}`}
+            className="group relative px-2 py-1 text-sm font-semibold text-zinc-600 dark:text-zinc-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
           >
             {item}
+            <span className="absolute bottom-0 left-0 w-full h-[2px] bg-indigo-600 dark:bg-indigo-400 origin-center scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out" />
           </a>
         ))}
       </nav>
 
       {/* Actions */}
-      <div className="flex items-center gap-3 shrink-0">
+      <div className="flex items-center gap-4 shrink-0">
         
         {/* Theme Toggle */}
         <button
           onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-          className="w-10 h-10 lg:w-11 lg:h-11 flex items-center justify-center border-2 border-zinc-900 dark:border-white/20 bg-zinc-100 dark:bg-zinc-900 text-zinc-900 dark:text-white shadow-[3px_3px_0px_0px_rgba(24,24,27,1)] dark:shadow-[3px_3px_0px_0px_rgba(255,255,255,0.3)] hover:-translate-y-1 hover:-translate-x-1 transition-transform active:translate-y-0 active:translate-x-0 active:shadow-[0px_0px_0px_0px_rgba(24,24,27,1)]"
+          className="w-10 h-10 flex items-center justify-center rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors"
           aria-label="Toggle theme"
         >
-          {mounted && theme === "dark" ? <Sun size={20} strokeWidth={2.5} /> : <Moon size={20} strokeWidth={2.5} />}
+          {mounted && theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
         </button>
         
         {/* CTA */}
-        <button className="hidden sm:block px-4 lg:px-6 py-2 lg:py-2.5 border-2 border-zinc-900 dark:border-white/20 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 font-black text-xs lg:text-sm uppercase tracking-widest shadow-[4px_4px_0px_0px_rgba(24,24,27,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.3)] hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[6px_6px_0px_0px_rgba(24,24,27,1)] transition-all active:translate-y-0 active:translate-x-0 active:shadow-[0px_0px_0px_0px_rgba(24,24,27,1)]">
+        <button className="hidden sm:block px-5 py-2.5 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 rounded-xl font-semibold text-sm hover:bg-zinc-800 dark:hover:bg-zinc-100 transition-colors shadow-sm">
           Get Quote
         </button>
 
         {/* Mobile menu toggle */}
         <button 
-          className="md:hidden w-10 h-10 flex items-center justify-center text-zinc-900 dark:text-zinc-100 border-2 border-transparent hover:border-zinc-900 dark:hover:border-white transition-colors"
+          className="md:hidden w-10 h-10 flex items-center justify-center text-zinc-600 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-white transition-colors"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
         >
-          {mobileMenuOpen ? <X size={24} strokeWidth={2.5} /> : <Menu size={24} strokeWidth={2.5} />}
+          {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>
 
       {/* Mobile Menu Dropdown */}
-      {mobileMenuOpen && (
-        <div className="absolute top-full left-0 right-0 p-6 bg-white dark:bg-zinc-950 border-b-4 border-zinc-900 dark:border-white/20 flex flex-col gap-6 md:hidden shadow-[0px_8px_0px_0px_rgba(24,24,27,1)] dark:shadow-[0px_8px_0px_0px_rgba(255,255,255,0.1)]">
-          {["Home", "Buy", "Sell", "Repair", "Value Check", "Contact"].map((item) => (
-            <a 
-              key={item}
-              href={`#${item.toLowerCase().replace(" ", "-")}`} 
-              className="text-lg font-black uppercase tracking-widest text-zinc-900 dark:text-zinc-100 border-b-2 border-zinc-900/10 dark:border-white/10 pb-4"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              {item}
-            </a>
-          ))}
-          <button className="w-full px-6 py-4 border-2 border-zinc-900 dark:border-white/20 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 font-black text-lg uppercase tracking-widest shadow-[4px_4px_0px_0px_rgba(24,24,27,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.3)] hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[6px_6px_0px_0px_rgba(24,24,27,1)] transition-all active:translate-y-0 active:translate-x-0 active:shadow-[0px_0px_0px_0px_rgba(24,24,27,1)]">
-            Get Instant Quote
-          </button>
-        </div>
-      )}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div 
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className="absolute top-full left-0 right-0 overflow-hidden md:hidden shadow-xl -z-10"
+          >
+            <div className="p-6 bg-white dark:bg-zinc-950 border-b border-zinc-200 dark:border-white/10 flex flex-col gap-6">
+              {["Home", "Buy", "Sell", "Repair", "Value Check", "Contact"].map((item) => (
+                <a 
+                  key={item}
+                  href={item === "Home" ? "/" : item === "Contact" ? "/contact" : item === "Buy" ? "/buy" : `/#${item.toLowerCase().replace(" ", "-")}`} 
+                  className="group relative w-fit text-lg font-semibold text-zinc-900 dark:text-zinc-100 pb-2 transition-colors hover:text-indigo-600 dark:hover:text-indigo-400"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  {item}
+                  <span className="absolute bottom-0 left-0 w-full h-[2px] bg-indigo-600 dark:bg-indigo-400 origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out" />
+                </a>
+              ))}
+              <button className="w-full px-6 py-4 bg-indigo-600 text-white rounded-xl font-semibold text-lg hover:bg-indigo-700 transition-colors shadow-sm">
+                Get Instant Quote
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.header>
   );
 }
+

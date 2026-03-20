@@ -10,6 +10,7 @@ import { Footer } from "./components/Footer";
 
 export default function Home() {
   return (
+    // creating new branch
     <main className="min-h-screen bg-slate-50 dark:bg-[#0a0a0a] transition-colors duration-500">
       <Navbar />
       <Hero />

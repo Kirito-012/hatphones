@@ -8,45 +8,63 @@ const reasons = [
     title: "Fully Tested",
     description: "Every device is carefully checked by our team before it goes on the shelf.",
     icon: ShieldCheck,
+    accent: "from-indigo-500 to-indigo-700",
+    iconBg: "bg-indigo-100 dark:bg-indigo-500/20",
+    iconColor: "text-indigo-600 dark:text-indigo-400",
   },
   {
     title: "15 Days Return",
     description: "Not satisfied? Return it within 15 days, no questions asked.",
     icon: RefreshCcw,
+    accent: "from-emerald-500 to-emerald-700",
+    iconBg: "bg-emerald-100 dark:bg-emerald-500/20",
+    iconColor: "text-emerald-600 dark:text-emerald-400",
   },
   {
     title: "Fair Prices",
     description: "We offer competitive rates for both buying and selling, locally.",
     icon: Tag,
+    accent: "from-amber-500 to-orange-600",
+    iconBg: "bg-amber-100 dark:bg-amber-500/20",
+    iconColor: "text-amber-600 dark:text-amber-400",
   },
   {
     title: "Free Delivery",
     description: "Fast, fully-insured delivery on all phones, completely free.",
     icon: Truck,
+    accent: "from-violet-500 to-violet-700",
+    iconBg: "bg-violet-100 dark:bg-violet-500/20",
+    iconColor: "text-violet-600 dark:text-violet-400",
   },
   {
     title: "Honest Service",
     description: "No hidden fees. We'll always give you the straight answer on any repair.",
     icon: Eye,
+    accent: "from-rose-500 to-rose-700",
+    iconBg: "bg-rose-100 dark:bg-rose-500/20",
+    iconColor: "text-rose-600 dark:text-rose-400",
   },
   {
-    title: "90 Days Warranty",
+    title: "1 Year Warranty",
     description: "Minimum warranty included on all items for absolute peace of mind.",
     icon: Award,
-  }
+    accent: "from-teal-500 to-teal-700",
+    iconBg: "bg-teal-100 dark:bg-teal-500/20",
+    iconColor: "text-teal-600 dark:text-teal-400",
+  },
 ];
 
 export function WhyUs() {
   return (
     <section className="relative w-full py-24 md:py-32 px-6 bg-white dark:bg-zinc-950 z-0">
       <div className="container mx-auto max-w-7xl">
-        
+
         <div className="flex flex-col items-center justify-center mb-16 md:mb-20 text-center">
           <div className="inline-flex items-center justify-center px-4 py-2 border border-zinc-200 dark:border-white/10 bg-zinc-50 dark:bg-zinc-900 rounded-full shadow-sm mb-6">
             <span className="text-sm font-semibold text-zinc-600 dark:text-zinc-300">Why Choose Us?</span>
           </div>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-zinc-900 dark:text-white tracking-tight">
-            Honest & Reliable <br className="hidden md:block"/> Service.
+            Honest &amp; Reliable <br className="hidden md:block"/> Service.
           </h2>
         </div>
 
@@ -60,15 +78,21 @@ export function WhyUs() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ delay: i * 0.1, duration: 0.5 }}
-                className="group p-8 rounded-3xl bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-white/10 flex flex-col items-start hover:shadow-md hover:bg-white dark:hover:bg-zinc-900 transition-all duration-300"
+                className="group relative overflow-hidden p-8 rounded-3xl bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-white/10 flex flex-col items-start hover:shadow-lg transition-all duration-300"
               >
-                <div className="w-14 h-14 rounded-2xl bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-white/10 flex items-center justify-center mb-6 shadow-sm group-hover:scale-110 transition-transform duration-300">
-                  <Icon size={28} className="text-indigo-600 dark:text-indigo-400" strokeWidth={2} />
+                {/* Subtle top gradient accent bar */}
+                <div className={`absolute top-0 left-0 right-0 h-1 rounded-t-3xl bg-gradient-to-r ${reason.accent}`} />
+
+                {/* Faint background glow on hover */}
+                <div className={`absolute inset-0 bg-gradient-to-br ${reason.accent} opacity-0 group-hover:opacity-5 transition-opacity duration-300 rounded-3xl`} />
+
+                <div className={`relative w-14 h-14 rounded-2xl ${reason.iconBg} flex items-center justify-center mb-6 shadow-sm group-hover:scale-110 transition-transform duration-300`}>
+                  <Icon size={28} className={reason.iconColor} strokeWidth={2} />
                 </div>
-                <h3 className="text-xl font-bold text-zinc-900 dark:text-white mb-3">
+                <h3 className="relative text-xl font-bold text-zinc-900 dark:text-white mb-3">
                   {reason.title}
                 </h3>
-                <p className="text-base text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                <p className="relative text-base text-zinc-600 dark:text-zinc-400 leading-relaxed">
                   {reason.description}
                 </p>
               </motion.div>
@@ -79,4 +103,3 @@ export function WhyUs() {
     </section>
   );
 }
-

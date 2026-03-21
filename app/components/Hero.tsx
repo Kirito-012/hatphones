@@ -9,24 +9,32 @@ function StatChip({
   value,
   delay,
   className,
+  accentBg = "bg-white/90 dark:bg-zinc-900/90",
+  accentBorder = "border-zinc-100 dark:border-white/10",
+  labelColor = "text-zinc-500",
+  iconBg,
 }: {
   icon: string;
   label: string;
   value: string;
   delay: number;
   className?: string;
+  accentBg?: string;
+  accentBorder?: string;
+  labelColor?: string;
+  iconBg?: string;
 }) {
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.8 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ delay, duration: 0.5, type: "spring" }}
-      className={`absolute z-40 flex items-center gap-2.5 px-4 py-3 bg-white/90 backdrop-blur-md dark:bg-zinc-900/90 rounded-2xl border border-zinc-100 dark:border-white/10 shadow-lg ${className}`}
+      className={`absolute z-40 flex items-center gap-2.5 px-4 py-3 backdrop-blur-md rounded-2xl border shadow-lg ${accentBg} ${accentBorder} ${className}`}
     >
-      <span className="text-xl">{icon}</span>
+      <span className={`text-xl w-8 h-8 flex items-center justify-center rounded-xl ${iconBg ?? ""}`}>{icon}</span>
       <div className="flex flex-col leading-tight">
-        <span className="text-[10px] font-semibold tracking-wider text-zinc-500">{label}</span>
-        <span className="text-sm font-bold text-zinc-900 dark:text-white">{value}</span>
+        <span className={`text-[10px] font-semibold tracking-wider ${labelColor}`}>{label}</span>
+        <span className="text-sm font-bold text-white">{value}</span>
       </div>
     </motion.div>
   );
@@ -41,11 +49,11 @@ function PhoneMockup() {
       className="relative z-20 w-[220px] h-[460px] select-none"
     >
       {/* Phone Shell */}
-      <div className="absolute inset-0 rounded-[2.5rem] bg-white dark:bg-zinc-800 border-[4px] border-zinc-200 dark:border-zinc-700 shadow-xl" />
+      <div className="absolute inset-0 rounded-[2.5rem] bg-white dark:bg-zinc-800 border-[4px] border-zinc-200 dark:border-zinc-600 shadow-xl" />
       {/* Screen Bezel */}
       <div className="absolute inset-[4px] rounded-[2.2rem] bg-zinc-950 overflow-hidden">
         {/* Screen Content */}
-        <div className="absolute inset-0 bg-zinc-50 dark:bg-zinc-950 flex flex-col">
+        <div className="absolute inset-0 bg-gradient-to-br from-indigo-50/50 via-white to-purple-50/50 dark:from-indigo-950/30 dark:via-zinc-950 dark:to-purple-950/30 flex flex-col">
           {/* Status Bar */}
           <div className="flex justify-between items-center px-5 pt-4 pb-1 text-zinc-900 dark:text-white">
             <span className="text-[9px] font-semibold opacity-60">9:41</span>
@@ -181,32 +189,42 @@ function PhoneMockup() {
           {/* Trust stats row */}
           <div className="flex flex-wrap gap-8 justify-center lg:justify-start pt-2">
             {[
-              { value: "50K+", label: "Happy Customers" },
-              { value: "4.9★", label: "Google Rating" },
-              { value: "Same Day", label: "Repairs" },
+              { value: "50K+", label: "Happy Customers", sub: null },
+              { value: "1yr", label: "Warranty", sub: "on some devices" },
+              { value: "Same Day", label: "Repairs", sub: null },
             ].map((stat) => (
               <div key={stat.value} className="flex flex-col">
                 <span className="text-2xl font-bold text-zinc-900 dark:text-white leading-tight">{stat.value}</span>
                 <span className="text-sm text-zinc-500 font-medium">{stat.label}</span>
+                {stat.sub && <span className="text-[11px] text-zinc-400 font-medium">{stat.sub}</span>}
               </div>
             ))}
           </div>
 
           {/* CTAs */}
-          <div className="flex flex-col sm:flex-row items-center gap-4 pt-6 justify-center lg:justify-start">
+          <div className="flex flex-col gap-4 pt-6 items-center lg:items-start">
+            <div className="flex flex-col sm:flex-row items-center gap-4 w-full justify-center lg:justify-start">
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="px-8 py-4 bg-indigo-600 text-white rounded-xl font-semibold hover:bg-indigo-700 w-full sm:w-auto transition-colors shadow-sm cursor-pointer"
+              >
+                Shop Phones
+              </motion.button>
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="px-8 py-4 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white border border-zinc-200 dark:border-zinc-800 rounded-xl font-semibold hover:bg-zinc-50 dark:hover:bg-zinc-800 w-full sm:w-auto transition-colors shadow-sm cursor-pointer"
+              >
+                Sell Your Phone
+              </motion.button>
+            </div>
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="px-8 py-4 bg-indigo-600 text-white rounded-xl font-semibold hover:bg-indigo-700 w-full sm:w-auto transition-colors shadow-sm"
+              className="px-8 py-4 bg-emerald-50 text-emerald-600 border border-emerald-200 dark:bg-emerald-950/30 dark:text-emerald-400 dark:border-emerald-800/50 rounded-xl font-semibold hover:bg-emerald-100 dark:hover:bg-emerald-900/50 w-full sm:w-auto transition-colors shadow-sm cursor-pointer"
             >
-              Shop Phones
-            </motion.button>
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="px-8 py-4 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white border border-zinc-200 dark:border-zinc-800 rounded-xl font-semibold hover:bg-zinc-50 dark:hover:bg-zinc-800 w-full sm:w-auto transition-colors shadow-sm"
-            >
-              Sell Your Phone
+              Get a Repair Quote
             </motion.button>
           </div>
         </motion.div>
@@ -234,43 +252,55 @@ function PhoneMockup() {
 
           {/* ── Floating Chips ── */}
 
-          {/* Top-left: Trade-in */}
+          {/* Top-left: Trade-in — violet */}
           <StatChip
             icon="💸"
             label="Fair Value"
             value="$450 Cash"
             delay={0.5}
             className="-left-4 lg:-left-6 top-16"
+            accentBg="bg-violet-600"
+            accentBorder="border-violet-500"
+            labelColor="text-violet-200"
+            iconBg="bg-violet-500"
           />
 
-          {/* Top-right: Verified */}
+          {/* Top-right: Verified — sky */}
           <StatChip
             icon="🛡️"
             label="Condition"
             value="Certified"
             delay={0.65}
             className="-right-4 lg:-right-6 top-24"
+            accentBg="bg-teal-500"
+            accentBorder="border-teal-400"
+            labelColor="text-teal-100"
+            iconBg="bg-teal-400"
           />
 
-          {/* Bottom-left: Repair */}
+          {/* Bottom-left: Repair — orange */}
           <StatChip
             icon="🔧"
             label="Fix it fast"
             value="Screen Repair"
             delay={0.8}
             className="-left-2 lg:-left-4 bottom-24"
+            accentBg="bg-orange-500"
+            accentBorder="border-orange-400"
+            labelColor="text-orange-100"
+            iconBg="bg-orange-400"
           />
 
-          {/* Bottom-right: Sale */}
+          {/* Bottom-right: Sale — fuchsia */}
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.9, type: "spring" }}
-            className="absolute -right-4 lg:-right-6 bottom-16 z-40 px-5 py-4 bg-white/90 backdrop-blur-md dark:bg-zinc-900/90 rounded-2xl border border-zinc-100 dark:border-white/10 shadow-lg"
+            className="absolute -right-4 lg:-right-6 bottom-16 z-40 px-5 py-4 bg-fuchsia-600 backdrop-blur-md rounded-2xl border border-fuchsia-500 shadow-lg"
           >
-            <p className="text-[10px] font-semibold text-emerald-500 uppercase tracking-widest mb-1">Just Sold</p>
-            <p className="text-sm font-bold text-zinc-900 dark:text-white">iPhone 14 Pro</p>
-            <p className="text-xs text-zinc-500 mt-1">Found a new home 🏠</p>
+            <p className="text-[10px] font-semibold text-fuchsia-200 uppercase tracking-widest mb-1">Just Sold</p>
+            <p className="text-sm font-bold text-white">iPhone 14 Pro</p>
+            <p className="text-xs text-fuchsia-200 mt-1">Found a new home 🏠</p>
           </motion.div>
         </motion.div>
       </div>

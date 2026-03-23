@@ -189,8 +189,7 @@ function PhoneMockup() {
           {/* Trust stats row */}
           <div className="flex flex-wrap gap-8 justify-center lg:justify-start pt-2">
             {[
-              { value: "50K+", label: "Happy Customers", sub: null },
-              { value: "1yr", label: "Warranty", sub: "on some devices" },
+              { value: "1yr", label: "Warranty", sub: "on devices above $200" },
               { value: "Same Day", label: "Repairs", sub: null },
             ].map((stat) => (
               <div key={stat.value} className="flex flex-col">

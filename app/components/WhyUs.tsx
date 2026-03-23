@@ -46,7 +46,7 @@ const reasons = [
   },
   {
     title: "1 Year Warranty",
-    description: "Minimum warranty included on all items for absolute peace of mind.",
+    description: "1 yr warranty on all devices above $200 for absolute peace of mind.",
     icon: Award,
     accent: "from-teal-500 to-teal-700",
     iconBg: "bg-teal-100 dark:bg-teal-500/20",
@@ -68,16 +68,22 @@ export function WhyUs() {
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-50px" }}
+          variants={{ visible: { transition: { staggerChildren: 0.08 } } }}
+        >
           {reasons.map((reason, i) => {
             const Icon = reason.icon;
             return (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ delay: i * 0.1, duration: 0.5 }}
+                variants={{
+                  hidden: { opacity: 0, y: 24 },
+                  visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] } },
+                }}
                 className="group relative overflow-hidden p-8 rounded-3xl bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-white/10 flex flex-col items-start hover:shadow-lg transition-all duration-300"
               >
                 {/* Subtle top gradient accent bar */}
@@ -98,7 +104,7 @@ export function WhyUs() {
               </motion.div>
             );
           })}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

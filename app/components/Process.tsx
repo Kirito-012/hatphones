@@ -22,7 +22,7 @@ const steps = [
   },
   {
     id: "03",
-    title: "Fast Payment",
+    title: "Cash or E-transfer",
     description: "Get paid quickly and securely via cash or transfer the same day we check your device. No waiting around.",
     icon: CheckCircle2,
     color: "text-amber-600 dark:text-amber-400",

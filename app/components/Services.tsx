@@ -65,16 +65,22 @@ export function Services() {
           </motion.h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 relative z-10 w-full">
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 relative z-10 w-full"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-50px" }}
+          variants={{ visible: { transition: { staggerChildren: 0.12 } } }}
+        >
           {services.map((service, idx) => {
             const Icon = service.icon;
             return (
               <motion.div
                 key={service.id}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.5, delay: service.delay }}
+                variants={{
+                  hidden: { opacity: 0, y: 24 },
+                  visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] } },
+                }}
                 className="group relative h-full bg-zinc-50 dark:bg-zinc-900/50 rounded-3xl border border-zinc-200 dark:border-white/10 p-8 flex flex-col overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-zinc-300 dark:hover:border-white/20"
               >
                 {/* Subtle top accent */}
@@ -103,7 +109,7 @@ export function Services() {
               </motion.div>
             );
           })}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

@@ -53,7 +53,7 @@ export default function Contact() {
                 <div>
                   <h3 className="text-sm sm:text-base md:text-lg font-bold text-zinc-900 dark:text-white mb-0.5 md:mb-1">Our Store</h3>
                   <p className="text-xs sm:text-sm md:text-base text-zinc-600 dark:text-zinc-400 line-clamp-2 md:line-clamp-none">
-                    123 Tech Ave, Ste 100<br/>San Francisco, CA
+                    516 3rd St SE<br/>Medicine Hat, AB, Canada
                   </p>
                 </div>
               </div>
@@ -89,7 +89,7 @@ export default function Contact() {
                 <div>
                   <h3 className="text-sm sm:text-base md:text-lg font-bold text-zinc-900 dark:text-white mb-0.5 md:mb-1">Hours</h3>
                   <p className="text-xs sm:text-sm md:text-base text-zinc-600 dark:text-zinc-400 line-clamp-2 md:line-clamp-none">
-                    Mon-Fri: 9am - 7pm<br/>Sat-Sun: 10am - 5pm
+                    Mon–Fri: 10am – 6pm<br/>Sat: 11am – 6pm<br/>Sun: Closed
                   </p>
                 </div>
               </div>
@@ -133,16 +133,15 @@ export default function Contact() {
 
           {/* Right Column: Integrated Map */}
           <div className="h-[300px] sm:h-[400px] lg:h-auto lg:min-h-[600px] bg-zinc-200 dark:bg-zinc-800 rounded-3xl overflow-hidden border border-zinc-300 dark:border-white/10 shadow-lg relative group order-2 lg:order-2">
-            {/* The Map iframe: Paste the location embed code here to replace the dummy one */}
-            <iframe 
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d100939.98555098464!2d-122.50764017948534!3d37.75781499660143!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80859a6d00690021%3A0x4a501367f076adff!2sSan%20Francisco%2C%20CA!5e0!3m2!1sen!2sus!4v1709669532556!5m2!1sen!2sus" 
-              width="100%" 
-              height="100%" 
-              style={{ border: 0 }} 
-              allowFullScreen={true} 
-              loading="lazy" 
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d5124.824235460429!2d-110.6775265!3d50.0411107!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x455a734e3fc2448f%3A0x61bd1a1be602f915!2sHat%20Phones!5e0!3m2!1sen!2sin!4v1774074756408!5m2!1sen!2sin"
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              allowFullScreen={true}
+              loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-              className="absolute inset-0 grayscale-[0.2] contrast-[1.1]"
+              className="absolute inset-0"
             ></iframe>
 
             {/* Overlay instruction for the user to change the map later if needed */}

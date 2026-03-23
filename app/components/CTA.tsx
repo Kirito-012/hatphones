@@ -5,7 +5,7 @@ import { ArrowRight, Smartphone, ShieldCheck } from "lucide-react";
 
 export function CTA() {
   return (
-    <section className="relative w-full py-24 md:py-32 px-6 overflow-hidden">
+    <section className="relative w-full py-14 md:py-20 px-6 overflow-hidden">
       {/* Background with soft grid/pattern */}
       <div className="absolute inset-0 bg-zinc-50 dark:bg-zinc-950" />
       <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] dark:bg-[radial-gradient(#ffffff11_1px,transparent_1px)] [background-size:20px_20px] opacity-70" />
@@ -45,7 +45,7 @@ export function CTA() {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="group w-full sm:w-auto px-8 py-4 bg-white text-indigo-600 rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-zinc-50 transition-colors shadow-lg"
+                className="group w-full sm:w-auto px-8 py-4 bg-white text-indigo-600 rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-zinc-50 transition-colors shadow-lg cursor-pointer"
               >
                 <span>Get a Free Quote</span>
                 <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
@@ -54,7 +54,7 @@ export function CTA() {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="w-full sm:w-auto px-8 py-4 bg-white/10 backdrop-blur text-white rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-white/20 transition-colors border border-white/20"
+                className="w-full sm:w-auto px-8 py-4 bg-white/10 backdrop-blur text-white rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-white/20 transition-colors border border-white/20 cursor-pointer"
               >
                 <Smartphone size={18} />
                 <span>Browse Phones</span>

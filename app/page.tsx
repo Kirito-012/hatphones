@@ -3,6 +3,7 @@ import { Hero } from "./components/Hero";
 import { Services } from "./components/Services";
 import { Process } from "./components/Process";
 import { Brands } from "./components/Brands";
+import { ShopFor } from "./components/ShopFor";
 import { WhyUs } from "./components/WhyUs";
 import { About } from "./components/About";
 import { CTA } from "./components/CTA";
@@ -14,6 +15,7 @@ export default function Home() {
       <Navbar />
       <Hero />
       <Brands />
+      <ShopFor />
       <Services />
       <Process />
       <WhyUs />

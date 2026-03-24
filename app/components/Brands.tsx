@@ -1,7 +1,9 @@
 "use client";
 
+import { useRef } from "react";
 import { motion } from "framer-motion";
 import { Smartphone, Tablet, Watch, MonitorSmartphone } from "lucide-react";
+import { useInView } from "framer-motion";
 
 const brands = [
   { name: "Apple iPhone", icon: Smartphone, color: "text-zinc-700 dark:text-zinc-300", bg: "bg-zinc-100 dark:bg-zinc-800" },
@@ -16,31 +18,34 @@ const brands = [
 const duplicatedBrands = [...brands, ...brands, ...brands, ...brands];
 
 export function Brands() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const isInView = useInView(sectionRef, { margin: "-15% 0px -15% 0px" });
+
   return (
-    <section className="relative w-full py-12 md:py-16 bg-zinc-50/50 dark:bg-zinc-900/20 border-t border-b border-zinc-200 dark:border-white/10 overflow-hidden flex flex-col items-center justify-center">
+    <section ref={sectionRef} className="relative w-full py-12 md:py-16 bg-zinc-50/50 dark:bg-zinc-900/20 border-t border-b border-zinc-200 dark:border-white/10 overflow-hidden flex flex-col items-center justify-center [content-visibility:auto] [contain-intrinsic-size:1px_260px]">
 
       <div className="absolute top-0 left-0 w-32 md:w-48 h-full bg-gradient-to-r from-zinc-50/90 dark:from-zinc-950 to-transparent z-10 pointer-events-none" />
       <div className="absolute top-0 right-0 w-32 md:w-48 h-full bg-gradient-to-l from-zinc-50/90 dark:from-zinc-950 to-transparent z-10 pointer-events-none" />
 
       <div className="container mx-auto max-w-7xl px-6 mb-8 text-center md:text-left relative z-20">
-         <p className="text-sm font-semibold text-zinc-500 uppercase tracking-widest">
-           Devices We Buy, Sell & Repair
-         </p>
+        <p className="text-sm font-semibold text-zinc-500 uppercase tracking-widest">
+          Devices We Buy, Sell & Repair
+        </p>
       </div>
 
       <div className="flex w-full overflow-hidden whitespace-nowrap py-4">
         <motion.div
           className="flex items-center gap-6 md:gap-8 px-4"
-          animate={{ x: ["0%", "-50%"] }}
+          animate={isInView ? { x: ["0%", "-50%"] } : { x: "0%" }}
           transition={{
-            repeat: Infinity,
+            repeat: isInView ? Infinity : 0,
             ease: "linear",
-            duration: 40, // Smooth speed
+            duration: 40,
           }}
         >
           {duplicatedBrands.map((brand, i) => (
-            <div 
-              key={i} 
+            <div
+              key={i}
               className="flex items-center gap-3 px-6 py-4 bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-white/10 shadow-sm transition-transform hover:scale-105 cursor-default"
             >
               <div className={`w-10 h-10 rounded-xl ${brand.bg} flex items-center justify-center ${brand.color}`}>

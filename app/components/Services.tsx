@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { Search, Wrench, ShoppingBag, ArrowRight } from "lucide-react";
 
@@ -14,6 +15,8 @@ const services = [
     bgDark: "dark:bg-blue-500/10",
     iconColor: "text-blue-600 dark:text-blue-400",
     delay: 0.1,
+    href: "/buy",
+    cta: "Shop Devices",
   },
   {
     id: "sell",
@@ -25,6 +28,8 @@ const services = [
     bgDark: "dark:bg-amber-500/10",
     iconColor: "text-amber-600 dark:text-amber-400",
     delay: 0.3,
+    href: "/#sell",
+    cta: "Get Sell Quote",
   },
   {
     id: "repair",
@@ -36,12 +41,14 @@ const services = [
     bgDark: "dark:bg-emerald-500/10",
     iconColor: "text-emerald-600 dark:text-emerald-400",
     delay: 0.5,
+    href: "/repair",
+    cta: "Book Repair",
   }
 ];
 
 export function Services() {
   return (
-    <section className="relative w-full py-24 md:py-32 px-6 overflow-hidden bg-white dark:bg-zinc-950">
+    <section className="relative w-full py-24 md:py-32 px-6 overflow-hidden bg-white dark:bg-zinc-950 [content-visibility:auto] [contain-intrinsic-size:1px_900px]">
 
       <div className="container mx-auto max-w-7xl">
         <div className="text-center md:text-left mb-16 md:mb-20">
@@ -69,17 +76,17 @@ export function Services() {
           className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 relative z-10 w-full"
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-50px" }}
-          variants={{ visible: { transition: { staggerChildren: 0.12 } } }}
+          viewport={{ once: true, amount: 0.2 }}
+          variants={{ visible: { transition: { staggerChildren: 0.08 } } }}
         >
-          {services.map((service, idx) => {
+          {services.map((service) => {
             const Icon = service.icon;
             return (
               <motion.div
                 key={service.id}
                 variants={{
-                  hidden: { opacity: 0, y: 24 },
-                  visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] } },
+                  hidden: { opacity: 0, y: 16 },
+                  visible: { opacity: 1, y: 0, transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] } },
                 }}
                 className="group relative h-full bg-zinc-50 dark:bg-zinc-900/50 rounded-3xl border border-zinc-200 dark:border-white/10 p-8 flex flex-col overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-zinc-300 dark:hover:border-white/20"
               >
@@ -101,10 +108,10 @@ export function Services() {
                     {service.description}
                   </p>
 
-                  <div className="mt-auto pt-6 flex items-center gap-2 text-zinc-900 dark:text-white font-semibold">
-                    <span>Learn more</span>
-                    <ArrowRight size={18} className="transform group-hover:translate-x-1 transition-transform" />
-                  </div>
+                  <Link href={service.href} className="mt-auto pt-6 flex items-center gap-2 text-zinc-900 dark:text-white font-semibold group/link">
+                    <span>{service.cta}</span>
+                    <ArrowRight size={18} className="transform group-hover/link:translate-x-1 transition-transform" />
+                  </Link>
                 </div>
               </motion.div>
             );

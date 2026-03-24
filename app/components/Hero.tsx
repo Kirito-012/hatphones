@@ -1,6 +1,8 @@
 "use client";
 
+import { useRef } from "react";
 import { motion } from "framer-motion";
+import { useInView } from "framer-motion";
 
 // Floating stat chip
 function StatChip({
@@ -41,11 +43,11 @@ function StatChip({
 }
 
 // Realistic phone mockup shell
-function PhoneMockup() {
+function PhoneMockup({ shouldAnimate }: { shouldAnimate: boolean }) {
   return (
     <motion.div
-      animate={{ y: [0, -10, 0] }}
-      transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
+      animate={shouldAnimate ? { y: [0, -10, 0] } : { y: 0 }}
+      transition={shouldAnimate ? { repeat: Infinity, duration: 6, ease: "easeInOut" } : { duration: 0.2 }}
       className="relative z-20 w-[220px] h-[460px] select-none"
     >
       {/* Phone Shell */}
@@ -139,16 +141,19 @@ function PhoneMockup() {
   );
 }
 
-  export function Hero() {
-    return (
-      <section className="relative min-h-screen w-full flex items-center justify-center overflow-hidden pt-32 lg:pt-40 pb-20 bg-white dark:bg-zinc-950">
-  
-        {/* Background atmosphere - soft gradient */}
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-0 inset-x-0 h-64 bg-gradient-to-b from-slate-100 dark:from-zinc-900 to-transparent" />
-        </div>
-  
-        <div className="container relative z-10 px-6 mx-auto flex flex-col lg:flex-row items-center justify-between gap-16 lg:gap-8">
+export function Hero() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const isInView = useInView(sectionRef, { margin: "-20% 0px -20% 0px" });
+
+  return (
+    <section ref={sectionRef} className="relative min-h-screen w-full flex items-center justify-center overflow-hidden pt-32 lg:pt-40 pb-20 bg-white dark:bg-zinc-950 [content-visibility:auto] [contain-intrinsic-size:1px_1000px]">
+
+      {/* Background atmosphere - soft gradient */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-0 inset-x-0 h-64 bg-gradient-to-b from-slate-100 dark:from-zinc-900 to-transparent" />
+      </div>
+
+      <div className="container relative z-10 px-6 mx-auto flex flex-col lg:flex-row items-center justify-between gap-16 lg:gap-8">
 
         {/* ── LEFT: Text Content ── */}
         <motion.div
@@ -236,18 +241,18 @@ function PhoneMockup() {
           className="flex-1 relative w-full h-[500px] lg:h-[600px] flex items-center justify-center"
         >
           <motion.div
-            animate={{ rotate: 360 }}
-            transition={{ repeat: Infinity, duration: 30, ease: "linear" }}
+            animate={isInView ? { rotate: 360 } : { rotate: 0 }}
+            transition={isInView ? { repeat: Infinity, duration: 30, ease: "linear" } : { duration: 0.2 }}
             className="absolute z-10 w-80 h-80 border border-dashed border-zinc-200 dark:border-white/10 rounded-full"
           />
           <motion.div
-            animate={{ rotate: -360 }}
-            transition={{ repeat: Infinity, duration: 50, ease: "linear", delay: 0.5 }}
+            animate={isInView ? { rotate: -360 } : { rotate: 0 }}
+            transition={isInView ? { repeat: Infinity, duration: 50, ease: "linear", delay: 0.5 } : { duration: 0.2 }}
             className="absolute z-10 w-[420px] h-[420px] border border-solid border-zinc-100 dark:border-white/5 rounded-full"
           />
 
           {/* Phone */}
-          <PhoneMockup />
+          <PhoneMockup shouldAnimate={isInView} />
 
           {/* ── Floating Chips ── */}
 

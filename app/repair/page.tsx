@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { motion } from "framer-motion";
 import { Navbar } from "../components/Navbar";
 import { Footer } from "../components/Footer";
 import {
@@ -121,6 +122,15 @@ const appointmentFlow = [
 export default function RepairPage() {
     const [selectedSlot, setSelectedSlot] = useState("11:00 AM");
 
+    const scrollToAppointment = (event: React.MouseEvent<HTMLAnchorElement>) => {
+        event.preventDefault();
+        const scheduleSection = document.getElementById("schedule-appointment");
+        if (!scheduleSection) return;
+
+        scheduleSection.scrollIntoView({ behavior: "smooth", block: "start" });
+        window.history.replaceState(null, "", "#schedule-appointment");
+    };
+
     return (
         <main className="min-h-screen bg-zinc-50 dark:bg-zinc-950 flex flex-col">
             <Navbar />
@@ -132,7 +142,12 @@ export default function RepairPage() {
                     <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(15,23,42,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(15,23,42,0.03)_1px,transparent_1px)] [background-size:28px_28px] dark:opacity-20" />
 
                     <div className="relative container mx-auto max-w-7xl px-4 sm:px-6 py-16 md:py-24 lg:py-28">
-                        <div className="max-w-3xl text-zinc-900 dark:text-white">
+                        <motion.div
+                            initial={{ opacity: 0, y: 28 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+                            className="max-w-3xl text-zinc-900 dark:text-white"
+                        >
                             <div className="inline-flex items-center gap-2 rounded-full border border-indigo-200 dark:border-white/20 bg-white/80 dark:bg-white/10 px-4 py-2 backdrop-blur mb-6">
                                 <ShieldCheck size={16} className="text-indigo-600 dark:text-indigo-200" />
                                 <span className="text-sm font-semibold tracking-wide text-zinc-700 dark:text-zinc-100">Certified Local Technicians</span>
@@ -147,27 +162,63 @@ export default function RepairPage() {
                                 Fast diagnostics, transparent pricing, and same-day fixes for common issues. Choose your repair and schedule a time slot that works for you.
                             </p>
 
-                            <div className="mt-8 grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 max-w-2xl">
-                                <div className="rounded-2xl border border-zinc-200 dark:border-white/15 bg-white/85 dark:bg-white/10 backdrop-blur px-4 py-3 shadow-sm">
+                            <div className="mt-7">
+                                <motion.a
+                                    href="#schedule-appointment"
+                                    onClick={scrollToAppointment}
+                                    whileHover={{ y: -1 }}
+                                    whileTap={{ scale: 0.96 }}
+                                    className="inline-flex items-center gap-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3.5 font-semibold shadow-sm transition-colors"
+                                >
+                                    <CalendarDays size={18} />
+                                    Schedule an Appointment
+                                </motion.a>
+                            </div>
+
+                            <motion.div
+                                className="mt-8 grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 max-w-2xl"
+                                initial="hidden"
+                                animate="visible"
+                                variants={{
+                                    hidden: {},
+                                    visible: { transition: { staggerChildren: 0.08, delayChildren: 0.12 } },
+                                }}
+                            >
+                                <motion.div
+                                    variants={{ hidden: { opacity: 0, y: 14 }, visible: { opacity: 1, y: 0 } }}
+                                    className="rounded-2xl border border-zinc-200 dark:border-white/15 bg-white/85 dark:bg-white/10 backdrop-blur px-4 py-3 shadow-sm"
+                                >
                                     <p className="text-2xl font-bold">30+ mins</p>
                                     <p className="text-xs text-zinc-500 dark:text-zinc-200/90">Quick jobs</p>
-                                </div>
-                                <div className="rounded-2xl border border-zinc-200 dark:border-white/15 bg-white/85 dark:bg-white/10 backdrop-blur px-4 py-3 shadow-sm">
+                                </motion.div>
+                                <motion.div
+                                    variants={{ hidden: { opacity: 0, y: 14 }, visible: { opacity: 1, y: 0 } }}
+                                    className="rounded-2xl border border-zinc-200 dark:border-white/15 bg-white/85 dark:bg-white/10 backdrop-blur px-4 py-3 shadow-sm"
+                                >
                                     <p className="text-2xl font-bold">Same Day</p>
                                     <p className="text-xs text-zinc-500 dark:text-zinc-200/90">Most repairs</p>
-                                </div>
-                                <div className="rounded-2xl border border-zinc-200 dark:border-white/15 bg-white/85 dark:bg-white/10 backdrop-blur px-4 py-3 col-span-2 sm:col-span-1 shadow-sm">
+                                </motion.div>
+                                <motion.div
+                                    variants={{ hidden: { opacity: 0, y: 14 }, visible: { opacity: 1, y: 0 } }}
+                                    className="rounded-2xl border border-zinc-200 dark:border-white/15 bg-white/85 dark:bg-white/10 backdrop-blur px-4 py-3 col-span-2 sm:col-span-1 shadow-sm"
+                                >
                                     <p className="text-2xl font-bold">90 Days</p>
                                     <p className="text-xs text-zinc-500 dark:text-zinc-200/90">Service warranty</p>
-                                </div>
-                            </div>
-                        </div>
+                                </motion.div>
+                            </motion.div>
+                        </motion.div>
                     </div>
                 </section>
 
                 <section className="container mx-auto max-w-7xl px-4 sm:px-6 py-14 md:py-20">
                     <div className="grid grid-cols-1 xl:grid-cols-5 gap-8 lg:gap-12 items-start">
-                        <div className="xl:col-span-3 flex flex-col gap-6">
+                        <motion.div
+                            className="xl:col-span-3 flex flex-col gap-6"
+                            initial={{ opacity: 0, y: 24 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, amount: 0.2 }}
+                            transition={{ duration: 0.45 }}
+                        >
                             <div>
                                 <p className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/10 text-sm font-semibold text-zinc-700 dark:text-zinc-300">
                                     <Wrench size={16} className="text-indigo-600 dark:text-indigo-400" />
@@ -178,12 +229,22 @@ export default function RepairPage() {
                                 </h2>
                             </div>
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                            <motion.div
+                                className="grid grid-cols-1 md:grid-cols-2 gap-5"
+                                initial="hidden"
+                                whileInView="visible"
+                                viewport={{ once: true, amount: 0.12 }}
+                                variants={{
+                                    hidden: {},
+                                    visible: { transition: { staggerChildren: 0.08 } },
+                                }}
+                            >
                                 {repairServices.map((service) => {
                                     const Icon = service.icon;
                                     return (
-                                        <article
+                                        <motion.article
                                             key={service.title}
+                                            variants={{ hidden: { opacity: 0, y: 18 }, visible: { opacity: 1, y: 0 } }}
                                             className={`relative overflow-hidden rounded-3xl border p-6 shadow-sm hover:shadow-md transition-shadow ${service.cardTint} ${service.borderTint}`}
                                         >
                                             <div className={`absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r ${service.strip}`} />
@@ -208,22 +269,41 @@ export default function RepairPage() {
                                                 <p className="text-xs font-semibold uppercase tracking-wider text-zinc-500">Starting Price</p>
                                                 <p className="text-base font-bold text-indigo-600 dark:text-indigo-400">{service.price}</p>
                                             </div>
-                                        </article>
+                                        </motion.article>
                                     );
                                 })}
-                            </div>
+                            </motion.div>
 
-                            <div className="rounded-3xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-zinc-900 p-6 sm:p-8 shadow-sm">
+                            <motion.div
+                                className="rounded-3xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-zinc-900 p-6 sm:p-8 shadow-sm"
+                                initial={{ opacity: 0, y: 22 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true, amount: 0.2 }}
+                                transition={{ duration: 0.4 }}
+                            >
                                 <h3 className="text-3xl md:text-4xl font-bold tracking-tight text-zinc-900 dark:text-white">How Your Appointment Works</h3>
                                 <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">A simple 4-step flow from booking to completion.</p>
 
                                 <div className="relative mt-6">
                                     <div className="hidden lg:block absolute left-10 right-10 top-10 h-px bg-zinc-200 dark:bg-zinc-700" />
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                                    <motion.div
+                                        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
+                                        initial="hidden"
+                                        whileInView="visible"
+                                        viewport={{ once: true, amount: 0.2 }}
+                                        variants={{
+                                            hidden: {},
+                                            visible: { transition: { staggerChildren: 0.07 } },
+                                        }}
+                                    >
                                         {appointmentFlow.map((item, index) => {
                                             const Icon = item.icon;
                                             return (
-                                                <div key={item.title} className={`relative rounded-2xl border border-zinc-200 dark:border-white/10 p-4 ${item.tint}`}>
+                                                <motion.div
+                                                    key={item.title}
+                                                    variants={{ hidden: { opacity: 0, y: 14 }, visible: { opacity: 1, y: 0 } }}
+                                                    className={`relative rounded-2xl border border-zinc-200 dark:border-white/10 p-4 ${item.tint}`}
+                                                >
                                                     <span className={`absolute left-0 top-4 bottom-4 w-1 rounded-r-full ${item.accent}`} />
                                                     <div className="flex items-center justify-between mb-3">
                                                         <div className="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 dark:bg-indigo-500/10 dark:text-indigo-300 flex items-center justify-center">
@@ -233,15 +313,22 @@ export default function RepairPage() {
                                                     </div>
                                                     <h4 className="text-sm font-bold text-zinc-900 dark:text-white">{item.title}</h4>
                                                     <p className="mt-1 text-xs leading-relaxed text-zinc-600 dark:text-zinc-400">{item.detail}</p>
-                                                </div>
+                                                </motion.div>
                                             );
                                         })}
-                                    </div>
+                                    </motion.div>
                                 </div>
-                            </div>
-                        </div>
+                            </motion.div>
+                        </motion.div>
 
-                        <div id="schedule-appointment" className="xl:col-span-2 xl:sticky xl:top-28">
+                        <motion.div
+                            id="schedule-appointment"
+                            className="xl:col-span-2 xl:sticky xl:top-28 scroll-mt-32"
+                            initial={{ opacity: 0, y: 24 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, amount: 0.2 }}
+                            transition={{ duration: 0.45 }}
+                        >
                             <div className="rounded-3xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-zinc-900 p-6 sm:p-8 shadow-lg">
                                 <div className="flex items-center gap-3 mb-6">
                                     <div className="w-11 h-11 rounded-2xl bg-indigo-50 text-indigo-600 dark:bg-indigo-500/10 dark:text-indigo-400 flex items-center justify-center">
@@ -359,7 +446,7 @@ export default function RepairPage() {
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </motion.div>
                     </div>
                 </section>
             </div>

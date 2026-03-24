@@ -56,7 +56,7 @@ const reasons = [
 
 export function WhyUs() {
   return (
-    <section className="relative w-full py-24 md:py-32 px-6 bg-white dark:bg-zinc-950 z-0">
+    <section className="relative w-full py-24 md:py-32 px-6 bg-white dark:bg-zinc-950 z-0 [content-visibility:auto] [contain-intrinsic-size:1px_900px]">
       <div className="container mx-auto max-w-7xl">
 
         <div className="flex flex-col items-center justify-center mb-16 md:mb-20 text-center">
@@ -64,7 +64,7 @@ export function WhyUs() {
             <span className="text-sm font-semibold text-zinc-600 dark:text-zinc-300">Why Choose Us?</span>
           </div>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-zinc-900 dark:text-white tracking-tight">
-            Honest &amp; Reliable <br className="hidden md:block"/> Service.
+            Honest &amp; Reliable <br className="hidden md:block" /> Service.
           </h2>
         </div>
 
@@ -72,8 +72,8 @@ export function WhyUs() {
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8"
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-50px" }}
-          variants={{ visible: { transition: { staggerChildren: 0.08 } } }}
+          viewport={{ once: true, amount: 0.2 }}
+          variants={{ visible: { transition: { staggerChildren: 0.06 } } }}
         >
           {reasons.map((reason, i) => {
             const Icon = reason.icon;
@@ -81,8 +81,8 @@ export function WhyUs() {
               <motion.div
                 key={i}
                 variants={{
-                  hidden: { opacity: 0, y: 24 },
-                  visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] } },
+                  hidden: { opacity: 0, y: 16 },
+                  visible: { opacity: 1, y: 0, transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] } },
                 }}
                 className="group relative overflow-hidden p-8 rounded-3xl bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-white/10 flex flex-col items-start hover:shadow-lg transition-all duration-300"
               >

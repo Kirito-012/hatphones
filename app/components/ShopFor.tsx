@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Tablet, Laptop } from "lucide-react";
+import Link from "next/link";
 
 const categories = [
   {
@@ -13,6 +14,7 @@ const categories = [
     accent: "from-zinc-800 to-zinc-950",
     badge: "Apple",
     badgeColor: "bg-white/10 text-white/80",
+    link: "/buy?category=Apple+iPhones",
   },
   {
     title: "Androids",
@@ -23,6 +25,7 @@ const categories = [
     accent: "from-emerald-400 to-emerald-600",
     badge: "Android",
     badgeColor: "bg-white/20 text-white/90",
+    link: "/buy?category=Android+Phones",
   },
   {
     title: "Tablets",
@@ -32,6 +35,7 @@ const categories = [
     accent: "from-purple-500 to-purple-700",
     badge: "iPad & More",
     badgeColor: "bg-white/20 text-white/90",
+    link: "/buy?category=Tablets",
   },
   {
     title: "Laptops",
@@ -41,6 +45,7 @@ const categories = [
     accent: "from-blue-500 to-blue-700",
     badge: "Mac & PC",
     badgeColor: "bg-white/20 text-white/90",
+    link: "/buy?category=Laptops",
   },
 ];
 
@@ -66,8 +71,8 @@ export function ShopFor() {
           variants={{ visible: { transition: { staggerChildren: 0.06 } } }}
         >
           {categories.map((category, i) => (
+            <Link key={i} href={category.link}>
             <motion.div
-              key={i}
               variants={{
                 hidden: { opacity: 0, y: 16 },
                 visible: { opacity: 1, y: 0, transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] } },
@@ -114,6 +119,7 @@ export function ShopFor() {
                 </div>
               </div>
             </motion.div>
+            </Link>
           ))}
         </motion.div>
       </div>

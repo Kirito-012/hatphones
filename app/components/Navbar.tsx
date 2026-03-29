@@ -19,6 +19,7 @@ export function Navbar() {
     if (item === "Home") return "/";
     if (item === "Contact") return "/contact";
     if (item === "Buy") return "/buy";
+    if (item === "Sell") return "/sell";
     if (item === "Repair") return "/repair";
     return `/#${item.toLowerCase().replace(" ", "-")}`;
   };

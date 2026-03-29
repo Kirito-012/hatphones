@@ -86,8 +86,8 @@ export function Navbar() {
             href={getHref(item)}
             aria-current={isActive(item) ? "page" : undefined}
             className={`group relative px-2 py-1 text-sm font-semibold transition-colors ${isActive(item)
-                ? "text-indigo-600 dark:text-indigo-400"
-                : "text-zinc-600 dark:text-zinc-300 hover:text-indigo-600 dark:hover:text-indigo-400"
+              ? "text-indigo-600 dark:text-indigo-400"
+              : "text-zinc-600 dark:text-zinc-300 hover:text-indigo-600 dark:hover:text-indigo-400"
               }`}
           >
             {item}
@@ -129,34 +129,46 @@ export function Navbar() {
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="absolute top-full left-0 right-0 overflow-hidden md:hidden shadow-xl -z-10"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
+            className="absolute top-full left-0 right-0 p-4 md:hidden -z-10"
           >
-            <div className="p-6 bg-white dark:bg-zinc-950 border-b border-zinc-200 dark:border-white/10 flex flex-col gap-6">
-              {NAV_ITEMS.map((item) => (
-                <a
+            <div className="p-6 bg-white/95 dark:bg-zinc-900/95 backdrop-blur-xl border border-zinc-200 dark:border-white/10 rounded-3xl shadow-2xl flex flex-col gap-2">
+              {NAV_ITEMS.map((item, i) => (
+                <motion.a
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.05 + 0.1 }}
                   key={item}
                   href={getHref(item)}
                   aria-current={isActive(item) ? "page" : undefined}
-                  className={`group relative w-fit text-lg font-semibold pb-2 transition-colors ${isActive(item)
-                      ? "text-indigo-600 dark:text-indigo-400"
-                      : "text-zinc-900 dark:text-zinc-100 hover:text-indigo-600 dark:hover:text-indigo-400"
+                  className={`group relative w-full px-4 py-3 rounded-2xl text-lg font-medium transition-all duration-200 flex items-center justify-between ${isActive(item)
+                    ? "bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400"
+                    : "text-zinc-600 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800/50 hover:text-zinc-900 dark:hover:text-white"
                     }`}
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   {item}
-                  <span
-                    className={`absolute bottom-0 left-0 w-full h-[2px] bg-indigo-600 dark:bg-indigo-400 origin-left transition-transform duration-300 ease-out ${isActive(item) ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
-                      }`}
-                  />
-                </a>
+                  {isActive(item) && (
+                    <motion.div
+                      layoutId="activeMobileNav"
+                      className="w-1.5 h-1.5 rounded-full bg-indigo-600 dark:bg-indigo-400"
+                    />
+                  )}
+                </motion.a>
               ))}
-              <button className="w-full px-6 py-4 bg-indigo-600 text-white rounded-xl font-semibold text-lg hover:bg-indigo-700 transition-colors shadow-sm cursor-pointer">
-                Get Instant Quote
-              </button>
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: NAV_ITEMS.length * 0.05 + 0.1 }}
+                className="pt-4 mt-2 border-t border-zinc-200 dark:border-white/10"
+              >
+                <button className="w-full px-6 py-3.5 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 rounded-2xl font-semibold text-base hover:bg-zinc-800 dark:hover:bg-zinc-100 transition-colors shadow-sm cursor-pointer flex justify-center items-center gap-2">
+                  Get Instant Quote
+                </button>
+              </motion.div>
             </div>
           </motion.div>
         )}

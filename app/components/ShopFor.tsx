@@ -64,7 +64,7 @@ export function ShopFor() {
         </div>
 
         <motion.div
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8"
+          className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.2 }}
@@ -72,53 +72,53 @@ export function ShopFor() {
         >
           {categories.map((category, i) => (
             <Link key={i} href={category.link}>
-            <motion.div
-              variants={{
-                hidden: { opacity: 0, y: 16 },
-                visible: { opacity: 1, y: 0, transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] } },
-              }}
-              className="group relative overflow-hidden p-8 rounded-3xl flex flex-col items-center text-center cursor-pointer hover:shadow-2xl hover:-translate-y-2 transition-all duration-300"
-            >
-              {/* Coloured gradient background */}
-              <div className={`absolute inset-0 bg-gradient-to-br ${category.accent}`} />
+              <motion.div
+                variants={{
+                  hidden: { opacity: 0, y: 16 },
+                  visible: { opacity: 1, y: 0, transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] } },
+                }}
+                className="group relative overflow-hidden p-5 sm:p-8 rounded-2xl sm:rounded-3xl flex flex-col items-center text-center cursor-pointer hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 h-full"
+              >
+                {/* Coloured gradient background */}
+                <div className={`absolute inset-0 bg-gradient-to-br ${category.accent}`} />
 
-              {/* Decorative circles */}
-              <div className="absolute -top-8 -right-8 w-32 h-32 rounded-full bg-white/10" />
-              <div className="absolute -bottom-6 -left-6 w-24 h-24 rounded-full bg-white/5" />
+                {/* Decorative circles */}
+                <div className="absolute -top-8 -right-8 w-24 sm:w-32 h-24 sm:h-32 rounded-full bg-white/10" />
+                <div className="absolute -bottom-6 -left-6 w-16 sm:w-24 h-16 sm:h-24 rounded-full bg-white/5" />
 
-              {/* Content */}
-              <div className="relative z-10 flex flex-col items-center">
-                {/* Logo: CDN image or Lucide icon */}
-                <div className="w-20 h-20 rounded-2xl bg-white/15 backdrop-blur flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300 p-4">
-                  {category.type === "img" ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={category.logoUrl}
-                      alt={category.logoAlt}
-                      className="w-full h-full object-contain"
-                      loading="lazy"
-                    />
-                  ) : (
-                    <category.icon size={36} className="text-white" strokeWidth={1.5} />
-                  )}
+                {/* Content */}
+                <div className="relative z-10 flex flex-col items-center h-full">
+                  {/* Logo: CDN image or Lucide icon */}
+                  <div className="w-14 h-14 sm:w-20 sm:h-20 rounded-xl sm:rounded-2xl bg-white/15 backdrop-blur flex items-center justify-center mb-4 sm:mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300 p-3 sm:p-4">
+                    {category.type === "img" ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={category.logoUrl}
+                        alt={category.logoAlt}
+                        className="w-full h-full object-contain"
+                        loading="lazy"
+                      />
+                    ) : (
+                      <category.icon size={28} className="text-white sm:w-9 sm:h-9" strokeWidth={1.5} />
+                    )}
+                  </div>
+
+                  {/* Badge */}
+                  <span className={`text-[9px] sm:text-[10px] font-bold uppercase tracking-widest px-2 sm:px-3 py-1 rounded-full mb-2 sm:mb-3 ${category.badgeColor}`}>
+                    {category.badge}
+                  </span>
+
+                  <h3 className="text-lg sm:text-2xl font-bold text-white mb-1 sm:mb-2">
+                    {category.title}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-white/70 leading-relaxed flex-grow">
+                    {category.description}
+                  </p>
+                  <div className="mt-4 sm:mt-6 px-4 sm:px-5 py-1.5 sm:py-2 rounded-full bg-white/20 hover:bg-white/30 text-xs sm:text-sm font-semibold text-white transition-colors duration-300">
+                    View All →
+                  </div>
                 </div>
-
-                {/* Badge */}
-                <span className={`text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full mb-3 ${category.badgeColor}`}>
-                  {category.badge}
-                </span>
-
-                <h3 className="text-2xl font-bold text-white mb-2">
-                  {category.title}
-                </h3>
-                <p className="text-sm text-white/70 leading-relaxed">
-                  {category.description}
-                </p>
-                <div className="mt-6 px-5 py-2 rounded-full bg-white/20 hover:bg-white/30 text-sm font-semibold text-white transition-colors duration-300">
-                  View All →
-                </div>
-              </div>
-            </motion.div>
+              </motion.div>
             </Link>
           ))}
         </motion.div>

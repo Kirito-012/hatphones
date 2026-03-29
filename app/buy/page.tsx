@@ -17,7 +17,7 @@ export default async function BuyPage({
     <main className="min-h-screen bg-zinc-50 dark:bg-zinc-950 flex flex-col">
       <Navbar />
 
-      <div className="flex-1 flex flex-col pt-20">
+      <div className="flex-1 flex flex-col pt-20 relative z-20">
         {/* Banner */}
         <div className="w-full min-h-[500px] md:min-h-[550px] relative overflow-hidden shadow-sm">
           <Image

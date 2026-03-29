@@ -9,6 +9,7 @@ export type ShopifyProduct = {
   price: number
   compareAtPrice: number | null
   image: string
+  images: string[]
   variantId: string // full GID for checkout API
   category: string
   createdAt: string
@@ -101,7 +102,7 @@ const PRODUCTS_QUERY = `
               }
             }
           }
-          images(first: 1) {
+          images(first: 5) {
             edges {
               node {
                 url
@@ -141,7 +142,8 @@ export async function getProducts(): Promise<ShopifyProduct[]> {
 
   return data.products.edges.map(({ node }: any) => {
     const variant = node.variants.edges[0]?.node
-    const image = node.images.edges[0]?.node
+    const images = node.images.edges.map((e: any) => e.node.url)
+    const image = images[0] ?? ''
     const collections = node.collections.edges.map((e: any) => e.node)
     const specs = parseTags(node.tags)
 
@@ -154,7 +156,8 @@ export async function getProducts(): Promise<ShopifyProduct[]> {
       compareAtPrice: variant?.compareAtPrice
         ? parseFloat(variant.compareAtPrice.amount)
         : null,
-      image: image?.url ?? '',
+      image,
+      images,
       variantId: variant?.id ?? '',
       category: getCategory(collections, node.title),
       specs: {

@@ -5,9 +5,9 @@ import { motion } from "framer-motion";
 
 export function About() {
   return (
-    <section className="relative w-full py-24 md:py-32 px-6 bg-white dark:bg-zinc-950 [content-visibility:auto] [contain-intrinsic-size:1px_880px]">
+    <section className="relative w-full py-12 md:py-32 px-4 md:px-6 bg-white dark:bg-zinc-950 [content-visibility:auto] [contain-intrinsic-size:1px_880px]">
       <div className="container mx-auto max-w-7xl">
-        <div className="flex flex-col lg:flex-row items-stretch gap-12 lg:gap-16 rounded-3xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-white/10 overflow-hidden shadow-sm">
+        <div className="flex flex-col lg:flex-row items-stretch gap-6 md:gap-12 lg:gap-16 rounded-3xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-white/10 overflow-hidden shadow-sm">
 
           {/* Image Side */}
           <div className="lg:w-1/2 relative min-h-[400px] lg:min-h-full">
@@ -26,7 +26,7 @@ export function About() {
           </div>
 
           {/* Text Side */}
-          <div className="lg:w-1/2 p-10 md:p-16 flex flex-col justify-center">
+          <div className="lg:w-1/2 p-6 md:p-16 flex flex-col justify-center">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -50,13 +50,13 @@ export function About() {
               </div>
 
               {/* Stats/Guarantees */}
-              <div className="mt-12 grid grid-cols-2 gap-6 pt-8 border-t border-zinc-200 dark:border-white/10">
+              <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 gap-8 sm:gap-6 pt-8 border-t border-zinc-200 dark:border-white/10">
                 <div>
-                  <h4 className="text-4xl font-bold text-zinc-900 dark:text-white mb-2">Thorough</h4>
+                  <h4 className="text-3xl lg:text-4xl font-bold text-zinc-900 dark:text-white mb-2">Thorough</h4>
                   <p className="text-sm font-medium text-zinc-500">Testing & Diagnostics</p>
                 </div>
                 <div>
-                  <h4 className="text-4xl font-bold text-zinc-900 dark:text-white mb-2">Quality</h4>
+                  <h4 className="text-3xl lg:text-4xl font-bold text-zinc-900 dark:text-white mb-2">Quality</h4>
                   <p className="text-sm font-medium text-zinc-500">Parts Guaranteed</p>
                 </div>
               </div>

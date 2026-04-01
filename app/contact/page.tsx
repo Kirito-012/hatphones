@@ -1,12 +1,39 @@
 "use client";
 
+import { useState } from "react";
 import { Navbar } from "../components/Navbar";
 import { Footer } from "../components/Footer";
-import { MapPin, Phone, Mail, Clock } from "lucide-react";
+import { MapPin, Phone, Mail, Clock, CheckCircle2 } from "lucide-react";
 import Image from "next/image";
 import contactBg from "../assets/contact_bg.png";
 
 export default function Contact() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [subject, setSubject] = useState("General Inquiry");
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, subject, message }),
+      });
+      if (!res.ok) throw new Error("Failed");
+      setSubmitted(true);
+    } catch {
+      setError("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <main className="min-h-screen bg-zinc-50 dark:bg-zinc-950 flex flex-col">
       <Navbar />
@@ -98,35 +125,69 @@ export default function Contact() {
 
             {/* Contact Form */}
             <div className="bg-white dark:bg-zinc-900 rounded-3xl p-6 sm:p-8 md:p-10 border border-zinc-200 dark:border-white/10 shadow-sm">
-              <h2 className="text-xl md:text-2xl font-bold text-zinc-900 dark:text-white mb-4 md:mb-6">Send us a message</h2>
-              <form className="flex flex-col gap-4 md:gap-6" onSubmit={(e) => e.preventDefault()}>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
-                  <div className="flex flex-col gap-1.5 md:gap-2">
-                    <label className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">Name</label>
-                    <input type="text" placeholder="Your Name" className="w-full px-4 py-3 sm:py-3.5 rounded-xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-zinc-900 dark:text-white text-sm sm:text-base" />
+              {submitted ? (
+                <div className="rounded-2xl overflow-hidden" style={{ background: "linear-gradient(135deg, #10b981 0%, #059669 100%)" }}>
+                  <div className="flex flex-col items-center justify-center px-8 py-14 text-center">
+                    <div className="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center mb-6">
+                      <CheckCircle2 size={34} className="text-white" />
+                    </div>
+                    <h3 className="text-3xl font-black text-white mb-3 tracking-tight">Message sent!</h3>
+                    <p className="text-emerald-100 text-base max-w-xs leading-relaxed mb-2">
+                      Thanks for reaching out, {name.split(" ")[0]}. We&apos;ll get back to you as soon as possible.
+                    </p>
+                    <p className="text-emerald-200 text-sm mb-8">
+                      Re: <span className="font-semibold text-white">{subject}</span>
+                    </p>
+                    <button
+                      onClick={() => { setSubmitted(false); setName(""); setEmail(""); setSubject("General Inquiry"); setMessage(""); }}
+                      className="px-6 py-3 text-sm font-semibold text-emerald-700 bg-white hover:bg-emerald-50 rounded-xl transition-colors cursor-pointer shadow-sm"
+                    >
+                      Send another
+                    </button>
                   </div>
-                  <div className="flex flex-col gap-1.5 md:gap-2">
-                    <label className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">Email</label>
-                    <input type="email" placeholder="you@email.com" className="w-full px-4 py-3 sm:py-3.5 rounded-xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-zinc-900 dark:text-white text-sm sm:text-base" />
-                  </div>
                 </div>
-                <div className="flex flex-col gap-1.5 md:gap-2">
-                  <label className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">Subject</label>
-                  <select className="w-full px-4 py-3 sm:py-3.5 rounded-xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-zinc-900 dark:text-white appearance-none text-sm sm:text-base">
-                    <option>General Inquiry</option>
-                    <option>Device Repair Quote</option>
-                    <option>Sell a Device</option>
-                    <option>Order Status</option>
-                  </select>
-                </div>
-                <div className="flex flex-col gap-1.5 md:gap-2">
-                  <label className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">Message</label>
-                  <textarea rows={4} placeholder="How can we help?" className="w-full px-4 py-3 sm:py-3.5 rounded-xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-zinc-900 dark:text-white resize-none text-sm sm:text-base" />
-                </div>
-                <button type="submit" className="w-full py-3.5 md:py-4 mt-2 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-700 transition-colors shadow-sm text-sm sm:text-base">
-                  Send Message
-                </button>
-              </form>
+              ) : (
+                <>
+                  <h2 className="text-xl md:text-2xl font-bold text-zinc-900 dark:text-white mb-4 md:mb-6">Send us a message</h2>
+                  <form className="flex flex-col gap-4 md:gap-6" onSubmit={handleSubmit}>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
+                      <div className="flex flex-col gap-1.5 md:gap-2">
+                        <label className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">Name</label>
+                        <input required type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Your Name" className="w-full px-4 py-3 sm:py-3.5 rounded-xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-400 text-zinc-900 dark:text-white text-sm sm:text-base transition" />
+                      </div>
+                      <div className="flex flex-col gap-1.5 md:gap-2">
+                        <label className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">Email</label>
+                        <input required type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@email.com" className="w-full px-4 py-3 sm:py-3.5 rounded-xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-400 text-zinc-900 dark:text-white text-sm sm:text-base transition" />
+                      </div>
+                    </div>
+                    <div className="flex flex-col gap-1.5 md:gap-2">
+                      <label className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">Subject</label>
+                      <select required value={subject} onChange={(e) => setSubject(e.target.value)} className="w-full px-4 py-3 sm:py-3.5 rounded-xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-400 text-zinc-900 dark:text-white appearance-none text-sm sm:text-base transition">
+                        <option>General Inquiry</option>
+                        <option>Device Repair Quote</option>
+                        <option>Sell a Device</option>
+                        <option>Order Status</option>
+                      </select>
+                    </div>
+                    <div className="flex flex-col gap-1.5 md:gap-2">
+                      <label className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">Message</label>
+                      <textarea required rows={4} value={message} onChange={(e) => setMessage(e.target.value)} placeholder="How can we help?" className="w-full px-4 py-3 sm:py-3.5 rounded-xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-400 text-zinc-900 dark:text-white resize-none text-sm sm:text-base transition" />
+                    </div>
+                    {error && <p className="text-sm text-red-500 dark:text-red-400">{error}</p>}
+                    <button type="submit" disabled={loading} className="w-full py-3.5 md:py-4 mt-2 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-60 disabled:cursor-not-allowed text-white rounded-xl font-bold transition-colors shadow-sm text-sm sm:text-base cursor-pointer flex items-center justify-center gap-2">
+                      {loading ? (
+                        <>
+                          <svg className="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+                          </svg>
+                          Sending…
+                        </>
+                      ) : "Send Message"}
+                    </button>
+                  </form>
+                </>
+              )}
             </div>
             
           </div>

@@ -21,6 +21,7 @@ export function Navbar() {
     if (item === "Buy") return "/buy";
     if (item === "Sell") return "/sell";
     if (item === "Repair") return "/repair";
+    if (item === "Value Check") return "/value-check";
     return `/#${item.toLowerCase().replace(" ", "-")}`;
   };
 

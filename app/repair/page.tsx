@@ -12,9 +12,12 @@ import {
   Wrench,
   Battery,
   Camera,
-  Mic,
-  ChevronRight,
-  DollarSign,
+  CheckCircle2,
+  ArrowRight,
+  User,
+  Phone,
+  Mail,
+  MessageSquare,
 } from "lucide-react";
 
 const repairServices = [
@@ -24,13 +27,12 @@ const repairServices = [
     price: "From $79",
     icon: Smartphone,
     issueKey: "Cracked Screen",
-    priceRange: "$79 – $149",
-    tone: "bg-indigo-50 text-indigo-700 dark:bg-indigo-500/10 dark:text-indigo-300",
-    strip: "from-indigo-500 to-blue-500",
-    cardTint: "bg-gradient-to-br from-indigo-50/70 to-white dark:from-indigo-500/10 dark:to-zinc-900",
-    borderTint: "border-indigo-200/70 dark:border-indigo-400/20",
-    chip: "Easy Win",
+    chip: "Most Common",
     chipTone: "bg-indigo-100 text-indigo-700 dark:bg-indigo-500/20 dark:text-indigo-300",
+    strip: "from-indigo-500 to-blue-500",
+    borderTint: "border-indigo-100 dark:border-indigo-500/20",
+    iconBg: "bg-indigo-50 dark:bg-indigo-500/15",
+    iconColor: "text-indigo-600 dark:text-indigo-400",
   },
   {
     title: "Battery Replacement",
@@ -38,13 +40,12 @@ const repairServices = [
     price: "From $59",
     icon: Battery,
     issueKey: "Battery Draining Fast",
-    priceRange: "$59 – $89",
-    tone: "bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-300",
-    strip: "from-emerald-500 to-teal-500",
-    cardTint: "bg-gradient-to-br from-emerald-50/70 to-white dark:from-emerald-500/10 dark:to-zinc-900",
-    borderTint: "border-emerald-200/70 dark:border-emerald-400/20",
     chip: "Most Popular",
     chipTone: "bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-300",
+    strip: "from-emerald-500 to-teal-500",
+    borderTint: "border-emerald-100 dark:border-emerald-500/20",
+    iconBg: "bg-emerald-50 dark:bg-emerald-500/15",
+    iconColor: "text-emerald-600 dark:text-emerald-400",
   },
   {
     title: "Charging Port Repair",
@@ -52,28 +53,35 @@ const repairServices = [
     price: "From $49",
     icon: Wrench,
     issueKey: "Charging Port Not Working",
-    priceRange: "$49 – $79",
-    tone: "bg-amber-50 text-amber-700 dark:bg-amber-500/10 dark:text-amber-300",
-    strip: "from-amber-500 to-orange-500",
-    cardTint: "bg-gradient-to-br from-amber-50/70 to-white dark:from-amber-500/10 dark:to-zinc-900",
-    borderTint: "border-amber-200/70 dark:border-amber-400/20",
     chip: "Quick Fix",
     chipTone: "bg-amber-100 text-amber-700 dark:bg-amber-500/20 dark:text-amber-300",
+    strip: "from-amber-500 to-orange-500",
+    borderTint: "border-amber-100 dark:border-amber-500/20",
+    iconBg: "bg-amber-50 dark:bg-amber-500/15",
+    iconColor: "text-amber-600 dark:text-amber-400",
   },
   {
-    title: "Camera and Audio Fix",
+    title: "Camera & Audio Fix",
     eta: "60–120 mins",
     price: "From $69",
     icon: Camera,
     issueKey: "Camera Problem",
-    priceRange: "$69 – $119",
-    tone: "bg-violet-50 text-violet-700 dark:bg-violet-500/10 dark:text-violet-300",
-    strip: "from-violet-500 to-fuchsia-500",
-    cardTint: "bg-gradient-to-br from-violet-50/70 to-white dark:from-violet-500/10 dark:to-zinc-900",
-    borderTint: "border-violet-200/70 dark:border-violet-400/20",
     chip: "Expert Care",
     chipTone: "bg-violet-100 text-violet-700 dark:bg-violet-500/20 dark:text-violet-300",
+    strip: "from-violet-500 to-fuchsia-500",
+    borderTint: "border-violet-100 dark:border-violet-500/20",
+    iconBg: "bg-violet-50 dark:bg-violet-500/15",
+    iconColor: "text-violet-600 dark:text-violet-400",
   },
+];
+
+const ISSUE_OPTIONS = [
+  "Cracked Screen",
+  "Battery Draining Fast",
+  "Charging Port Not Working",
+  "Camera Problem",
+  "Speaker / Mic Problem",
+  "General Diagnostics",
 ];
 
 const ISSUE_PRICE_MAP: Record<string, string> = {
@@ -90,57 +98,116 @@ const timeSlots = [
   "1:00 PM", "1:30 PM", "2:00 PM", "2:30 PM",
 ];
 
-const appointmentFlow = [
+const appointmentSteps = [
   {
-    title: "Select Device",
-    detail: "Choose your phone model and issue type.",
-    icon: Smartphone,
-    accent: "bg-indigo-500",
-    tint: "bg-indigo-50 dark:bg-indigo-500/10",
+    number: "01",
+    title: "Fill the Form",
+    detail: "Tell us your device model and what's wrong. Takes under 2 minutes.",
+    icon: User,
+    bg: "bg-indigo-50 dark:bg-indigo-500/10",
+    color: "text-indigo-600 dark:text-indigo-400",
+    chipBg: "bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400",
   },
   {
-    title: "Choose Slot",
-    detail: "Pick your preferred day and time.",
-    icon: CalendarDays,
-    accent: "bg-sky-500",
-    tint: "bg-sky-50 dark:bg-sky-500/10",
-  },
-  {
+    number: "02",
     title: "Get Confirmation",
-    detail: "We confirm by call or text during store hours.",
-    icon: Clock3,
-    accent: "bg-emerald-500",
-    tint: "bg-emerald-50 dark:bg-emerald-500/10",
+    detail: "We'll reach out via call or text to confirm your slot within store hours.",
+    icon: CheckCircle2,
+    bg: "bg-sky-50 dark:bg-sky-500/10",
+    color: "text-sky-600 dark:text-sky-400",
+    chipBg: "bg-sky-50 dark:bg-sky-500/10 text-sky-600 dark:text-sky-400",
   },
   {
-    title: "Drop Off and Repair",
-    detail: "Bring your device in and track the repair update.",
+    number: "03",
+    title: "Drop Off Your Device",
+    detail: "Bring your phone in at your scheduled time. Walk-ins welcome too.",
+    icon: Smartphone,
+    bg: "bg-emerald-50 dark:bg-emerald-500/10",
+    color: "text-emerald-600 dark:text-emerald-400",
+    chipBg: "bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400",
+  },
+  {
+    number: "04",
+    title: "Pick It Up Fixed",
+    detail: "Most repairs are done same day. We'll notify you when it's ready.",
     icon: ShieldCheck,
-    accent: "bg-amber-500",
-    tint: "bg-amber-50 dark:bg-amber-500/10",
+    bg: "bg-amber-50 dark:bg-amber-500/10",
+    color: "text-amber-600 dark:text-amber-400",
+    chipBg: "bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400",
   },
 ];
+
+const inputClass =
+  "w-full px-4 py-3 rounded-xl bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-900 dark:text-white placeholder:text-zinc-400 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-400 transition";
+
+const inputWithIconClass =
+  "w-full pl-10 pr-4 py-3 rounded-xl bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-900 dark:text-white placeholder:text-zinc-400 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-400 transition";
 
 export default function RepairPage() {
   const [selectedSlot, setSelectedSlot] = useState("11:00 AM");
   const [selectedIssue, setSelectedIssue] = useState("");
-  const [formStep, setFormStep] = useState<1 | 2>(1);
+  const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [name, setName] = useState("");
+  const [contact, setContact] = useState("");
+  const [device, setDevice] = useState("");
+  const [preferredDate, setPreferredDate] = useState("");
+  const [notes, setNotes] = useState("");
 
   const scrollToAppointment = (event?: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>) => {
     event?.preventDefault();
-    const scheduleSection = document.getElementById("schedule-appointment");
-    if (!scheduleSection) return;
-    scheduleSection.scrollIntoView({ behavior: "smooth", block: "start" });
+    const el = document.getElementById("schedule-appointment");
+    if (!el) return;
+    el.scrollIntoView({ behavior: "smooth", block: "start" });
     window.history.replaceState(null, "", "#schedule-appointment");
   };
 
   const handleServiceClick = (issueKey: string) => {
     setSelectedIssue(issueKey);
-    setFormStep(1);
     setTimeout(() => {
       const el = document.getElementById("schedule-appointment");
       if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
     }, 80);
+  };
+
+  const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+    try {
+      const res = await fetch("/api/repair-booking", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name,
+          contact,
+          device,
+          issue: selectedIssue,
+          preferredDate,
+          preferredTime: selectedSlot,
+          notes,
+        }),
+      });
+      if (!res.ok) throw new Error("Failed to send");
+      setSubmitted(true);
+    } catch {
+      setError("Something went wrong. Please try again or contact us directly.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const resetForm = () => {
+    setSubmitted(false);
+    setError("");
+    setSelectedIssue("");
+    setName("");
+    setContact("");
+    setDevice("");
+    setPreferredDate("");
+    setNotes("");
+    setSelectedSlot("11:00 AM");
   };
 
   const estimatedPrice = selectedIssue ? ISSUE_PRICE_MAP[selectedIssue] : null;
@@ -150,10 +217,11 @@ export default function RepairPage() {
       <Navbar />
 
       <div className="flex-1 pt-20">
-        {/* Hero */}
+
+        {/* ── Hero ── */}
         <section className="relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-b from-slate-100 via-white to-slate-50 dark:from-zinc-900 dark:via-zinc-950 dark:to-zinc-950" />
-          <div className="absolute inset-0 opacity-80 dark:opacity-40 bg-[radial-gradient(circle_at_15%_15%,rgba(99,102,241,0.15),transparent_35%),radial-gradient(circle_at_85%_10%,rgba(14,165,233,0.12),transparent_30%),radial-gradient(circle_at_60%_85%,rgba(16,185,129,0.12),transparent_35%)]" />
+          <div className="absolute inset-0 opacity-80 dark:opacity-40 bg-[radial-gradient(circle_at_15%_15%,rgba(99,102,241,0.15),transparent_35%),radial-gradient(circle_at_85%_10%,rgba(14,165,233,0.12),transparent_30%),radial-gradient(circle_at_60%_85%,rgba(16,185,129,0.08),transparent_35%)]" />
           <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(15,23,42,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(15,23,42,0.03)_1px,transparent_1px)] [background-size:28px_28px] dark:opacity-20" />
 
           <div className="relative container mx-auto max-w-7xl px-4 sm:px-6 py-16 md:py-24 lg:py-28">
@@ -164,7 +232,7 @@ export default function RepairPage() {
               className="max-w-3xl text-zinc-900 dark:text-white"
             >
               <div className="inline-flex items-center gap-2 rounded-full border border-indigo-200 dark:border-white/20 bg-white/80 dark:bg-white/10 px-4 py-2 backdrop-blur mb-6">
-                <ShieldCheck size={16} className="text-indigo-600 dark:text-indigo-200" />
+                <ShieldCheck size={16} className="text-indigo-600 dark:text-indigo-300" />
                 <span className="text-sm font-semibold tracking-wide text-zinc-700 dark:text-zinc-100">Certified Local Technicians</span>
               </div>
 
@@ -174,7 +242,7 @@ export default function RepairPage() {
               </h1>
 
               <p className="mt-6 text-base md:text-lg text-zinc-600 dark:text-zinc-300 max-w-2xl leading-relaxed">
-                Fast diagnostics, transparent pricing, and same-day fixes for common issues. Pick a service below and we&apos;ll auto-fill your form.
+                Fast diagnostics, transparent pricing, and same-day fixes for common issues. Pick a service below and we&apos;ll pre-fill your form.
               </p>
 
               <div className="mt-7">
@@ -218,334 +286,518 @@ export default function RepairPage() {
           </div>
         </section>
 
-        {/* Main */}
-        <section className="container mx-auto max-w-7xl px-4 sm:px-6 py-14 md:py-20">
-          <div className="grid grid-cols-1 xl:grid-cols-5 gap-8 lg:gap-12 items-start">
+        {/* ── Section 1: Fixes we handle daily ── */}
+        <section className="relative w-full py-24 md:py-32 px-6 bg-zinc-50 dark:bg-zinc-900/40">
+          <div className="container mx-auto max-w-7xl">
 
-            {/* Left */}
-            <motion.div
-              className="xl:col-span-3 flex flex-col gap-6"
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.45 }}
-            >
-              <div>
-                <p className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/10 text-sm font-semibold text-zinc-700 dark:text-zinc-300">
-                  <Wrench size={16} className="text-indigo-600 dark:text-indigo-400" />
-                  Repair Services — tap a card to pre-fill your booking
-                </p>
-                <h2 className="mt-5 text-3xl md:text-4xl font-bold tracking-tight text-zinc-900 dark:text-white">
-                  Popular Fixes We Handle Daily
-                </h2>
+            <div className="mb-14">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                className="inline-flex items-center gap-2 px-4 py-2 mb-6 rounded-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/10 shadow-sm"
+              >
+                <Wrench size={13} className="text-indigo-500" />
+                <span className="text-sm font-semibold text-zinc-600 dark:text-zinc-300">Common Repairs</span>
+              </motion.div>
+
+              <motion.h2
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ delay: 0.08 }}
+                className="text-4xl md:text-5xl lg:text-6xl font-bold text-zinc-900 dark:text-white tracking-tight"
+              >
+                Fixes we handle{" "}
+                <span className="text-zinc-400 dark:text-zinc-600">daily.</span>
+              </motion.h2>
+
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ delay: 0.14 }}
+                className="mt-4 text-lg text-zinc-600 dark:text-zinc-400 max-w-xl"
+              >
+                Click any service to pre-fill your booking form and skip the back-and-forth.
+              </motion.p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+              {repairServices.map((service, i) => {
+                const Icon = service.icon;
+                return (
+                  <motion.button
+                    key={service.title}
+                    initial={{ opacity: 0, y: 24 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-80px" }}
+                    transition={{ duration: 0.38, delay: i * 0.07 }}
+                    whileHover={{ y: -4 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={() => handleServiceClick(service.issueKey)}
+                    className={`relative text-left overflow-hidden rounded-3xl border ${service.borderTint} bg-white dark:bg-zinc-900 shadow-sm hover:shadow-md transition-all duration-300 group flex flex-col cursor-pointer`}
+                  >
+                    {/* Gradient top strip */}
+                    <div className={`h-1 w-full bg-gradient-to-r ${service.strip}`} />
+
+                    <div className="p-6 flex flex-col flex-1">
+                      {/* Icon + chip */}
+                      <div className="flex items-start justify-between mb-5">
+                        <div className={`w-11 h-11 rounded-2xl ${service.iconBg} flex items-center justify-center`}>
+                          <Icon size={21} className={service.iconColor} strokeWidth={1.75} />
+                        </div>
+                        <span className={`text-[11px] font-bold px-2.5 py-1 rounded-full ${service.chipTone}`}>
+                          {service.chip}
+                        </span>
+                      </div>
+
+                      {/* Title */}
+                      <h3 className="text-[17px] font-bold text-zinc-900 dark:text-white tracking-tight mb-1.5">
+                        {service.title}
+                      </h3>
+
+                      {/* ETA */}
+                      <div className="flex items-center gap-1.5 text-zinc-500 dark:text-zinc-400 text-sm mb-5">
+                        <Clock3 size={12} />
+                        <span>{service.eta}</span>
+                      </div>
+
+                      {/* Price + CTA */}
+                      <div className="mt-auto flex items-center justify-between">
+                        <span className="text-base font-bold text-zinc-900 dark:text-white">{service.price}</span>
+                        <span className="flex items-center gap-1 text-xs text-zinc-400 group-hover:text-indigo-500 transition-colors font-medium">
+                          Book this <ArrowRight size={12} />
+                        </span>
+                      </div>
+                    </div>
+                  </motion.button>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+
+        {/* ── Section 2: How your appointment works ── */}
+        <section className="relative w-full py-24 md:py-32 px-6 bg-white dark:bg-zinc-950">
+          <div className="container mx-auto max-w-7xl">
+            <div className="flex flex-col lg:flex-row gap-16 lg:gap-12 items-start">
+
+              {/* Left: Sticky header */}
+              <div className="lg:w-1/3 lg:sticky lg:top-40 flex flex-col gap-6">
+                <motion.div
+                  initial={{ opacity: 0, x: -30 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, margin: "-100px" }}
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-white/10 shadow-sm self-start"
+                >
+                  <CalendarDays size={13} className="text-indigo-500" />
+                  <span className="text-sm font-semibold text-zinc-600 dark:text-zinc-300">Booking Process</span>
+                </motion.div>
+
+                <motion.h2
+                  initial={{ opacity: 0, x: -30 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, margin: "-100px" }}
+                  transition={{ delay: 0.1 }}
+                  className="text-4xl md:text-5xl lg:text-6xl font-bold text-zinc-900 dark:text-white leading-[1.1] tracking-tight"
+                >
+                  How your
+                  <br />
+                  <span className="text-zinc-400 dark:text-zinc-600">appointment</span>
+                  <br />
+                  works.
+                </motion.h2>
+
+                <motion.p
+                  initial={{ opacity: 0, x: -30 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, margin: "-100px" }}
+                  transition={{ delay: 0.18 }}
+                  className="text-lg text-zinc-600 dark:text-zinc-400 max-w-sm leading-relaxed"
+                >
+                  Simple steps from booking to picking up your fixed device. No surprises.
+                </motion.p>
+
+                <motion.button
+                  initial={{ opacity: 0, x: -30 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, margin: "-100px" }}
+                  transition={{ delay: 0.24 }}
+                  whileHover={{ y: -1 }}
+                  whileTap={{ scale: 0.97 }}
+                  onClick={scrollToAppointment}
+                  className="self-start inline-flex items-center gap-2 px-5 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-semibold text-sm transition-colors shadow-sm cursor-pointer"
+                >
+                  <CalendarDays size={16} />
+                  Book Appointment
+                </motion.button>
               </div>
 
-              <motion.div
-                className="grid grid-cols-1 md:grid-cols-2 gap-5"
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, amount: 0.12 }}
-                variants={{
-                  hidden: {},
-                  visible: { transition: { staggerChildren: 0.08 } },
-                }}
-              >
-                {repairServices.map((service) => {
-                  const Icon = service.icon;
-                  const isActive = selectedIssue === service.issueKey;
+              {/* Right: Steps */}
+              <div className="lg:w-2/3 lg:pl-16 flex flex-col gap-6 lg:pt-20 pb-8">
+                {appointmentSteps.map((step, i) => {
+                  const Icon = step.icon;
                   return (
-                    <motion.article
-                      key={service.title}
-                      variants={{ hidden: { opacity: 0, y: 18 }, visible: { opacity: 1, y: 0 } }}
-                      onClick={() => handleServiceClick(service.issueKey)}
-                      className={`relative overflow-hidden rounded-3xl border p-6 shadow-sm hover:shadow-md transition-all cursor-pointer ${service.cardTint} ${service.borderTint} ${isActive ? "ring-2 ring-indigo-500 dark:ring-indigo-400" : ""}`}
+                    <motion.div
+                      key={step.number}
+                      initial={{ opacity: 0, y: 18 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true, amount: 0.15 }}
+                      transition={{ duration: 0.35, delay: i * 0.07 }}
+                      className="relative flex gap-6 items-start group"
                     >
-                      <div className={`absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r ${service.strip}`} />
-                      <div className="flex items-start justify-between gap-4">
-                        <div className={`w-12 h-12 rounded-2xl flex items-center justify-center ${service.tone}`}>
-                          <Icon size={22} />
-                        </div>
-                        <div className="text-right">
-                          <p className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">Estimated Time</p>
-                          <p className="text-sm font-bold text-zinc-900 dark:text-zinc-100">{service.eta}</p>
-                        </div>
+                      {/* Ghost step number */}
+                      <div className="hidden md:block absolute -left-12 md:-left-20 top-0 text-[96px] font-black pointer-events-none text-zinc-100 dark:text-zinc-800/60 select-none leading-none transition-transform duration-700 group-hover:-translate-y-1.5">
+                        {step.number}
                       </div>
 
-                      <span className={`inline-flex mt-4 px-2.5 py-1 rounded-full text-[11px] font-semibold ${service.chipTone}`}>
-                        {service.chip}
-                      </span>
-
-                      <h3 className="mt-5 text-xl font-bold text-zinc-900 dark:text-white">{service.title}</h3>
-
-                      <div className="mt-5 pt-4 border-t border-zinc-100 dark:border-white/10 flex items-center justify-between">
-                        <p className="text-xs font-semibold uppercase tracking-wider text-zinc-500">Starting Price</p>
-                        <div className="flex items-center gap-2">
-                          <p className="text-base font-bold text-indigo-600 dark:text-indigo-400">{service.price}</p>
-                          {isActive && (
-                            <span className="flex items-center gap-1 text-[10px] font-semibold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-500/10 px-2 py-0.5 rounded-full">
-                              <ChevronRight size={10} /> Selected
-                            </span>
-                          )}
-                        </div>
+                      {/* Icon block */}
+                      <div className={`shrink-0 w-14 h-14 rounded-2xl ${step.bg} flex items-center justify-center relative z-10 transition-transform duration-300 group-hover:scale-105`}>
+                        <Icon size={24} className={step.color} strokeWidth={2} />
                       </div>
-                    </motion.article>
+
+                      {/* Card */}
+                      <div className="relative z-10 flex-1 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-white/10 rounded-3xl px-7 py-6 shadow-sm hover:shadow-md transition-shadow">
+                        <span className={`inline-block text-xs font-bold px-2.5 py-1 rounded-full mb-3 ${step.chipBg}`}>
+                          Step {step.number}
+                        </span>
+                        <h3 className="text-xl font-bold text-zinc-900 dark:text-white tracking-tight mb-2">
+                          {step.title}
+                        </h3>
+                        <p className="text-base text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                          {step.detail}
+                        </p>
+                      </div>
+                    </motion.div>
                   );
                 })}
-              </motion.div>
+              </div>
 
-              {/* How appointment works */}
+            </div>
+          </div>
+        </section>
+
+        {/* ── Section 3: Schedule a Consultation ── */}
+        <section
+          id="schedule-appointment"
+          className="relative w-full py-24 md:py-32 px-6 bg-zinc-50 dark:bg-zinc-900/40 scroll-mt-20"
+        >
+          <div className="container mx-auto max-w-7xl">
+
+            <div className="mb-12">
               <motion.div
-                className="rounded-3xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-zinc-900 p-6 sm:p-8 shadow-sm"
-                initial={{ opacity: 0, y: 22 }}
+                initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.2 }}
-                transition={{ duration: 0.4 }}
+                viewport={{ once: true, margin: "-100px" }}
+                className="inline-flex items-center gap-2 px-4 py-2 mb-6 rounded-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/10 shadow-sm"
               >
-                <h3 className="text-3xl md:text-4xl font-bold tracking-tight text-zinc-900 dark:text-white">How Your Appointment Works</h3>
-                <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">A simple 4-step flow from booking to completion.</p>
-
-                <div className="relative mt-6">
-                  <div className="hidden lg:block absolute left-10 right-10 top-10 h-px bg-zinc-200 dark:bg-zinc-700" />
-                  <motion.div
-                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true, amount: 0.2 }}
-                    variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.07 } } }}
-                  >
-                    {appointmentFlow.map((item, index) => {
-                      const Icon = item.icon;
-                      return (
-                        <motion.div
-                          key={item.title}
-                          variants={{ hidden: { opacity: 0, y: 14 }, visible: { opacity: 1, y: 0 } }}
-                          className={`relative rounded-2xl border border-zinc-200 dark:border-white/10 p-4 ${item.tint}`}
-                        >
-                          <span className={`absolute left-0 top-4 bottom-4 w-1 rounded-r-full ${item.accent}`} />
-                          <div className="flex items-center justify-between mb-3">
-                            <div className="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 dark:bg-indigo-500/10 dark:text-indigo-300 flex items-center justify-center">
-                              <Icon size={18} />
-                            </div>
-                            <span className="text-xs font-bold tracking-widest text-zinc-400 dark:text-zinc-500">STEP {index + 1}</span>
-                          </div>
-                          <h4 className="text-sm font-bold text-zinc-900 dark:text-white">{item.title}</h4>
-                          <p className="mt-1 text-xs leading-relaxed text-zinc-600 dark:text-zinc-400">{item.detail}</p>
-                        </motion.div>
-                      );
-                    })}
-                  </motion.div>
-                </div>
+                <CalendarDays size={13} className="text-indigo-500" />
+                <span className="text-sm font-semibold text-zinc-600 dark:text-zinc-300">Book a Slot</span>
               </motion.div>
-            </motion.div>
 
-            {/* Right — sticky booking form */}
-            <motion.div
-              id="schedule-appointment"
-              className="xl:col-span-2 xl:sticky xl:top-28 scroll-mt-32"
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.45 }}
-            >
-              <div className="rounded-3xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-zinc-900 overflow-hidden shadow-lg">
+              <motion.h2
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ delay: 0.08 }}
+                className="text-4xl md:text-5xl lg:text-6xl font-bold text-zinc-900 dark:text-white tracking-tight"
+              >
+                Schedule a{" "}
+                <span className="text-indigo-600 dark:text-indigo-400">Consultation.</span>
+              </motion.h2>
 
-                {/* Step indicator */}
-                <div className="flex border-b border-zinc-100 dark:border-white/10">
-                  {[{ n: 1, label: "Service" }, { n: 2, label: "Contact & Time" }].map(({ n, label }) => (
-                    <button
-                      key={n}
-                      type="button"
-                      onClick={() => setFormStep(n as 1 | 2)}
-                      className={`flex-1 py-3.5 text-xs font-bold tracking-wide transition-colors cursor-pointer ${formStep === n ? "bg-indigo-600 text-white" : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200"}`}
-                    >
-                      {n}. {label}
-                    </button>
-                  ))}
-                </div>
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ delay: 0.14 }}
+                className="mt-4 text-lg text-zinc-600 dark:text-zinc-400 max-w-xl"
+              >
+                Fill in your details and we&apos;ll confirm your appointment within store hours.
+              </motion.p>
+            </div>
 
-                <div className="p-6 sm:p-7">
-                  {/* Estimated price panel */}
-                  <AnimatePresence>
-                    {estimatedPrice && (
-                      <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: "auto" }}
-                        exit={{ opacity: 0, height: 0 }}
-                        transition={{ duration: 0.25 }}
-                        className="mb-5 overflow-hidden"
-                      >
-                        <div className="flex items-center justify-between rounded-2xl bg-indigo-50 dark:bg-indigo-500/10 border border-indigo-100 dark:border-indigo-400/20 px-4 py-3">
-                          <div className="flex items-center gap-2">
-                            <DollarSign size={16} className="text-indigo-600 dark:text-indigo-400" />
-                            <span className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">Estimated Cost</span>
-                          </div>
-                          <span className="text-sm font-black text-indigo-600 dark:text-indigo-400">{estimatedPrice}</span>
+            <AnimatePresence mode="wait">
+              {submitted ? (
+                <motion.div
+                  key="success"
+                  initial={{ opacity: 0, scale: 0.97, y: 16 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+                  className="rounded-3xl bg-emerald-500 dark:bg-emerald-600 overflow-hidden"
+                >
+                  <div className="flex flex-col items-center justify-center px-8 py-20 text-center">
+                    {/* Icon */}
+                    <div className="w-20 h-20 rounded-full bg-white/20 flex items-center justify-center mb-8">
+                      <CheckCircle2 size={40} className="text-white" />
+                    </div>
+
+                    <h3 className="text-4xl md:text-5xl font-black text-white mb-4 tracking-tight">
+                      Request Sent!
+                    </h3>
+                    <p className="text-emerald-100 text-lg max-w-md mb-3 leading-relaxed">
+                      We&apos;ll confirm your appointment during store hours. See you soon.
+                    </p>
+                    <p className="text-emerald-200 text-sm mb-10">
+                      A confirmation email has been sent to <span className="font-semibold text-white">{contact}</span>
+                    </p>
+
+                    {/* Summary pills */}
+                    <div className="flex flex-wrap justify-center gap-3 mb-10">
+                      {[
+                        { label: "Device", value: device },
+                        { label: "Issue", value: selectedIssue },
+                        { label: "Time", value: `${preferredDate} · ${selectedSlot}` },
+                      ].map(({ label, value }) => (
+                        <div key={label} className="bg-white/15 border border-white/25 rounded-2xl px-5 py-3 text-left">
+                          <p className="text-[11px] font-semibold text-emerald-200 uppercase tracking-widest mb-0.5">{label}</p>
+                          <p className="text-sm font-bold text-white">{value}</p>
                         </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+                      ))}
+                    </div>
 
-                  <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
-                    <AnimatePresence mode="wait">
-                      {formStep === 1 ? (
-                        <motion.div
-                          key="step1"
-                          initial={{ opacity: 0, x: -12 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          exit={{ opacity: 0, x: 12 }}
-                          transition={{ duration: 0.2 }}
-                          className="space-y-4"
+                    <button
+                      onClick={resetForm}
+                      className="px-6 py-3 text-sm font-semibold text-emerald-700 bg-white hover:bg-emerald-50 rounded-xl transition-colors cursor-pointer shadow-sm"
+                    >
+                      Book Another
+                    </button>
+                  </div>
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="form"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-8 items-start"
+                >
+                  {/* ── Form ── */}
+                  <form
+                    onSubmit={handleSubmit}
+                    className="bg-white dark:bg-zinc-900 rounded-3xl border border-zinc-200 dark:border-white/10 p-8 md:p-10 shadow-sm"
+                  >
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+
+                      {/* Name */}
+                      <div className="flex flex-col gap-1.5">
+                        <label className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">Full Name</label>
+                        <div className="relative">
+                          <User size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-400 pointer-events-none" />
+                          <input
+                            required
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            placeholder=""
+                            className={inputWithIconClass}
+                          />
+                        </div>
+                      </div>
+
+                      {/* Email */}
+                      <div className="flex flex-col gap-1.5">
+                        <label className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">Email</label>
+                        <div className="relative">
+                          <Mail size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-400 pointer-events-none" />
+                          <input
+                            required
+                            type="email"
+                            value={contact}
+                            onChange={(e) => setContact(e.target.value)}
+                            placeholder="you@example.com"
+                            className={inputWithIconClass}
+                          />
+                        </div>
+                      </div>
+
+                      {/* Device */}
+                      <div className="flex flex-col gap-1.5">
+                        <label className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">Device Model</label>
+                        <div className="relative">
+                          <Smartphone size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-400 pointer-events-none" />
+                          <input
+                            required
+                            value={device}
+                            onChange={(e) => setDevice(e.target.value)}
+                            placeholder="e.g. iPhone 15 Pro"
+                            className={inputWithIconClass}
+                          />
+                        </div>
+                      </div>
+
+                      {/* Issue */}
+                      <div className="flex flex-col gap-1.5">
+                        <label className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">Issue Type</label>
+                        <select
+                          required
+                          value={selectedIssue}
+                          onChange={(e) => setSelectedIssue(e.target.value)}
+                          className={`${inputClass} appearance-none`}
                         >
-                          <div className="space-y-1.5">
-                            <label className="text-xs font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Device</label>
-                            <select className="w-full rounded-xl border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800/50 px-4 py-3 text-sm text-zinc-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                              <option>iPhone</option>
-                              <option>Samsung Galaxy</option>
-                              <option>Google Pixel</option>
-                              <option>iPad / Tablet</option>
-                              <option>Other Device</option>
-                            </select>
-                          </div>
+                          <option value="" disabled>Select an issue</option>
+                          {ISSUE_OPTIONS.map((issue) => (
+                            <option key={issue} value={issue}>{issue}</option>
+                          ))}
+                        </select>
+                      </div>
 
-                          <div className="space-y-1.5">
-                            <label className="text-xs font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Issue Type</label>
-                            <select
-                              value={selectedIssue}
-                              onChange={(e) => setSelectedIssue(e.target.value)}
-                              className="w-full rounded-xl border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800/50 px-4 py-3 text-sm text-zinc-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                            >
-                              <option value="">Select issue...</option>
-                              <option>Cracked Screen</option>
-                              <option>Battery Draining Fast</option>
-                              <option>Charging Port Not Working</option>
-                              <option>Camera Problem</option>
-                              <option>Speaker / Mic Problem</option>
-                              <option>General Diagnostics</option>
-                            </select>
-                          </div>
+                      {/* Preferred Date */}
+                      <div className="flex flex-col gap-1.5">
+                        <label className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">Preferred Date</label>
+                        <div className="relative">
+                          <CalendarDays size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-400 pointer-events-none" />
+                          <input
+                            required
+                            type="date"
+                            value={preferredDate}
+                            onChange={(e) => setPreferredDate(e.target.value)}
+                            className={inputWithIconClass}
+                          />
+                        </div>
+                      </div>
 
-                          <div className="space-y-1.5">
-                            <label className="text-xs font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Preferred Date</label>
-                            <input
-                              type="date"
-                              className="w-full rounded-xl border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800/50 px-4 py-3 text-sm text-zinc-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                            />
-                          </div>
+                    </div>
 
-                          <div className="space-y-2">
-                            <p className="text-xs font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Preferred Time</p>
-                            <div className="grid grid-cols-4 gap-2">
-                              {timeSlots.map((slot) => (
-                                <button
-                                  type="button"
-                                  key={slot}
-                                  onClick={() => setSelectedSlot(slot)}
-                                  className={`rounded-lg px-1 py-2 text-[10px] font-bold border transition-colors cursor-pointer ${selectedSlot === slot
-                                    ? "border-indigo-500 bg-indigo-600 text-white"
-                                    : "border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800/50 text-zinc-700 dark:text-zinc-300 hover:border-indigo-300"
-                                  }`}
-                                >
-                                  {slot}
-                                </button>
-                              ))}
-                            </div>
-                          </div>
+                    {/* Time Slots */}
+                    <div className="mt-6 flex flex-col gap-2">
+                      <label className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">Preferred Time</label>
+                      <div className="grid grid-cols-4 gap-2">
+                        {timeSlots.map((slot) => (
+                          <button
+                            key={slot}
+                            type="button"
+                            onClick={() => setSelectedSlot(slot)}
+                            className={`py-2.5 rounded-xl text-xs font-semibold border transition-all cursor-pointer ${
+                              selectedSlot === slot
+                                ? "bg-indigo-600 text-white border-indigo-600 shadow-sm"
+                                : "bg-zinc-50 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-zinc-700 hover:border-indigo-300 dark:hover:border-indigo-500/50 hover:text-indigo-600"
+                            }`}
+                          >
+                            {slot}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
 
-                          <div className="pt-2 flex justify-end">
-                            <button
-                              type="button"
-                              onClick={() => setFormStep(2)}
-                              className="inline-flex items-center gap-2 px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-sm font-bold transition-colors cursor-pointer"
-                            >
-                              Next <ChevronRight size={16} />
-                            </button>
-                          </div>
-                        </motion.div>
-                      ) : (
+                    {/* Notes */}
+                    <div className="mt-5 flex flex-col gap-1.5">
+                      <label className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">
+                        Additional Notes{" "}
+                        <span className="font-normal text-zinc-400">(optional)</span>
+                      </label>
+                      <div className="relative">
+                        <MessageSquare size={14} className="absolute left-3.5 top-3.5 text-zinc-400 pointer-events-none" />
+                        <textarea
+                          value={notes}
+                          onChange={(e) => setNotes(e.target.value)}
+                          placeholder="Anything else we should know about your device or issue..."
+                          rows={3}
+                          className="w-full pl-10 pr-4 py-3 rounded-xl bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-900 dark:text-white placeholder:text-zinc-400 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-400 transition resize-none"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Submit */}
+                    <div className="mt-8 flex flex-col gap-3">
+                      <motion.button
+                        type="submit"
+                        disabled={loading}
+                        whileHover={loading ? {} : { y: -1 }}
+                        whileTap={loading ? {} : { scale: 0.97 }}
+                        className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-60 disabled:cursor-not-allowed text-white rounded-xl font-semibold shadow-sm transition-colors cursor-pointer"
+                      >
+                        {loading ? (
+                          <>
+                            <svg className="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+                            </svg>
+                            Sending…
+                          </>
+                        ) : (
+                          <>
+                            <CalendarDays size={18} />
+                            Schedule Consultation
+                          </>
+                        )}
+                      </motion.button>
+                      {error && (
+                        <p className="text-sm text-red-500 dark:text-red-400">{error}</p>
+                      )}
+                    </div>
+                  </form>
+
+                  {/* ── Info panel ── */}
+                  <div className="flex flex-col gap-4 lg:sticky lg:top-28">
+
+                    {/* Price estimate — only visible when issue selected */}
+                    <AnimatePresence>
+                      {estimatedPrice && (
                         <motion.div
-                          key="step2"
-                          initial={{ opacity: 0, x: 12 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          exit={{ opacity: 0, x: -12 }}
-                          transition={{ duration: 0.2 }}
-                          className="space-y-4"
+                          key="price-card"
+                          initial={{ opacity: 0, y: -10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -10 }}
+                          transition={{ duration: 0.28 }}
+                          className="rounded-2xl bg-indigo-600 p-6 text-white"
                         >
-                          <div className="grid grid-cols-2 gap-3">
-                            <div className="space-y-1.5">
-                              <label className="text-xs font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">First Name</label>
-                              <input
-                                type="text"
-                                placeholder="Alex"
-                                className="w-full rounded-xl border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800/50 px-4 py-3 text-sm text-zinc-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                              />
-                            </div>
-                            <div className="space-y-1.5">
-                              <label className="text-xs font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Phone</label>
-                              <input
-                                type="tel"
-                                placeholder="(403) 555-0100"
-                                className="w-full rounded-xl border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800/50 px-4 py-3 text-sm text-zinc-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                              />
-                            </div>
-                          </div>
-
-                          <div className="space-y-1.5">
-                            <label className="text-xs font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
-                              Extra Notes <span className="font-normal normal-case text-zinc-400">(optional)</span>
-                            </label>
-                            <textarea
-                              rows={3}
-                              placeholder="Anything we should know before your appointment"
-                              className="w-full rounded-xl border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800/50 px-4 py-3 text-sm text-zinc-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
-                            />
-                          </div>
-
-                          <div className="pt-2 flex items-center justify-between">
-                            <button
-                              type="button"
-                              onClick={() => setFormStep(1)}
-                              className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200 transition-colors cursor-pointer"
-                            >
-                              ← Back
-                            </button>
-                            <button
-                              type="submit"
-                              className="inline-flex items-center gap-2 px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-sm font-bold transition-colors cursor-pointer"
-                            >
-                              Confirm Appointment
-                            </button>
-                          </div>
+                          <p className="text-xs font-semibold text-indigo-200 uppercase tracking-widest mb-1">Estimated Cost</p>
+                          <p className="text-3xl font-black">{estimatedPrice}</p>
+                          <p className="text-sm text-indigo-200 mt-1.5">Final price confirmed after diagnostics.</p>
                         </motion.div>
                       )}
                     </AnimatePresence>
-                  </form>
-                </div>
 
-                <div className="px-6 sm:px-7 pb-6">
-                  <div className="rounded-2xl border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/70 dark:bg-indigo-500/10 p-4 flex items-start gap-3">
-                    <Clock3 size={16} className="text-indigo-600 dark:text-indigo-400 mt-0.5 shrink-0" />
-                    <p className="text-xs font-medium text-zinc-700 dark:text-zinc-300">
-                      Confirmation sent during store hours: Mon–Fri 10am–6pm, Sat 11am–6pm.
-                    </p>
-                  </div>
-                </div>
-              </div>
+                    {/* What happens next */}
+                    <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-white/10 p-6 shadow-sm">
+                      <p className="text-sm font-bold text-zinc-900 dark:text-white mb-4">What happens next</p>
+                      <div className="flex flex-col gap-3.5">
+                        {[
+                          { icon: CheckCircle2, text: "We review your request", color: "text-indigo-500" },
+                          { icon: Phone, text: "We call or text to confirm", color: "text-sky-500" },
+                          { icon: Smartphone, text: "You drop off your device", color: "text-emerald-500" },
+                          { icon: ShieldCheck, text: "We fix it, you pick it up", color: "text-amber-500" },
+                        ].map(({ icon: Icon, text, color }) => (
+                          <div key={text} className="flex items-center gap-3">
+                            <Icon size={15} className={`${color} shrink-0`} />
+                            <span className="text-sm text-zinc-600 dark:text-zinc-400">{text}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
 
-              <div className="mt-5 rounded-3xl border border-zinc-200 dark:border-white/10 bg-zinc-900 text-white p-6 shadow-sm">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center">
-                    <Mic size={18} />
+                    {/* Guarantee */}
+                    <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-white/10 p-6 shadow-sm">
+                      <div className="flex items-center gap-2 mb-3.5">
+                        <ShieldCheck size={15} className="text-indigo-500 shrink-0" />
+                        <p className="text-sm font-bold text-zinc-900 dark:text-white">Our Guarantee</p>
+                      </div>
+                      <ul className="flex flex-col gap-2 text-sm text-zinc-600 dark:text-zinc-400">
+                        <li className="flex items-center gap-2">
+                          <span className="w-1 h-1 rounded-full bg-indigo-400 shrink-0" />
+                          90-day service warranty
+                        </li>
+                        <li className="flex items-center gap-2">
+                          <span className="w-1 h-1 rounded-full bg-indigo-400 shrink-0" />
+                          Transparent pricing, no hidden fees
+                        </li>
+                        <li className="flex items-center gap-2">
+                          <span className="w-1 h-1 rounded-full bg-indigo-400 shrink-0" />
+                          Quality parts only
+                        </li>
+                      </ul>
+                    </div>
+
                   </div>
-                  <div>
-                    <p className="text-sm font-semibold text-zinc-300">Need urgent help?</p>
-                    <p className="text-lg font-bold">Call (555) 123-4567</p>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
+                </motion.div>
+              )}
+            </AnimatePresence>
 
           </div>
         </section>
+
       </div>
 
       <Footer />

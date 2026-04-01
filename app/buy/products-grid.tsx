@@ -4,7 +4,7 @@ import { useState, useMemo, useEffect } from "react";
 import { Search, SlidersHorizontal, ChevronDown, X, ChevronLeft, ChevronRight, Maximize2 } from "lucide-react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { ShopifyProduct, createCheckoutUrl } from "@/lib/shopify";
+import { ShopifyProduct } from "@/lib/shopify";
 
 const CATEGORIES = ["All", "Apple iPhones", "Android Phones", "Samsung Phones", "Google Pixel", "Tablets", "Laptops"];
 
@@ -19,11 +19,22 @@ const SORT_OPTIONS = [
 ];
 
 const CONDITION_STYLES: Record<string, string> = {
-  "like new": "bg-emerald-100/90 text-emerald-800 dark:bg-emerald-500/20 dark:text-emerald-300",
-  "excellent": "bg-emerald-100/90 text-emerald-800 dark:bg-emerald-500/20 dark:text-emerald-300",
-  "good": "bg-blue-100/90 text-blue-800 dark:bg-blue-500/20 dark:text-blue-300",
-  "poor": "bg-amber-100/90 text-amber-800 dark:bg-amber-500/20 dark:text-amber-300",
+  "like new": "bg-emerald-500 text-white dark:bg-emerald-500 dark:text-white",
+  "excellent": "bg-emerald-500 text-white dark:bg-emerald-500 dark:text-white",
+  "good": "bg-blue-500 text-white dark:bg-blue-500 dark:text-white",
+  "poor": "bg-amber-500 text-white dark:bg-amber-500 dark:text-white",
 };
+
+function getShopifyImageUrl(url: string, width: number): string {
+  if (!url) return url;
+  try {
+    const u = new URL(url);
+    u.searchParams.set("width", String(width));
+    return u.toString();
+  } catch {
+    return url;
+  }
+}
 
 function getConditionStyles(condition: string) {
   return (
@@ -47,7 +58,12 @@ function BuyButton({ variantId }: { variantId: string }) {
     e.preventDefault();
     setLoading(true);
     try {
-      const url = await createCheckoutUrl(variantId);
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ variantId }),
+      });
+      const { url } = await res.json();
       window.location.href = url;
     } catch {
       setLoading(false);
@@ -316,17 +332,19 @@ export default function ProductsGrid({
                   <div className="h-48 sm:h-56 bg-zinc-100 dark:bg-zinc-800 relative overflow-hidden flex items-center justify-center p-2 sm:p-0">
                     {product.image ? (
                       <Image
-                        src={product.image}
+                        src={getShopifyImageUrl(product.image, 400)}
                         alt={product.title}
                         fill
                         className="object-contain sm:object-cover group-hover:scale-105 transition-transform duration-500 sm:p-0 p-4"
                         sizes="(max-width: 768px) 50vw, (max-width: 1200px) 50vw, 33vw"
+                        quality={60}
+                        loading="lazy"
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center text-zinc-400 text-xs sm:text-sm">No image</div>
                     )}
                     {product.specs.condition && (
-                      <div className={`absolute top-2 left-2 sm:top-4 sm:left-4 px-2 py-0.5 sm:px-3 sm:py-1 rounded-md sm:rounded-lg text-[10px] sm:text-xs font-bold shadow-sm ${getConditionStyles(product.specs.condition)}`}>
+                      <div className={`absolute top-2 left-2 sm:top-4 sm:left-4 px-2 py-0.5 sm:px-3 sm:py-1 rounded-md sm:rounded-lg text-[10px] sm:text-xs font-bold shadow-md backdrop-blur-sm ${getConditionStyles(product.specs.condition)}`}>
                         {product.specs.condition}
                       </div>
                     )}
@@ -491,9 +509,9 @@ export default function ProductsGrid({
                 </div>
 
                 {selectedProduct.images && selectedProduct.images.length > 0 ? (
-                  <Image src={selectedProduct.images[currentImageIndex]} alt={selectedProduct.title} fill className="object-contain p-6" />
+                  <Image src={getShopifyImageUrl(selectedProduct.images[currentImageIndex], 800)} alt={selectedProduct.title} fill className="object-contain p-6" quality={75} sizes="(max-width: 768px) 100vw, 50vw" />
                 ) : selectedProduct.image ? (
-                  <Image src={selectedProduct.image} alt={selectedProduct.title} fill className="object-contain p-6" />
+                  <Image src={getShopifyImageUrl(selectedProduct.image, 800)} alt={selectedProduct.title} fill className="object-contain p-6" quality={75} sizes="(max-width: 768px) 100vw, 50vw" />
                 ) : (
                   <div className="text-zinc-400">No image</div>
                 )}
@@ -610,6 +628,21 @@ export default function ProductsGrid({
                   >
                     <ChevronRight size={24} />
                   </button>
+
+                  {/* Dots indicator */}
+                  <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-2.5 z-[200] bg-black/60 backdrop-blur-sm rounded-full px-4 py-2.5" onClick={(e) => e.stopPropagation()}>
+                    {selectedProduct.images.map((_, i) => (
+                      <button
+                        key={i}
+                        onClick={(e) => { e.stopPropagation(); setCurrentImageIndex(i); }}
+                        className={`rounded-full transition-all duration-200 cursor-pointer ${
+                          currentImageIndex === i
+                            ? "w-6 h-2.5 bg-white shadow-lg"
+                            : "w-2.5 h-2.5 bg-white/50 hover:bg-white/80"
+                        }`}
+                      />
+                    ))}
+                  </div>
                 </>
               )}
 

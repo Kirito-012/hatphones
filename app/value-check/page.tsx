@@ -64,8 +64,8 @@ const CONDITION_STYLE: Record<Condition, { ring: string; dot: string; tag: strin
 
 const slide = {
   enter:  { x: 20, opacity: 0 },
-  center: { x: 0,  opacity: 1, transition: { duration: 0.18, ease: "easeOut" } },
-  exit:   { x: -20, opacity: 0, transition: { duration: 0.12, ease: "easeIn" } },
+  center: { x: 0,  opacity: 1, transition: { duration: 0.18, ease: "easeOut" as const } },
+  exit:   { x: -20, opacity: 0, transition: { duration: 0.12, ease: "easeIn" as const } },
 };
 
 // ─────────────────────────────────────────────────────────────────────────────

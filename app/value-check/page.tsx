@@ -544,7 +544,7 @@ export default function ValueCheck() {
           )}
 
           {/* Wizard card */}
-          <div className="bg-white dark:bg-zinc-900 rounded-3xl border border-zinc-200 dark:border-white/[0.07] shadow-sm">
+          <div className="bg-white dark:bg-zinc-900 rounded-3xl border border-zinc-200 dark:border-white/[0.07] shadow-sm min-h-screen sm:min-h-0">
             {/* Thin progress stripe */}
             {step !== "result" && (
               <div className="h-1 rounded-t-3xl overflow-hidden bg-zinc-100 dark:bg-zinc-800">

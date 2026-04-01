@@ -481,7 +481,7 @@ export default function RepairPage() {
         {/* ── Section 3: Schedule a Consultation ── */}
         <section
           id="schedule-appointment"
-          className="relative w-full py-24 md:py-32 px-6 bg-zinc-50 dark:bg-zinc-900/40 scroll-mt-20"
+          className="relative w-full py-24 md:py-32 px-4 sm:px-6 bg-zinc-50 dark:bg-zinc-900/40 scroll-mt-20"
         >
           <div className="container mx-auto max-w-7xl">
 
@@ -577,7 +577,7 @@ export default function RepairPage() {
                   {/* ── Form ── */}
                   <form
                     onSubmit={handleSubmit}
-                    className="bg-white dark:bg-zinc-900 rounded-3xl border border-zinc-200 dark:border-white/10 p-8 md:p-10 shadow-sm"
+                    className="bg-white dark:bg-zinc-900 rounded-3xl border border-zinc-200 dark:border-white/10 p-5 sm:p-8 md:p-10 shadow-sm overflow-hidden"
                   >
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
 
@@ -646,16 +646,13 @@ export default function RepairPage() {
                       {/* Preferred Date */}
                       <div className="flex flex-col gap-1.5">
                         <label className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">Preferred Date</label>
-                        <div className="relative">
-                          <CalendarDays size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-400 pointer-events-none" />
-                          <input
-                            required
-                            type="date"
-                            value={preferredDate}
-                            onChange={(e) => setPreferredDate(e.target.value)}
-                            className={inputWithIconClass}
-                          />
-                        </div>
+                        <input
+                          required
+                          type="date"
+                          value={preferredDate}
+                          onChange={(e) => setPreferredDate(e.target.value)}
+                          className="md:w-full px-4 py-3 rounded-xl bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-900 dark:text-white placeholder:text-zinc-400 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-400 transition"
+                        />
                       </div>
 
                     </div>
@@ -663,17 +660,16 @@ export default function RepairPage() {
                     {/* Time Slots */}
                     <div className="mt-6 flex flex-col gap-2">
                       <label className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">Preferred Time</label>
-                      <div className="grid grid-cols-4 gap-2">
+                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                         {timeSlots.map((slot) => (
                           <button
                             key={slot}
                             type="button"
                             onClick={() => setSelectedSlot(slot)}
-                            className={`py-2.5 rounded-xl text-xs font-semibold border transition-all cursor-pointer ${
-                              selectedSlot === slot
-                                ? "bg-indigo-600 text-white border-indigo-600 shadow-sm"
-                                : "bg-zinc-50 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-zinc-700 hover:border-indigo-300 dark:hover:border-indigo-500/50 hover:text-indigo-600"
-                            }`}
+                            className={`py-2.5 rounded-xl text-xs font-semibold border transition-all cursor-pointer ${selectedSlot === slot
+                              ? "bg-indigo-600 text-white border-indigo-600 shadow-sm"
+                              : "bg-zinc-50 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-zinc-700 hover:border-indigo-300 dark:hover:border-indigo-500/50 hover:text-indigo-600"
+                              }`}
                           >
                             {slot}
                           </button>

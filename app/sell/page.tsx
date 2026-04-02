@@ -360,7 +360,126 @@ export default function SellPage() {
           </div>
         </section>
 
-        {/* ── Section 3: Value Check CTA ── */}
+        {/* ── Section 3: Ready to Sell — Contact Options ── */}
+        <section className="relative w-full py-24 md:py-32 px-6 bg-white dark:bg-zinc-950">
+          <div className="container mx-auto max-w-7xl">
+
+            {/* Header */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              className="max-w-2xl mb-14"
+            >
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-white/10 shadow-sm mb-6">
+                <Zap size={13} className="text-emerald-500" />
+                <span className="text-sm font-semibold text-zinc-600 dark:text-zinc-300">Ready to Sell?</span>
+              </div>
+              <h2 className="text-4xl md:text-5xl font-bold text-zinc-900 dark:text-white tracking-tight leading-[1.1] mb-4">
+                Three ways to get started
+              </h2>
+              <p className="text-lg text-zinc-500 dark:text-zinc-400 leading-relaxed">
+                Pick whatever works best for you. No pressure, no commitment until you walk in the door.
+              </p>
+            </motion.div>
+
+            {/* Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+
+              {/* Option 1 — Call or Text */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ delay: 0 }}
+                className="flex flex-col rounded-3xl border border-zinc-200 dark:border-white/10 bg-zinc-50 dark:bg-zinc-900 p-8 gap-6"
+              >
+                <div className="w-12 h-12 rounded-2xl bg-emerald-50 dark:bg-emerald-500/10 flex items-center justify-center">
+                  <MessageCircle size={22} className="text-emerald-600 dark:text-emerald-400" />
+                </div>
+                <div className="flex flex-col gap-2 flex-1">
+                  <span className="text-xs font-bold uppercase tracking-widest text-emerald-600 dark:text-emerald-400">Option 1</span>
+                  <h3 className="text-xl font-bold text-zinc-900 dark:text-white">Call or text us</h3>
+                  <p className="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">
+                    The fastest way. Give us a call or shoot a text and we&apos;ll get back to you same day.
+                  </p>
+                </div>
+                <a
+                  href="tel:+14035550100"
+                  className="inline-flex items-center gap-2 px-5 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-semibold text-sm transition-colors shadow-sm self-start"
+                >
+                  <MessageCircle size={15} />
+                  (403) 555-0100
+                </a>
+              </motion.div>
+
+              {/* Option 2 — Value Check + Send Details */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ delay: 0.08 }}
+                className="flex flex-col rounded-3xl border-2 border-emerald-400 dark:border-emerald-500/60 bg-emerald-50 dark:bg-emerald-500/5 p-8 gap-6 relative overflow-hidden"
+              >
+                <div className="absolute top-4 right-4 px-2.5 py-1 rounded-full bg-emerald-500 text-white text-[10px] font-bold uppercase tracking-wider">
+                  Recommended
+                </div>
+                <div className="w-12 h-12 rounded-2xl bg-white dark:bg-emerald-500/10 flex items-center justify-center shadow-sm">
+                  <Search size={22} className="text-emerald-600 dark:text-emerald-400" />
+                </div>
+                <div className="flex flex-col gap-2 flex-1">
+                  <span className="text-xs font-bold uppercase tracking-widest text-emerald-600 dark:text-emerald-400">Option 2</span>
+                  <h3 className="text-xl font-bold text-zinc-900 dark:text-white">Check value &amp; send details</h3>
+                  <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                    Use our value tool to get an instant estimate, then send us your device info with one tap. We&apos;ll take it from there.
+                  </p>
+                </div>
+                <motion.button
+                  whileHover={{ y: -1 }}
+                  whileTap={{ scale: 0.97 }}
+                  onClick={() => router.push("/value-check")}
+                  className="inline-flex items-center gap-2 px-5 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-semibold text-sm transition-colors shadow-sm self-start cursor-pointer"
+                >
+                  <Search size={15} />
+                  Get my estimate
+                  <ArrowRight size={14} />
+                </motion.button>
+              </motion.div>
+
+              {/* Option 3 — Contact form */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ delay: 0.16 }}
+                className="flex flex-col rounded-3xl border border-zinc-200 dark:border-white/10 bg-zinc-50 dark:bg-zinc-900 p-8 gap-6"
+              >
+                <div className="w-12 h-12 rounded-2xl bg-indigo-50 dark:bg-indigo-500/10 flex items-center justify-center">
+                  <CheckCircle2 size={22} className="text-indigo-600 dark:text-indigo-400" />
+                </div>
+                <div className="flex flex-col gap-2 flex-1">
+                  <span className="text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">Option 3</span>
+                  <h3 className="text-xl font-bold text-zinc-900 dark:text-white">Send us a message</h3>
+                  <p className="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">
+                    Have questions before committing? Drop us a message through our contact form and we&apos;ll reply promptly.
+                  </p>
+                </div>
+                <motion.button
+                  whileHover={{ y: -1 }}
+                  whileTap={{ scale: 0.97 }}
+                  onClick={() => router.push("/contact")}
+                  className="inline-flex items-center gap-2 px-5 py-3 bg-zinc-900 dark:bg-white hover:bg-zinc-700 dark:hover:bg-zinc-100 text-white dark:text-zinc-900 rounded-xl font-semibold text-sm transition-colors shadow-sm self-start cursor-pointer"
+                >
+                  Contact us
+                  <ArrowRight size={14} />
+                </motion.button>
+              </motion.div>
+
+            </div>
+          </div>
+        </section>
+
+        {/* ── Section 4: Value Check CTA ── */}
         <section className="relative w-full py-14 md:py-20 px-6 overflow-hidden bg-zinc-50 dark:bg-zinc-950">
           <div className="absolute inset-0 bg-[radial-gradient(#d4d4d8_1px,transparent_1px)] dark:bg-[radial-gradient(#ffffff05_1px,transparent_1px)] [background-size:20px_20px] opacity-60 dark:opacity-100" />
           <div className="container mx-auto max-w-5xl relative z-10">
@@ -407,7 +526,7 @@ export default function SellPage() {
               </div>
             </motion.div>
 
-            {/* ── Section 4: Contact CTA ── */}
+            {/* ── Section 5: Contact CTA ── */}
             <motion.div
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}

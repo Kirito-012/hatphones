@@ -14,6 +14,7 @@ export function Navbar() {
   const [mounted, setMounted] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [hidden, setHidden] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
   const [currentHash, setCurrentHash] = useState("");
   const getHref = (item: string) => {
     if (item === "Home") return "/";
@@ -29,6 +30,17 @@ export function Navbar() {
 
   useEffect(() => {
     setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    const handleOpen = () => setModalOpen(true);
+    const handleClose = () => setModalOpen(false);
+    window.addEventListener('hatphones:modal-open', handleOpen);
+    window.addEventListener('hatphones:modal-close', handleClose);
+    return () => {
+      window.removeEventListener('hatphones:modal-open', handleOpen);
+      window.removeEventListener('hatphones:modal-close', handleClose);
+    };
   }, []);
 
   useEffect(() => {
@@ -67,7 +79,7 @@ export function Navbar() {
         visible: { y: 0 },
         hidden: { y: "-100%" }
       }}
-      animate={hidden ? "hidden" : "visible"}
+      animate={hidden || modalOpen ? "hidden" : "visible"}
       transition={{ duration: 0.3, ease: "easeInOut" }}
       className="fixed top-0 left-0 right-0 z-50 w-full bg-white/95 dark:bg-zinc-950/95 backdrop-blur-md border-b border-zinc-200 dark:border-white/10 px-4 md:px-6 py-4 flex items-center justify-between"
     >

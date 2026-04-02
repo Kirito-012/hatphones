@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Navbar } from "../components/Navbar";
 import { Footer } from "../components/Footer";
+import { ScrollReveal, ScrollRevealButton } from "../components/ScrollReveal";
 import {
   CalendarDays,
   Clock3,
@@ -291,50 +292,32 @@ export default function RepairPage() {
           <div className="container mx-auto max-w-7xl">
 
             <div className="mb-14">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                className="inline-flex items-center gap-2 px-4 py-2 mb-6 rounded-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/10 shadow-sm"
-              >
+              <ScrollReveal className="inline-flex items-center gap-2 px-4 py-2 mb-6 rounded-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/10 shadow-sm">
                 <Wrench size={13} className="text-indigo-500" />
                 <span className="text-sm font-semibold text-zinc-600 dark:text-zinc-300">Common Repairs</span>
-              </motion.div>
+              </ScrollReveal>
 
-              <motion.h2
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ delay: 0.08 }}
-                className="text-4xl md:text-5xl lg:text-6xl font-bold text-zinc-900 dark:text-white tracking-tight"
-              >
-                Fixes we handle{" "}
-                <span className="text-zinc-400 dark:text-zinc-600">daily.</span>
-              </motion.h2>
+              <ScrollReveal delay={0.07}>
+                <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-zinc-900 dark:text-white tracking-tight">
+                  Fixes we handle{" "}
+                  <span className="text-zinc-400 dark:text-zinc-600">daily.</span>
+                </h2>
+              </ScrollReveal>
 
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ delay: 0.14 }}
-                className="mt-4 text-lg text-zinc-600 dark:text-zinc-400 max-w-xl"
-              >
-                Click any service to pre-fill your booking form and skip the back-and-forth.
-              </motion.p>
+              <ScrollReveal delay={0.13} className="mt-4">
+                <p className="text-lg text-zinc-600 dark:text-zinc-400 max-w-xl">
+                  Click any service to pre-fill your booking form and skip the back-and-forth.
+                </p>
+              </ScrollReveal>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
               {repairServices.map((service, i) => {
                 const Icon = service.icon;
                 return (
-                  <motion.button
+                  <ScrollRevealButton
                     key={service.title}
-                    initial={{ opacity: 0, y: 24 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-80px" }}
-                    transition={{ duration: 0.38, delay: i * 0.07 }}
-                    whileHover={{ y: -4 }}
-                    whileTap={{ scale: 0.98 }}
+                    delay={i * 0.07}
                     onClick={() => handleServiceClick(service.issueKey)}
                     className={`relative text-left overflow-hidden rounded-3xl border ${service.borderTint} bg-white dark:bg-zinc-900 shadow-sm hover:shadow-md transition-all duration-300 group flex flex-col cursor-pointer`}
                   >
@@ -371,7 +354,7 @@ export default function RepairPage() {
                         </span>
                       </div>
                     </div>
-                  </motion.button>
+                  </ScrollRevealButton>
                 );
               })}
             </div>

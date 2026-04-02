@@ -1,8 +1,8 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { Tablet, Laptop } from "lucide-react";
 import Link from "next/link";
+import { ScrollReveal } from "./ScrollReveal";
 
 const categories = [
   {
@@ -51,7 +51,7 @@ const categories = [
 
 export function ShopFor() {
   return (
-    <section className="relative w-full py-14 md:py-20 px-6 bg-zinc-50 dark:bg-zinc-900/20 z-0 border-t border-zinc-200 dark:border-white/10 [content-visibility:auto] [contain-intrinsic-size:1px_820px]">
+    <section className="relative w-full py-14 md:py-20 px-6 bg-zinc-50 dark:bg-zinc-900/20 z-0 border-t border-zinc-200 dark:border-white/10">
       <div className="container mx-auto max-w-7xl">
 
         <div className="flex flex-col items-center justify-center mb-16 md:mb-20 text-center">
@@ -63,20 +63,11 @@ export function ShopFor() {
           </h2>
         </div>
 
-        <motion.div
-          className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
-          variants={{ visible: { transition: { staggerChildren: 0.06 } } }}
-        >
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
           {categories.map((category, i) => (
             <Link key={i} href={category.link}>
-              <motion.div
-                variants={{
-                  hidden: { opacity: 0, y: 16 },
-                  visible: { opacity: 1, y: 0, transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] } },
-                }}
+              <ScrollReveal
+                delay={i * 0.07}
                 className="group relative overflow-hidden p-5 sm:p-8 rounded-2xl sm:rounded-3xl flex flex-col items-center text-center cursor-pointer hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 h-full"
               >
                 {/* Coloured gradient background */}
@@ -118,10 +109,10 @@ export function ShopFor() {
                     View All →
                   </div>
                 </div>
-              </motion.div>
+              </ScrollReveal>
             </Link>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

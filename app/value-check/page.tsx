@@ -1,11 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Navbar } from "../components/Navbar";
 import { Footer } from "../components/Footer";
-import { ChevronLeft, ChevronDown, Check, RotateCcw, ArrowRight, Search, ChevronRight } from "lucide-react";
-import Link from "next/link";
+import { ChevronLeft, ChevronDown, Check, RotateCcw, ArrowRight, Search, ChevronRight, X, Send, ImagePlus } from "lucide-react";
 import {
   BRANDS,
   PHONE_DATA,
@@ -79,6 +78,22 @@ export default function ValueCheck() {
   const [condition, setCondition] = useState<Condition | null>(null);
   const [batteryHealth, setBatteryHealth] = useState<BatteryHealth | null>(null);
   const [answers, setAnswers] = useState<Record<string, boolean>>({});
+
+  // Send-details modal state
+  const [sendModalOpen, setSendModalOpen] = useState(false);
+  const [senderName, setSenderName] = useState("");
+  const [senderContact, setSenderContact] = useState("");
+  const [sendStatus, setSendStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [photos, setPhotos] = useState<Array<{ file: File; preview: string }>>([]);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Revoke object URLs when modal closes to avoid memory leaks
+  useEffect(() => {
+    if (!sendModalOpen) {
+      photos.forEach((p) => URL.revokeObjectURL(p.preview));
+      setPhotos([]);
+    }
+  }, [sendModalOpen]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const visibleSteps = STEP_ORDER.filter((s) => {
     if (s === "battery") return brand === "Apple";
@@ -381,20 +396,12 @@ export default function ValueCheck() {
         </p>
 
         {/* CTAs */}
-        <div className="flex flex-col sm:flex-row gap-2.5 mt-1">
-          <Link
-            href="/sell"
-            className="flex-1 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-2xl transition-colors flex items-center justify-center gap-2 text-sm shadow-sm"
-          >
-            Sell this device <ArrowRight size={15} />
-          </Link>
-          <Link
-            href="/contact"
-            className="flex-1 py-3.5 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 text-zinc-900 dark:text-white font-bold rounded-2xl transition-colors flex items-center justify-center gap-2 text-sm"
-          >
-            Get exact quote
-          </Link>
-        </div>
+        <button
+          onClick={() => { setSendModalOpen(true); setSendStatus("idle"); setSenderName(""); setSenderContact(""); }}
+          className="w-full py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-2xl transition-colors flex items-center justify-center gap-2 text-sm shadow-sm cursor-pointer"
+        >
+          <Send size={15} /> Send my details to HatPhones
+        </button>
 
         <button
           onClick={reset}
@@ -578,6 +585,249 @@ export default function ValueCheck() {
       </div>
 
       <Footer />
+
+      {/* ── Send Details Modal ── */}
+      <AnimatePresence>
+        {sendModalOpen && result && brand && modelName && storage && condition && (
+          <div
+            className="fixed inset-0 z-[200] flex items-end sm:items-center justify-center p-0 sm:p-6"
+            onClick={() => setSendModalOpen(false)}
+          >
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="absolute inset-0 bg-zinc-900/60 backdrop-blur-sm"
+              aria-hidden="true"
+            />
+            <motion.div
+              initial={{ y: "100%" }}
+              animate={{ y: 0 }}
+              exit={{ y: "100%" }}
+              transition={{ type: "spring", damping: 26, stiffness: 300 }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative bg-white dark:bg-zinc-900 w-full sm:max-w-md rounded-t-3xl sm:rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh] sm:max-h-[85vh] z-10"
+            >
+              {/* Header */}
+              <div className="flex items-center justify-between px-6 pt-6 pb-4 border-b border-zinc-100 dark:border-white/[0.07] shrink-0">
+                <div>
+                  <p className="text-xs font-semibold text-indigo-500 uppercase tracking-widest mb-0.5">Sell Inquiry</p>
+                  <h3 className="text-lg font-black text-zinc-900 dark:text-white leading-tight">Send your details</h3>
+                </div>
+                <button
+                  onClick={() => setSendModalOpen(false)}
+                  className="w-8 h-8 flex items-center justify-center rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors"
+                >
+                  <X size={16} />
+                </button>
+              </div>
+
+              <div className="overflow-y-auto flex-1 px-6 py-5 flex flex-col gap-5">
+                {sendStatus === "success" ? (
+                  <div className="flex flex-col items-center justify-center text-center py-8 gap-4">
+                    <div className="w-16 h-16 rounded-full bg-emerald-50 dark:bg-emerald-500/10 flex items-center justify-center">
+                      <Check size={28} className="text-emerald-500" strokeWidth={2.5} />
+                    </div>
+                    <div>
+                      <p className="text-xl font-black text-zinc-900 dark:text-white mb-1">We got it!</p>
+                      <p className="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed max-w-xs mx-auto">
+                        We&apos;ll review your device details and reach out to arrange a time that works for you.
+                      </p>
+                    </div>
+                    <button
+                      onClick={() => setSendModalOpen(false)}
+                      className="mt-2 px-6 py-2.5 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 rounded-xl font-bold text-sm cursor-pointer hover:bg-zinc-700 dark:hover:bg-zinc-100 transition-colors"
+                    >
+                      Done
+                    </button>
+                  </div>
+                ) : (
+                  <>
+                    {/* Device summary (read-only) */}
+                    <div className="rounded-2xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-white/[0.07] overflow-hidden">
+                      <p className="px-4 py-2.5 text-[10px] font-bold uppercase tracking-widest text-zinc-400 dark:text-zinc-500 border-b border-zinc-200 dark:border-white/[0.07]">
+                        Device details
+                      </p>
+                      <div className="px-4 py-3 flex flex-wrap gap-1.5">
+                        {[
+                          brand,
+                          modelName,
+                          storage,
+                          CONDITIONS.find((c) => c.value === condition)?.label ?? condition,
+                          ...(batteryHealth ? [BATTERY_HEALTH_OPTIONS.find((b) => b.value === batteryHealth)?.label ?? batteryHealth] : []),
+                        ].map((chip) => (
+                          <span key={chip} className="px-2.5 py-1 rounded-full bg-white dark:bg-zinc-700 border border-zinc-200 dark:border-white/10 text-zinc-700 dark:text-zinc-200 text-xs font-semibold">
+                            {chip}
+                          </span>
+                        ))}
+                      </div>
+                      <div className="px-4 py-3 border-t border-zinc-200 dark:border-white/[0.07] flex items-center justify-between">
+                        <span className="text-xs text-zinc-500 dark:text-zinc-400 font-medium">Estimate</span>
+                        <span className="text-sm font-black text-indigo-600 dark:text-indigo-400">${result.low} – ${result.high} CAD</span>
+                      </div>
+                    </div>
+
+                    {/* Photo upload */}
+                    <div className="flex flex-col gap-2">
+                      <div className="flex items-center justify-between">
+                        <label className="text-xs font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">
+                          Photos <span className="normal-case font-normal text-zinc-400 dark:text-zinc-500">(optional · up to 5)</span>
+                        </label>
+                        {photos.length > 0 && (
+                          <span className="text-xs text-zinc-400">{photos.length}/5</span>
+                        )}
+                      </div>
+
+                      {/* Hidden file input */}
+                      <input
+                        ref={fileInputRef}
+                        type="file"
+                        accept="image/*"
+                        multiple
+                        className="hidden"
+                        onChange={(e) => {
+                          const incoming = Array.from(e.target.files ?? []);
+                          const slots = 5 - photos.length;
+                          const valid = incoming
+                            .filter((f) => f.size <= 5 * 1024 * 1024)
+                            .slice(0, slots);
+                          setPhotos((prev) => [
+                            ...prev,
+                            ...valid.map((f) => ({ file: f, preview: URL.createObjectURL(f) })),
+                          ]);
+                          // reset so same file can be re-selected
+                          e.target.value = "";
+                        }}
+                      />
+
+                      {photos.length === 0 ? (
+                        <button
+                          type="button"
+                          onClick={() => fileInputRef.current?.click()}
+                          className="w-full flex flex-col items-center justify-center gap-2 py-6 rounded-2xl border-2 border-dashed border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800/40 hover:border-indigo-400 dark:hover:border-indigo-500 hover:bg-indigo-50/40 dark:hover:bg-indigo-500/5 transition-colors cursor-pointer group"
+                        >
+                          <ImagePlus size={22} className="text-zinc-400 group-hover:text-indigo-500 transition-colors" />
+                          <span className="text-sm font-medium text-zinc-400 dark:text-zinc-500 group-hover:text-indigo-500 transition-colors">
+                            Tap to add photos
+                          </span>
+                          <span className="text-xs text-zinc-400 dark:text-zinc-600">Max 5MB per photo</span>
+                        </button>
+                      ) : (
+                        <div className="flex flex-wrap gap-2">
+                          {photos.map((p, i) => (
+                            <div key={p.preview} className="relative w-[72px] h-[72px] rounded-xl overflow-hidden border border-zinc-200 dark:border-white/10 bg-zinc-100 dark:bg-zinc-800 shrink-0">
+                              {/* eslint-disable-next-line @next/next/no-img-element */}
+                              <img src={p.preview} alt={`photo ${i + 1}`} className="w-full h-full object-cover" />
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  URL.revokeObjectURL(p.preview);
+                                  setPhotos((prev) => prev.filter((_, idx) => idx !== i));
+                                }}
+                                className="absolute top-1 right-1 w-5 h-5 rounded-full bg-zinc-900/70 flex items-center justify-center hover:bg-red-500 transition-colors"
+                              >
+                                <X size={10} className="text-white" />
+                              </button>
+                            </div>
+                          ))}
+                          {photos.length < 5 && (
+                            <button
+                              type="button"
+                              onClick={() => fileInputRef.current?.click()}
+                              className="w-[72px] h-[72px] rounded-xl border-2 border-dashed border-zinc-200 dark:border-zinc-700 flex flex-col items-center justify-center gap-1 hover:border-indigo-400 hover:bg-indigo-50/40 dark:hover:bg-indigo-500/5 transition-colors cursor-pointer group shrink-0"
+                            >
+                              <ImagePlus size={16} className="text-zinc-400 group-hover:text-indigo-500 transition-colors" />
+                              <span className="text-[10px] text-zinc-400 group-hover:text-indigo-500 transition-colors">Add</span>
+                            </button>
+                          )}
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Contact form */}
+                    <div className="flex flex-col gap-3">
+                      <div className="flex flex-col gap-1.5">
+                        <label className="text-xs font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Your name</label>
+                        <input
+                          type="text"
+                          placeholder="John Smith"
+                          value={senderName}
+                          onChange={(e) => setSenderName(e.target.value)}
+                          className="w-full px-4 py-3 rounded-xl bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-900 dark:text-white text-sm placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-400 transition"
+                        />
+                      </div>
+                      <div className="flex flex-col gap-1.5">
+                        <label className="text-xs font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Email or phone number</label>
+                        <input
+                          type="text"
+                          placeholder="you@email.com or (403) 555-0100"
+                          value={senderContact}
+                          onChange={(e) => setSenderContact(e.target.value)}
+                          className="w-full px-4 py-3 rounded-xl bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-900 dark:text-white text-sm placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-400 transition"
+                        />
+                      </div>
+                    </div>
+
+                    {sendStatus === "error" && (
+                      <p className="text-xs text-red-500 font-medium -mt-1">Something went wrong. Please try again.</p>
+                    )}
+
+                    <button
+                      disabled={!senderName.trim() || !senderContact.trim() || sendStatus === "loading"}
+                      onClick={async () => {
+                        setSendStatus("loading");
+                        try {
+                          const encodedPhotos = await Promise.all(
+                            photos.map((p) =>
+                              new Promise<{ filename: string; content: string }>((resolve, reject) => {
+                                const reader = new FileReader();
+                                reader.onload = () =>
+                                  resolve({
+                                    filename: p.file.name,
+                                    content: (reader.result as string).split(",")[1],
+                                  });
+                                reader.onerror = reject;
+                                reader.readAsDataURL(p.file);
+                              })
+                            )
+                          );
+                          const res = await fetch("/api/sell-inquiry", {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({
+                              name: senderName.trim(),
+                              contact: senderContact.trim(),
+                              brand,
+                              model: modelName,
+                              storage,
+                              condition,
+                              batteryHealth: batteryHealth ?? null,
+                              estimatedLow: result.low,
+                              estimatedHigh: result.high,
+                              photos: encodedPhotos,
+                            }),
+                          });
+                          if (!res.ok) throw new Error();
+                          setSendStatus("success");
+                        } catch {
+                          setSendStatus("error");
+                        }
+                      }}
+                      className="w-full py-3.5 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-40 disabled:cursor-not-allowed text-white font-bold rounded-2xl transition-colors flex items-center justify-center gap-2 text-sm cursor-pointer shadow-sm"
+                    >
+                      {sendStatus === "loading" ? "Sending…" : <><Send size={15} /> Send to HatPhones</>}
+                    </button>
+
+                    <p className="text-xs text-zinc-400 text-center -mt-1 pb-2">
+                      We&apos;ll get back to you to arrange a time to come in.
+                    </p>
+                  </>
+                )}
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </main>
   );
 }

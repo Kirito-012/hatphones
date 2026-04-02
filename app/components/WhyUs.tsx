@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { ShieldCheck, RefreshCcw, Tag, Truck, Eye, Award } from "lucide-react";
+import { ScrollReveal } from "./ScrollReveal";
 
 const reasons = [
   {
@@ -53,7 +54,7 @@ export function WhyUs() {
   const [hovered, setHovered] = useState<number | null>(null);
 
   return (
-    <section className="relative w-full py-24 md:py-32 px-6 bg-white dark:bg-zinc-950 z-0 [content-visibility:auto] [contain-intrinsic-size:1px_900px]">
+    <section className="relative w-full py-24 md:py-32 px-6 bg-white dark:bg-zinc-950 z-0">
       <div className="container mx-auto max-w-7xl">
 
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-20">
@@ -79,47 +80,47 @@ export function WhyUs() {
             const isLastRow = i >= reasons.length - 2;
 
             return (
-              <motion.div
+              // Outer div: hover dimming via CSS opacity (separate from framer-motion)
+              <div
                 key={i}
-                onHoverStart={() => setHovered(i)}
-                onHoverEnd={() => setHovered(null)}
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.2 }}
-                transition={{ duration: 0.35, delay: i * 0.05 }}
+                onMouseEnter={() => setHovered(i)}
+                onMouseLeave={() => setHovered(null)}
                 className={[
-                  "relative flex gap-5 lg:gap-7 p-8 lg:p-10 cursor-default transition-opacity duration-300",
+                  "relative cursor-default transition-opacity duration-300",
                   isDimmed ? "opacity-25" : "opacity-100",
                   !isRightCol ? "md:border-r border-zinc-100 dark:border-white/5" : "",
                   !isLastRow ? "border-b border-zinc-100 dark:border-white/5" : "",
                 ].join(" ")}
               >
-                {/* Large muted number */}
-                <div
-                  className={[
-                    "text-7xl lg:text-8xl font-black leading-none select-none shrink-0 transition-colors duration-300",
-                    isHovered ? reason.color : "text-zinc-100 dark:text-zinc-800",
-                  ].join(" ")}
-                >
-                  {String(i + 1).padStart(2, "0")}
-                </div>
+                {/* ScrollReveal: scroll animation on a child so CSS + JS opacity don't conflict */}
+                <ScrollReveal delay={(i % 2) * 0.08} className="flex gap-5 lg:gap-7 p-8 lg:p-10">
+                  {/* Large muted number */}
+                  <div
+                    className={[
+                      "text-7xl lg:text-8xl font-black leading-none select-none shrink-0 transition-colors duration-300",
+                      isHovered ? reason.color : "text-zinc-100 dark:text-zinc-800",
+                    ].join(" ")}
+                  >
+                    {String(i + 1).padStart(2, "0")}
+                  </div>
 
-                <div className="flex flex-col justify-center min-w-0 pt-2">
-                  {/* Animated accent bar */}
-                  <motion.div
-                    className={`h-0.5 mb-4 bg-gradient-to-r ${reason.accent} rounded-full origin-left`}
-                    animate={{ scaleX: isHovered ? 2 : 1, width: isHovered ? 48 : 24 }}
-                    style={{ width: 24 }}
-                    transition={{ duration: 0.3, ease: "easeOut" }}
-                  />
-                  <h3 className="text-xl lg:text-2xl font-bold text-zinc-900 dark:text-white mb-2 leading-tight">
-                    {reason.title}
-                  </h3>
-                  <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
-                    {reason.description}
-                  </p>
-                </div>
-              </motion.div>
+                  <div className="flex flex-col justify-center min-w-0 pt-2">
+                    {/* Animated accent bar */}
+                    <motion.div
+                      className={`h-0.5 mb-4 bg-gradient-to-r ${reason.accent} rounded-full origin-left`}
+                      animate={{ scaleX: isHovered ? 2 : 1, width: isHovered ? 48 : 24 }}
+                      style={{ width: 24 }}
+                      transition={{ duration: 0.3, ease: "easeOut" }}
+                    />
+                    <h3 className="text-xl lg:text-2xl font-bold text-zinc-900 dark:text-white mb-2 leading-tight">
+                      {reason.title}
+                    </h3>
+                    <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                      {reason.description}
+                    </p>
+                  </div>
+                </ScrollReveal>
+              </div>
             );
           })}
         </div>

@@ -110,8 +110,10 @@ export default function ProductsGrid({
   useEffect(() => {
     if (selectedProduct || isImageExpanded) {
       document.body.style.overflow = 'hidden';
+      window.dispatchEvent(new CustomEvent('hatphones:modal-open'));
     } else {
       document.body.style.overflow = 'unset';
+      window.dispatchEvent(new CustomEvent('hatphones:modal-close'));
     }
     return () => {
       document.body.style.overflow = 'unset';
@@ -464,9 +466,9 @@ export default function ProductsGrid({
               exit={{ y: "100%" }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
               onClick={(e) => e.stopPropagation()}
-              className="relative bg-white dark:bg-zinc-900 w-full sm:max-w-lg rounded-t-3xl sm:rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] z-10"
+              className="relative bg-white dark:bg-zinc-900 w-full sm:max-w-lg rounded-t-3xl sm:rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh] sm:max-h-[90vh] z-10"
             >
-              <div className="relative h-64 sm:h-72 bg-zinc-100 dark:bg-zinc-800 flex shrink-0 items-center justify-center p-6 group/img cursor-zoom-in" onClick={() => setIsImageExpanded(true)}>
+              <div className="relative h-48 sm:h-64 md:h-72 bg-zinc-100 dark:bg-zinc-800 flex shrink-0 items-center justify-center p-6 group/img cursor-zoom-in" onClick={() => setIsImageExpanded(true)}>
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
@@ -517,12 +519,12 @@ export default function ProductsGrid({
                 )}
               </div>
 
-              <div className="p-6 overflow-y-auto flex-1">
-                <div className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 mb-2">{selectedProduct.category}</div>
-                <h3 className="text-2xl font-bold text-zinc-900 dark:text-white mb-6 leading-snug">{selectedProduct.title}</h3>
+              <div className="p-4 sm:p-6 pb-6 sm:pb-6 overflow-y-auto flex-1">
+                <div className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 mb-1.5 sm:mb-2">{selectedProduct.category}</div>
+                <h3 className="text-xl sm:text-2xl font-bold text-zinc-900 dark:text-white mb-4 sm:mb-6 leading-snug">{selectedProduct.title}</h3>
 
                 {/* Full Specs List */}
-                <div className="flex flex-col gap-3 mb-8">
+                <div className="flex flex-col gap-2.5 sm:gap-3 mb-5 sm:mb-8">
                   {selectedProduct.specs.storage && (
                     <div className="flex items-start text-sm gap-3">
                       <div className="w-1.5 h-1.5 rounded-full bg-indigo-500 shrink-0 mt-2" />
@@ -571,14 +573,14 @@ export default function ProductsGrid({
                 </div>
 
                 {/* Price + Buy */}
-                <div className="mt-auto flex items-center justify-between pt-6 border-t border-zinc-200 dark:border-white/10">
+                <div className="mt-auto flex items-center justify-between pt-4 sm:pt-6 border-t border-zinc-200 dark:border-white/10">
                   <div className="flex flex-col">
                     {selectedProduct.compareAtPrice && selectedProduct.compareAtPrice > selectedProduct.price && (
-                      <span className="text-sm text-zinc-400 dark:text-zinc-500 line-through font-medium mb-0.5">
+                      <span className="text-xs sm:text-sm text-zinc-400 dark:text-zinc-500 line-through font-medium mb-0.5">
                         ${selectedProduct.compareAtPrice.toFixed(0)}
                       </span>
                     )}
-                    <span className="text-3xl font-black text-zinc-900 dark:text-white tracking-tight leading-none">
+                    <span className="text-2xl sm:text-3xl font-black text-zinc-900 dark:text-white tracking-tight leading-none">
                       ${selectedProduct.price.toFixed(0)}
                     </span>
                   </div>

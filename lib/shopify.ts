@@ -172,6 +172,173 @@ export async function getProducts(): Promise<ShopifyProduct[]> {
   })
 }
 
+export type CartLine = {
+  id: string
+  quantity: number
+  merchandise: {
+    id: string
+    title: string
+    price: { amount: string }
+    product: {
+      title: string
+      images: { edges: { node: { url: string } }[] }
+    }
+  }
+}
+
+export type Cart = {
+  id: string
+  checkoutUrl: string
+  totalQuantity: number
+  cost: { totalAmount: { amount: string; currencyCode: string } }
+  lines: { edges: { node: CartLine }[] }
+}
+
+const CART_FRAGMENT = `
+  fragment CartFields on Cart {
+    id
+    checkoutUrl
+    totalQuantity
+    cost { totalAmount { amount currencyCode } }
+    lines(first: 50) {
+      edges {
+        node {
+          id
+          quantity
+          merchandise {
+            ... on ProductVariant {
+              id
+              title
+              price { amount }
+              product {
+                title
+                images(first: 1) { edges { node { url } } }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`
+
+export async function createCart(variantId: string): Promise<Cart> {
+  const res = await fetch(API_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Shopify-Storefront-Access-Token': STOREFRONT_TOKEN,
+    },
+    body: JSON.stringify({
+      query: `
+        mutation cartCreate($input: CartInput!) {
+          cartCreate(input: $input) {
+            cart { ...CartFields }
+            userErrors { message }
+          }
+        }
+        ${CART_FRAGMENT}
+      `,
+      variables: { input: { lines: [{ merchandiseId: variantId, quantity: 1 }] } },
+    }),
+  })
+  const { data } = await res.json()
+  return data.cartCreate.cart
+}
+
+export async function addToCart(cartId: string, variantId: string): Promise<Cart> {
+  const res = await fetch(API_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Shopify-Storefront-Access-Token': STOREFRONT_TOKEN,
+    },
+    body: JSON.stringify({
+      query: `
+        mutation cartLinesAdd($cartId: ID!, $lines: [CartLineInput!]!) {
+          cartLinesAdd(cartId: $cartId, lines: $lines) {
+            cart { ...CartFields }
+            userErrors { message }
+          }
+        }
+        ${CART_FRAGMENT}
+      `,
+      variables: { cartId, lines: [{ merchandiseId: variantId, quantity: 1 }] },
+    }),
+  })
+  const { data } = await res.json()
+  return data.cartLinesAdd.cart
+}
+
+export async function removeFromCart(cartId: string, lineId: string): Promise<Cart> {
+  const res = await fetch(API_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Shopify-Storefront-Access-Token': STOREFRONT_TOKEN,
+    },
+    body: JSON.stringify({
+      query: `
+        mutation cartLinesRemove($cartId: ID!, $lineIds: [ID!]!) {
+          cartLinesRemove(cartId: $cartId, lineIds: $lineIds) {
+            cart { ...CartFields }
+            userErrors { message }
+          }
+        }
+        ${CART_FRAGMENT}
+      `,
+      variables: { cartId, lineIds: [lineId] },
+    }),
+  })
+  const { data } = await res.json()
+  return data.cartLinesRemove.cart
+}
+
+export async function updateCartLine(cartId: string, lineId: string, quantity: number): Promise<Cart> {
+  const res = await fetch(API_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Shopify-Storefront-Access-Token': STOREFRONT_TOKEN,
+    },
+    body: JSON.stringify({
+      query: `
+        mutation cartLinesUpdate($cartId: ID!, $lines: [CartLineUpdateInput!]!) {
+          cartLinesUpdate(cartId: $cartId, lines: $lines) {
+            cart { ...CartFields }
+            userErrors { message }
+          }
+        }
+        ${CART_FRAGMENT}
+      `,
+      variables: { cartId, lines: [{ id: lineId, quantity }] },
+    }),
+  })
+  const { data } = await res.json()
+  return data.cartLinesUpdate.cart
+}
+
+export async function getCart(cartId: string): Promise<Cart | null> {
+  const res = await fetch(API_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Shopify-Storefront-Access-Token': STOREFRONT_TOKEN,
+    },
+    body: JSON.stringify({
+      query: `
+        query getCart($cartId: ID!) {
+          cart(id: $cartId) { ...CartFields }
+        }
+        ${CART_FRAGMENT}
+      `,
+      variables: { cartId },
+    }),
+  })
+  const { data } = await res.json()
+  return data.cart ?? null
+}
+
 // Creates a Shopify cart and returns the checkout URL
 export async function createCheckoutUrl(variantId: string): Promise<string> {
   const response = await fetch(API_URL, {

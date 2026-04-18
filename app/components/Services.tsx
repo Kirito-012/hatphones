@@ -37,8 +37,7 @@ export function Services() {
           </motion.h2>
         </div>
 
-        {/* Bento Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 md:grid-rows-[300px_300px] gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
 
           {/* BUY — dark tall left column spanning 2 rows */}
           <motion.div
@@ -46,7 +45,7 @@ export function Services() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.15 }}
             transition={{ duration: 0.45 }}
-            className="md:row-span-2 relative overflow-hidden rounded-3xl bg-zinc-950 dark:bg-zinc-900 border border-zinc-800 dark:border-white/5 p-8 flex flex-col justify-between group min-h-[300px]"
+            className="relative overflow-hidden rounded-3xl bg-zinc-950 dark:bg-zinc-900 border border-zinc-800 dark:border-white/5 p-8 flex flex-col justify-between group min-h-[300px]"
           >
             <div className="absolute inset-0 bg-gradient-to-br from-indigo-600/10 via-transparent to-blue-600/5" />
             <div className="absolute -bottom-20 -right-20 w-72 h-72 rounded-full bg-indigo-500/5 blur-3xl" />
@@ -103,7 +102,7 @@ export function Services() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.15 }}
             transition={{ duration: 0.45, delay: 0.1 }}
-            className="md:col-span-2 relative overflow-hidden rounded-3xl bg-gradient-to-br from-emerald-500 to-emerald-700 p-8 flex flex-col sm:flex-row items-center justify-between gap-6 group min-h-[280px]"
+            className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-emerald-500 to-emerald-700 p-8 flex flex-col justify-between gap-6 group min-h-[300px]"
           >
             <div className="absolute -top-20 -right-20 w-72 h-72 rounded-full bg-white/10" />
             <div className="absolute bottom-0 left-1/3 w-48 h-48 rounded-full bg-black/10 blur-2xl" />
@@ -143,7 +142,7 @@ export function Services() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.15 }}
             transition={{ duration: 0.45, delay: 0.2 }}
-            className="md:col-span-2 relative overflow-hidden rounded-3xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-white/10 p-8 flex flex-col sm:flex-row items-center justify-between gap-6 group min-h-[280px]"
+            className="relative overflow-hidden rounded-3xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-white/10 p-8 flex flex-col justify-between gap-6 group min-h-[300px]"
           >
             <div className="absolute inset-0 bg-gradient-to-br from-amber-50/80 to-white dark:from-amber-500/5 dark:to-zinc-900 rounded-3xl" />
             <div className="absolute -bottom-10 -left-10 w-48 h-48 rounded-full bg-amber-100 dark:bg-amber-500/10 blur-2xl" />

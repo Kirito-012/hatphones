@@ -45,15 +45,26 @@ export function Footer() {
             &copy; {new Date().getFullYear()} Hatphones. All rights reserved.
           </p>
           <div className="flex items-center gap-4">
-            {[Twitter, Instagram, Facebook].map((Icon, i) => (
-              <a
-                key={i}
-                href="#"
-                className="w-10 h-10 rounded-full bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-zinc-600 dark:text-zinc-400 hover:bg-indigo-50 hover:text-indigo-600 dark:hover:bg-indigo-500/10 dark:hover:text-indigo-400 transition-colors"
-              >
-                <Icon size={18} />
-              </a>
-            ))}
+            <a
+              href="#"
+              className="w-10 h-10 rounded-full bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-zinc-600 dark:text-zinc-400 hover:bg-indigo-50 hover:text-indigo-600 dark:hover:bg-indigo-500/10 dark:hover:text-indigo-400 transition-colors"
+            >
+              <Twitter size={18} />
+            </a>
+            <a
+              href="https://www.instagram.com/hat_phones"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-10 h-10 rounded-full bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-zinc-600 dark:text-zinc-400 hover:bg-indigo-50 hover:text-indigo-600 dark:hover:bg-indigo-500/10 dark:hover:text-indigo-400 transition-colors"
+            >
+              <Instagram size={18} />
+            </a>
+            <a
+              href="#"
+              className="w-10 h-10 rounded-full bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-zinc-600 dark:text-zinc-400 hover:bg-indigo-50 hover:text-indigo-600 dark:hover:bg-indigo-500/10 dark:hover:text-indigo-400 transition-colors"
+            >
+              <Facebook size={18} />
+            </a>
           </div>
         </div>
       </div>

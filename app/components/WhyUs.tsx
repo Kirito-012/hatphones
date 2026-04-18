@@ -75,7 +75,6 @@ export function WhyUs() {
         <div className="grid grid-cols-1 md:grid-cols-2">
           {reasons.map((reason, i) => {
             const isHovered = hovered === i;
-            const isDimmed = hovered !== null && !isHovered;
             const isRightCol = i % 2 === 1;
             const isLastRow = i >= reasons.length - 2;
 
@@ -87,7 +86,7 @@ export function WhyUs() {
                 onMouseLeave={() => setHovered(null)}
                 className={[
                   "relative cursor-default transition-opacity duration-300",
-                  isDimmed ? "opacity-25" : "opacity-100",
+                  "opacity-100",
                   !isRightCol ? "md:border-r border-zinc-100 dark:border-white/5" : "",
                   !isLastRow ? "border-b border-zinc-100 dark:border-white/5" : "",
                 ].join(" ")}

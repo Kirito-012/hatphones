@@ -3,13 +3,15 @@
 import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
 import { usePathname } from "next/navigation";
-import { Moon, Sun, Menu, X } from "lucide-react";
+import { useCart } from "./CartContext";
+import { Moon, Sun, Menu, X, ShoppingBag } from "lucide-react";
 import { motion, useScroll, useMotionValueEvent, AnimatePresence } from "framer-motion";
 
 const NAV_ITEMS = ["Home", "Buy", "Sell", "Repair", "Value Check", "Contact"];
 
 export function Navbar() {
   const { theme, setTheme } = useTheme();
+  const { totalQuantity, setCartOpen } = useCart();
   const pathname = usePathname();
   const [mounted, setMounted] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -124,10 +126,24 @@ export function Navbar() {
           {mounted && theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
         </button>
 
-        {/* CTA */}
-        <button className="hidden sm:block px-5 py-2.5 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 rounded-xl font-semibold text-sm hover:bg-zinc-800 dark:hover:bg-zinc-100 transition-colors shadow-sm cursor-pointer">
-          Get Quote
+        {/* Cart */}
+        <button
+          onClick={() => setCartOpen(true)}
+          className="relative w-10 h-10 flex items-center justify-center rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors cursor-pointer"
+          aria-label="Open cart"
+        >
+          <ShoppingBag size={18} />
+          {totalQuantity > 0 && (
+            <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-indigo-600 text-white text-[10px] font-bold flex items-center justify-center">
+              {totalQuantity > 9 ? "9+" : totalQuantity}
+            </span>
+          )}
         </button>
+
+        {/* CTA */}
+        <a href="/repair#schedule-appointment" className="hidden sm:block px-5 py-2.5 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 rounded-xl font-semibold text-sm hover:bg-zinc-800 dark:hover:bg-zinc-100 transition-colors shadow-sm cursor-pointer">
+          Get Quote
+        </a>
 
         {/* Mobile menu toggle */}
         <button
@@ -178,9 +194,9 @@ export function Navbar() {
                 transition={{ delay: NAV_ITEMS.length * 0.05 + 0.1 }}
                 className="pt-4 mt-2 border-t border-zinc-200 dark:border-white/10"
               >
-                <button className="w-full px-6 py-3.5 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 rounded-2xl font-semibold text-base hover:bg-zinc-800 dark:hover:bg-zinc-100 transition-colors shadow-sm cursor-pointer flex justify-center items-center gap-2">
+                <a href="/repair#schedule-appointment" className="w-full px-6 py-3.5 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 rounded-2xl font-semibold text-base hover:bg-zinc-800 dark:hover:bg-zinc-100 transition-colors shadow-sm cursor-pointer flex justify-center items-center gap-2">
                   Get Instant Quote
-                </button>
+                </a>
               </motion.div>
             </div>
           </motion.div>

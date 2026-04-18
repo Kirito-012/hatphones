@@ -216,6 +216,7 @@ export default function ValueCheck() {
   // ── Condition ──────────────────────────────────────────────────────────────
 
   function renderCondition() {
+    const needsAssessment = condition === "good" || condition === "poor";
     return (
       <div className="flex flex-col gap-5">
         <Q title="What's the condition?" hint="Be honest — it leads to a more accurate estimate" />
@@ -226,7 +227,12 @@ export default function ValueCheck() {
             return (
               <button
                 key={c.value}
-                onClick={() => { setCondition(c.value); advance(brand === "Apple" ? "battery" : "questions"); }}
+                onClick={() => {
+                  setCondition(c.value);
+                  if (c.value !== "good" && c.value !== "poor") {
+                    advance(brand === "Apple" ? "battery" : "questions");
+                  }
+                }}
                 className={`w-full flex items-center gap-4 px-5 py-4 rounded-2xl border-2 transition-all duration-150 cursor-pointer text-left ${
                   active
                     ? `ring-2 ${s.ring} border-transparent bg-white dark:bg-zinc-900 shadow-sm`
@@ -246,6 +252,37 @@ export default function ValueCheck() {
             );
           })}
         </div>
+
+        {needsAssessment && (
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.2 }}
+            className="rounded-2xl border border-amber-200 dark:border-amber-500/20 bg-amber-50 dark:bg-amber-500/10 px-5 py-5 flex flex-col gap-4"
+          >
+            <div className="flex flex-col gap-1.5">
+              <p className="font-bold text-sm text-amber-800 dark:text-amber-300">In-person assessment needed</p>
+              <p className="text-sm text-amber-700 dark:text-amber-400/80 leading-relaxed">
+                Since your phone is in <span className="font-semibold">{condition === "good" ? "good" : "poor"}</span> condition, we can only determine its value after a proper in-store assessment. Bring it in and we&apos;ll give you an honest offer on the spot.
+              </p>
+            </div>
+            <div className="flex flex-col gap-2.5">
+              <button
+                onClick={() => { window.location.href = "/contact"; }}
+                className="w-full py-3 rounded-xl font-bold text-sm text-center transition-colors cursor-pointer"
+                style={{ backgroundColor: "#d97706", color: "#ffffff" }}
+              >
+                Reach out to us
+              </button>
+              <button
+                onClick={reset}
+                className="w-full py-3 rounded-xl border border-amber-300 dark:border-amber-500/30 bg-white dark:bg-zinc-900 text-amber-700 dark:text-amber-400 font-bold text-sm hover:bg-amber-50 dark:hover:bg-amber-500/10 transition-colors cursor-pointer"
+              >
+                Start over
+              </button>
+            </div>
+          </motion.div>
+        )}
       </div>
     );
   }

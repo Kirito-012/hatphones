@@ -55,7 +55,7 @@ function PhoneMockup({ shouldAnimate }: { shouldAnimate: boolean }) {
       {/* Screen Bezel */}
       <div className="absolute inset-[4px] rounded-[2.2rem] bg-zinc-950 overflow-hidden">
         {/* Screen Content */}
-        <div className="absolute inset-0 bg-gradient-to-br from-indigo-50/50 via-white to-purple-50/50 dark:from-indigo-950/30 dark:via-zinc-950 dark:to-purple-950/30 flex flex-col">
+        <div className="absolute inset-0 bg-white dark:bg-zinc-950 flex flex-col">
           {/* Status Bar */}
           <div className="flex justify-between items-center px-5 pt-4 pb-1 text-zinc-900 dark:text-white">
             <span className="text-[9px] font-semibold opacity-60">9:41</span>
@@ -198,8 +198,7 @@ export function Hero() {
               { value: "Same Day", label: "Repairs", sub: null },
             ].map((stat) => (
               <div key={stat.value} className="flex flex-col">
-                <span className="text-2xl font-bold text-zinc-900 dark:text-white leading-tight">{stat.value}</span>
-                <span className="text-sm text-zinc-500 font-medium">{stat.label}</span>
+                <span className="text-2xl font-bold text-zinc-900 dark:text-white leading-tight">{stat.value} <span className="text-sm text-zinc-500 font-medium">{stat.label}</span></span>
                 {stat.sub && <span className="text-[11px] text-zinc-400 font-medium">{stat.sub}</span>}
               </div>
             ))}

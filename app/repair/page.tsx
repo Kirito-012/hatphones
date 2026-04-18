@@ -21,6 +21,46 @@ import {
   MessageSquare,
 } from "lucide-react";
 
+type DeviceCategory = "iphone" | "android" | "other";
+
+const IPHONE_SCREEN_PRICES: Record<string, number> = {
+  "iPhone 6/6s": 65, "iPhone 7": 70, "iPhone 7 Plus": 85,
+  "iPhone 8": 85, "iPhone 8 Plus": 85, "iPhone X": 120,
+  "iPhone XR": 95, "iPhone XS": 115, "iPhone XS Max": 130,
+  "iPhone 11": 100, "iPhone 11 Pro": 125, "iPhone 11 Pro Max": 140,
+  "iPhone 12": 150, "iPhone 12 Mini": 150, "iPhone 12 Pro": 150, "iPhone 12 Pro Max": 160,
+  "iPhone 13": 160, "iPhone 13 Mini": 150, "iPhone 13 Pro": 180, "iPhone 13 Pro Max": 200,
+  "iPhone 14": 180, "iPhone 14 Plus": 200, "iPhone 14 Pro": 180, "iPhone 14 Pro Max": 200,
+  "iPhone 15": 200, "iPhone 15 Plus": 210, "iPhone 15 Pro": 220, "iPhone 15 Pro Max": 220,
+  "iPhone 16": 180, "iPhone 16e": 180, "iPhone 16 Pro": 230, "iPhone 16 Pro Max": 300,
+};
+
+const IPHONE_BATTERY_PRICES: Record<string, number | null> = {
+  "iPhone 6/6s": 55, "iPhone 7": 60, "iPhone 7 Plus": 65,
+  "iPhone 8": 65, "iPhone 8 Plus": 70, "iPhone X": 75,
+  "iPhone XR": 75, "iPhone XS": 80, "iPhone XS Max": 85,
+  "iPhone 11": 85, "iPhone 11 Pro": 95, "iPhone 11 Pro Max": 100,
+  "iPhone 12": 100, "iPhone 12 Mini": 100, "iPhone 12 Pro": 100, "iPhone 12 Pro Max": 110,
+  "iPhone 13": 110, "iPhone 13 Mini": 110, "iPhone 13 Pro": 120, "iPhone 13 Pro Max": 130,
+  "iPhone 14": 120, "iPhone 14 Plus": 130, "iPhone 14 Pro": 140, "iPhone 14 Pro Max": 150,
+  "iPhone 15": 140, "iPhone 15 Plus": 150, "iPhone 15 Pro": 150, "iPhone 15 Pro Max": 150,
+  "iPhone 16": 150, "iPhone 16e": null, "iPhone 16 Pro": null, "iPhone 16 Pro Max": null,
+};
+
+const IPHONE_BACKGLASS_PRICES: Record<string, number | null> = {
+  "iPhone 6/6s": null, "iPhone 7": null, "iPhone 7 Plus": null,
+  "iPhone 8": null, "iPhone 8 Plus": null, "iPhone X": 100,
+  "iPhone XR": 100, "iPhone XS": 120, "iPhone XS Max": 120,
+  "iPhone 11": 120, "iPhone 11 Pro": 120, "iPhone 11 Pro Max": 120,
+  "iPhone 12": 125, "iPhone 12 Mini": 125, "iPhone 12 Pro": 125, "iPhone 12 Pro Max": 125,
+  "iPhone 13": 125, "iPhone 13 Mini": 125, "iPhone 13 Pro": 130, "iPhone 13 Pro Max": 140,
+  "iPhone 14": 140, "iPhone 14 Plus": 150, "iPhone 14 Pro": 150, "iPhone 14 Pro Max": 150,
+  "iPhone 15": 150, "iPhone 15 Plus": 150, "iPhone 15 Pro": 160, "iPhone 15 Pro Max": 160,
+  "iPhone 16": 160, "iPhone 16e": 160, "iPhone 16 Pro": 180, "iPhone 16 Pro Max": 180,
+};
+
+const IPHONE_MODELS = Object.keys(IPHONE_SCREEN_PRICES);
+
 const repairServices = [
   {
     title: "Screen Replacement",
@@ -155,6 +195,8 @@ export default function RepairPage() {
   const [device, setDevice] = useState("");
   const [preferredDate, setPreferredDate] = useState("");
   const [notes, setNotes] = useState("");
+  const [deviceCategory, setDeviceCategory] = useState<DeviceCategory>("other");
+  const [selectedModel, setSelectedModel] = useState<string>("");
 
   const scrollToAppointment = (event?: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>) => {
     event?.preventDefault();
@@ -212,6 +254,22 @@ export default function RepairPage() {
   };
 
   const estimatedPrice = selectedIssue ? ISSUE_PRICE_MAP[selectedIssue] : null;
+
+  const getServicePrice = (serviceTitle: string): string => {
+    if (deviceCategory === "iphone" && selectedModel) {
+      if (serviceTitle === "Screen Replacement") {
+        const p = IPHONE_SCREEN_PRICES[selectedModel];
+        return p ? `$${p}` : "From $79";
+      }
+      if (serviceTitle === "Battery Replacement") {
+        const p = IPHONE_BATTERY_PRICES[selectedModel];
+        return p === null ? "N/A" : p ? `$${p}` : "From $59";
+      }
+    }
+    return repairServices.find(s => s.title === serviceTitle)?.price ?? "From $49";
+  };
+
+  const showBackGlassCard = deviceCategory === "iphone" && selectedModel && IPHONE_BACKGLASS_PRICES[selectedModel];
 
   return (
     <main className="min-h-screen bg-zinc-50 dark:bg-zinc-950 flex flex-col">
@@ -311,9 +369,73 @@ export default function RepairPage() {
               </ScrollReveal>
             </div>
 
+            {/* ── Device Selector ── */}
+            <ScrollReveal delay={0.18} className="mb-10">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+                {/* Label */}
+                <span className="text-xs font-semibold text-zinc-400 dark:text-zinc-500 uppercase tracking-wider shrink-0">
+                  Your device:
+                </span>
+
+                {/* Segmented tabs */}
+                <div className="flex gap-1 w-fit rounded-xl bg-zinc-100 dark:bg-zinc-800/80 p-1">
+                  {(["iphone", "android", "other"] as DeviceCategory[]).map((cat) => (
+                    <button
+                      key={cat}
+                      onClick={() => {
+                        setDeviceCategory(cat);
+                        setSelectedModel("");
+                      }}
+                      className={`px-5 py-2 rounded-lg text-sm font-semibold transition-all ${
+                        deviceCategory === cat
+                          ? "bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white shadow-sm"
+                          : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200"
+                      }`}
+                    >
+                      {cat === "iphone" ? "iPhone" : cat === "android" ? "Android" : "Other"}
+                    </button>
+                  ))}
+                </div>
+
+                {/* iPhone model dropdown */}
+                {deviceCategory === "iphone" && (
+                  <AnimatePresence>
+                    <motion.select
+                      key="model-select"
+                      initial={{ opacity: 0, x: -8 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -8 }}
+                      transition={{ duration: 0.2 }}
+                      value={selectedModel}
+                      onChange={(e) => setSelectedModel(e.target.value)}
+                      className="px-4 py-2 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/10 text-zinc-900 dark:text-white text-sm font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-400 transition"
+                    >
+                      <option value="">Select model…</option>
+                      {IPHONE_MODELS.map((model) => (
+                        <option key={model} value={model}>{model}</option>
+                      ))}
+                    </motion.select>
+                  </AnimatePresence>
+                )}
+
+                {/* Contextual hint */}
+                {deviceCategory !== "iphone" && (
+                  <span className="text-xs text-zinc-400 dark:text-zinc-500 italic">
+                    Prices shown are starting estimates
+                  </span>
+                )}
+                {deviceCategory === "iphone" && !selectedModel && (
+                  <span className="text-xs text-indigo-500 dark:text-indigo-400 font-medium">
+                    ← Pick your model for exact pricing
+                  </span>
+                )}
+              </div>
+            </ScrollReveal>
+
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
               {repairServices.map((service, i) => {
                 const Icon = service.icon;
+                const displayPrice = getServicePrice(service.title);
                 return (
                   <ScrollRevealButton
                     key={service.title}
@@ -348,7 +470,7 @@ export default function RepairPage() {
 
                       {/* Price + CTA */}
                       <div className="mt-auto flex items-center justify-between">
-                        <span className="text-base font-bold text-zinc-900 dark:text-white">{service.price}</span>
+                        <span className="text-base font-bold text-zinc-900 dark:text-white">{displayPrice}</span>
                         <span className="flex items-center gap-1 text-xs text-zinc-400 group-hover:text-indigo-500 transition-colors font-medium">
                           Book this <ArrowRight size={12} />
                         </span>
@@ -357,6 +479,51 @@ export default function RepairPage() {
                   </ScrollRevealButton>
                 );
               })}
+
+              {/* Back Glass Card - only shown for iPhone with available price */}
+              {showBackGlassCard && (
+                <ScrollRevealButton
+                  delay={repairServices.length * 0.07}
+                  onClick={() => handleServiceClick("Back Glass Repair")}
+                  className={`relative text-left overflow-hidden rounded-3xl border border-rose-100 dark:border-rose-500/20 bg-white dark:bg-zinc-900 shadow-sm hover:shadow-md transition-all duration-300 group flex flex-col cursor-pointer`}
+                >
+                  {/* Gradient top strip */}
+                  <div className={`h-1 w-full bg-gradient-to-r from-rose-500 to-pink-500`} />
+
+                  <div className="p-6 flex flex-col flex-1">
+                    {/* Icon + chip */}
+                    <div className="flex items-start justify-between mb-5">
+                      <div className={`w-11 h-11 rounded-2xl bg-rose-50 dark:bg-rose-500/15 flex items-center justify-center`}>
+                        <Smartphone size={21} className="text-rose-600 dark:text-rose-400" strokeWidth={1.75} />
+                      </div>
+                      <span className={`text-[11px] font-bold px-2.5 py-1 rounded-full bg-rose-100 text-rose-700 dark:bg-rose-500/20 dark:text-rose-300`}>
+                        Premium
+                      </span>
+                    </div>
+
+                    {/* Title */}
+                    <h3 className="text-[17px] font-bold text-zinc-900 dark:text-white tracking-tight mb-1.5">
+                      Back Glass Repair
+                    </h3>
+
+                    {/* ETA */}
+                    <div className="flex items-center gap-1.5 text-zinc-500 dark:text-zinc-400 text-sm mb-5">
+                      <Clock3 size={12} />
+                      <span>60–90 mins</span>
+                    </div>
+
+                    {/* Price + CTA */}
+                    <div className="mt-auto flex items-center justify-between">
+                      <span className="text-base font-bold text-zinc-900 dark:text-white">
+                        ${IPHONE_BACKGLASS_PRICES[selectedModel]}
+                      </span>
+                      <span className="flex items-center gap-1 text-xs text-zinc-400 group-hover:text-indigo-500 transition-colors font-medium">
+                        Book this <ArrowRight size={12} />
+                      </span>
+                    </div>
+                  </div>
+                </ScrollRevealButton>
+              )}
             </div>
           </div>
         </section>

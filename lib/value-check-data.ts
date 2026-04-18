@@ -193,6 +193,7 @@ export const QUESTIONS: Question[] = [
   { id: "charging_port", text: "Is the charging port working fine?", deduction: 0.05 },
   { id: "cameras", text: "Are all cameras working fine?", deduction: 0.07 },
   { id: "biometrics", text: "Is Face ID / fingerprint working fine?", deduction: 0.06 },
+  { id: "never_repaired", text: "Has your phone never been repaired?", deduction: 0.07 },
 ];
 
 // ─── Calculation ──────────────────────────────────────────────────────────────

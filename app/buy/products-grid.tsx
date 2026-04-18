@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useMemo, useEffect } from "react";
-import { Search, SlidersHorizontal, ChevronDown, X, ChevronLeft, ChevronRight, Maximize2 } from "lucide-react";
+import { Search, SlidersHorizontal, ChevronDown, X, ChevronLeft, ChevronRight, Maximize2, ShoppingCart, Check } from "lucide-react";
+import { useCart } from "@/app/components/CartContext";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { ShopifyProduct } from "@/lib/shopify";
@@ -51,32 +52,29 @@ function formatBattery(battery: string | null): string | null {
 }
 
 function BuyButton({ variantId }: { variantId: string }) {
-  const [loading, setLoading] = useState(false);
+  const { addToCart, loading } = useCart();
+  const [added, setAdded] = useState(false);
 
-  async function handleBuy(e: React.MouseEvent) {
+  async function handleAdd(e: React.MouseEvent) {
     e.stopPropagation();
     e.preventDefault();
-    setLoading(true);
-    try {
-      const res = await fetch("/api/checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ variantId }),
-      });
-      const { url } = await res.json();
-      window.location.href = url;
-    } catch {
-      setLoading(false);
-    }
+    await addToCart(variantId);
+    setAdded(true);
+    setTimeout(() => setAdded(false), 2000);
   }
 
   return (
     <button
-      onClick={handleBuy}
+      onClick={handleAdd}
       disabled={loading}
-      className="px-3 py-2 sm:px-5 sm:py-2.5 bg-indigo-600 text-white rounded-lg sm:rounded-xl font-bold text-xs sm:text-sm hover:bg-indigo-700 transition-colors shadow-md active:scale-95 duration-200 disabled:opacity-60 disabled:cursor-not-allowed w-full sm:w-auto"
+      className={`px-3 py-2 sm:px-5 sm:py-2.5 rounded-lg sm:rounded-xl font-bold text-xs sm:text-sm transition-all shadow-md active:scale-95 duration-200 disabled:opacity-60 disabled:cursor-not-allowed w-full sm:w-auto flex items-center justify-center gap-1.5 ${
+        added
+          ? "bg-emerald-600 text-white"
+          : "bg-indigo-600 hover:bg-indigo-700 text-white"
+      }`}
     >
-      {loading ? "Loading..." : "Buy now"}
+      {added ? <Check size={13} /> : <ShoppingCart size={13} />}
+      {added ? "Added!" : "Add to Cart"}
     </button>
   );
 }

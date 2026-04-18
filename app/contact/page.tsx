@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Navbar } from "../components/Navbar";
 import { Footer } from "../components/Footer";
-import { MapPin, Phone, Mail, Clock, CheckCircle2 } from "lucide-react";
+import { MapPin, Phone, Mail, Clock, CheckCircle2, Copy, Check } from "lucide-react";
 import Image from "next/image";
 import contactBg from "../assets/contact_bg.png";
 
@@ -15,6 +15,14 @@ export default function Contact() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [copied, setCopied] = useState<"phone" | "email" | null>(null);
+
+  function copyToClipboard(text: string, type: "phone" | "email") {
+    navigator.clipboard.writeText(text).then(() => {
+      setCopied(type);
+      setTimeout(() => setCopied(null), 2000);
+    });
+  }
 
   const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -89,11 +97,20 @@ export default function Contact() {
                 <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 rounded-xl md:rounded-2xl flex items-center justify-center shrink-0">
                   <Phone size={18} className="sm:w-5 sm:h-5 md:w-6 md:h-6" />
                 </div>
-                <div>
+                <div className="flex-1 min-w-0">
                   <h3 className="text-sm sm:text-base md:text-lg font-bold text-zinc-900 dark:text-white mb-0.5 md:mb-1">Call Us</h3>
-                  <p className="text-xs sm:text-sm md:text-base text-zinc-600 dark:text-zinc-400 line-clamp-2 md:line-clamp-none">
-                    (555) 123-4567<br/>Support: 987-6543
-                  </p>
+                  <div className="flex items-center gap-2">
+                    <p className="text-xs sm:text-sm md:text-base text-zinc-600 dark:text-zinc-400">
+                      +1 (403) 957-0532
+                    </p>
+                    <button
+                      onClick={() => copyToClipboard("+14039570532", "phone")}
+                      title="Copy phone number"
+                      className="text-zinc-400 hover:text-indigo-500 transition-colors cursor-pointer shrink-0"
+                    >
+                      {copied === "phone" ? <Check size={14} className="text-emerald-500" /> : <Copy size={14} />}
+                    </button>
+                  </div>
                 </div>
               </div>
 
@@ -101,11 +118,20 @@ export default function Contact() {
                 <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 rounded-xl md:rounded-2xl flex items-center justify-center shrink-0">
                   <Mail size={18} className="sm:w-5 sm:h-5 md:w-6 md:h-6" />
                 </div>
-                <div>
+                <div className="flex-1 min-w-0">
                   <h3 className="text-sm sm:text-base md:text-lg font-bold text-zinc-900 dark:text-white mb-0.5 md:mb-1">Email</h3>
-                  <p className="text-xs sm:text-sm md:text-base text-zinc-600 dark:text-zinc-400 line-clamp-2 md:line-clamp-none break-all sm:break-normal">
-                    hello@hatphones.com<br/>support@hatphones.com
-                  </p>
+                  <div className="flex items-center gap-2">
+                    <p className="text-xs sm:text-sm md:text-base text-zinc-600 dark:text-zinc-400 break-all sm:break-normal">
+                      info@hatphones.ca
+                    </p>
+                    <button
+                      onClick={() => copyToClipboard("info@hatphones.ca", "email")}
+                      title="Copy email"
+                      className="text-zinc-400 hover:text-indigo-500 transition-colors cursor-pointer shrink-0"
+                    >
+                      {copied === "email" ? <Check size={14} className="text-emerald-500" /> : <Copy size={14} />}
+                    </button>
+                  </div>
                 </div>
               </div>
 

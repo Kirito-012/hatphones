@@ -3,6 +3,8 @@ import { Space_Grotesk, Space_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "./components/ThemeProvider";
 import { SmoothScroll } from "./components/SmoothScroll";
+import { CartProvider } from "./components/CartContext";
+import { CartDrawer } from "./components/CartDrawer";
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
@@ -31,9 +33,12 @@ export default function RootLayout({
         className={`${spaceGrotesk.variable} ${spaceMono.variable} antialiased`}
       >
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
-          <SmoothScroll>
-            {children}
-          </SmoothScroll>
+          <CartProvider>
+            <CartDrawer />
+            <SmoothScroll>
+              {children}
+            </SmoothScroll>
+          </CartProvider>
         </ThemeProvider>
       </body>
     </html>

@@ -131,7 +131,7 @@ export async function getProducts(): Promise<ShopifyProduct[]> {
       'X-Shopify-Storefront-Access-Token': STOREFRONT_TOKEN,
     },
     body: JSON.stringify({ query: PRODUCTS_QUERY }),
-    next: { revalidate: 300 }, // refresh every 5 minutes
+    cache: 'no-store',
   })
 
   if (!response.ok) {

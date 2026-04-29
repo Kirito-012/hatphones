@@ -1,7 +1,7 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
-import { useRef, useState, useEffect, ComponentPropsWithoutRef } from "react";
+import { motion, useInView, type HTMLMotionProps } from "framer-motion";
+import { useRef, useState, useEffect } from "react";
 
 const EASE = [0.25, 0.46, 0.45, 0.94] as const;
 
@@ -32,8 +32,8 @@ function useScrollReveal(delay: number) {
   };
 }
 
-type DivProps = ComponentPropsWithoutRef<"div"> & { delay?: number };
-type ButtonProps = ComponentPropsWithoutRef<"button"> & { delay?: number };
+type DivProps = Omit<HTMLMotionProps<"div">, "animate" | "transition" | "ref"> & { delay?: number };
+type ButtonProps = Omit<HTMLMotionProps<"button">, "animate" | "transition" | "ref"> & { delay?: number };
 
 export function ScrollReveal({ delay = 0, ...props }: DivProps) {
   const { ref, animate, transition } = useScrollReveal(delay);

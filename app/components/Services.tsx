@@ -56,7 +56,7 @@ export function Services() {
                 Certified Pre-Owned
               </span>
               <div className="mt-6">
-                <p className="text-7xl font-black text-white leading-none tracking-tight">500+</p>
+                <p className="text-4xl font-black text-white leading-none tracking-tight">Fully Tested</p>
                 <p className="text-zinc-500 text-sm mt-2 font-medium">Tested Devices In Stock</p>
               </div>
             </div>
@@ -126,7 +126,7 @@ export function Services() {
             <div className="relative z-10 shrink-0">
               <div className="bg-white/15 backdrop-blur-sm border border-white/25 rounded-2xl p-5 text-center min-w-[150px]">
                 <p className="text-[10px] text-emerald-100 font-semibold uppercase tracking-widest mb-1">iPhone 15 Pro</p>
-                <p className="text-4xl font-black text-white leading-none">$900</p>
+                <p className="text-4xl font-black text-white leading-none">$600</p>
                 <p className="text-xs text-emerald-200 mt-2">Estimated offer</p>
                 <div className="mt-3 flex items-center gap-1.5 justify-center">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-300 animate-pulse" />

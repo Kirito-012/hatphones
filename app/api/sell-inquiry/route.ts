@@ -3,6 +3,17 @@ import { NextRequest, NextResponse } from "next/server";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
+const QUESTION_LABELS: Record<string, string> = {
+  screen_crack:    "Screen free of cracks?",
+  screen_original: "Screen original (not replaced)?",
+  battery_original:"Battery original (not replaced)?",
+  speaker:         "Speaker working fine?",
+  charging_port:   "Charging port working fine?",
+  cameras:         "All cameras working fine?",
+  biometrics:      "Face ID / fingerprint working fine?",
+  never_repaired:  "Phone never been repaired?",
+};
+
 const CONDITION_LABELS: Record<string, string> = {
   like_new: "Like New",
   excellent: "Excellent",
@@ -18,7 +29,7 @@ const BATTERY_LABELS: Record<string, string> = {
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
-  const { name, contact, brand, model, storage, condition, batteryHealth, estimatedLow, estimatedHigh, photos } = body;
+  const { name, contact, brand, model, storage, condition, batteryHealth, estimatedLow, estimatedHigh, answers, photos } = body;
   const photoAttachments: Array<{ filename: string; content: string }> = Array.isArray(photos) ? photos.slice(0, 5) : [];
 
   if (!name || !contact || !brand || !model || !storage || !condition) {
@@ -138,6 +149,24 @@ export async function POST(req: NextRequest) {
               </table>
             </td></tr>
           </table>
+
+          ${answers && Object.keys(answers).length > 0 ? `
+          <table width="100%" cellpadding="0" cellspacing="0">
+            <tr><td style="padding:0 36px 24px;">
+              <p style="margin:0 0 14px;font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#94a3b8;">Device Checks</p>
+              <table width="100%" cellpadding="0" cellspacing="0" style="border-radius:10px;overflow:hidden;">
+                ${Object.entries(answers as Record<string, boolean>).map(([id, val], i, arr) => `
+                <tr>
+                  <td style="padding:9px 16px;background:#f8fafc;${i < arr.length - 1 ? "border-bottom:1px solid #f1f5f9;" : ""}vertical-align:middle;width:80%;">
+                    <p style="margin:0;font-size:13px;color:#334155;">${QUESTION_LABELS[id] ?? id}</p>
+                  </td>
+                  <td style="padding:9px 16px;background:#f8fafc;${i < arr.length - 1 ? "border-bottom:1px solid #f1f5f9;" : ""}vertical-align:middle;text-align:right;">
+                    <span style="display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;background:${val ? "#dcfce7" : "#fee2e2"};color:${val ? "#16a34a" : "#dc2626"};">${val ? "Yes" : "No"}</span>
+                  </td>
+                </tr>`).join("")}
+              </table>
+            </td></tr>
+          </table>` : ""}
 
           <table width="100%" cellpadding="0" cellspacing="0">
             <tr><td style="padding:0 36px 36px;">

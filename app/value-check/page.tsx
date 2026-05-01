@@ -18,11 +18,11 @@ import {
   type ValueCheckInputs,
 } from "../../lib/value-check-data";
 
-type Step = "brand" | "model" | "storage" | "condition" | "battery" | "questions" | "result";
-const STEP_ORDER: Step[] = ["brand", "model", "storage", "condition", "battery", "questions", "result"];
+type Step = "brand" | "model" | "storage" | "condition" | "battery" | "questions" | "photos" | "result";
+const STEP_ORDER: Step[] = ["brand", "model", "storage", "condition", "battery", "questions", "photos", "result"];
 const STEP_LABELS: Record<Step, string> = {
   brand: "Brand", model: "Model", storage: "Storage",
-  condition: "Condition", battery: "Battery", questions: "Details", result: "Result",
+  condition: "Condition", battery: "Battery", questions: "Details", photos: "Photos", result: "Result",
 };
 
 const BRAND_GRADIENT: Record<Brand, string> = {
@@ -87,13 +87,10 @@ export default function ValueCheck() {
   const [photos, setPhotos] = useState<Array<{ file: File; preview: string }>>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Revoke object URLs when modal closes to avoid memory leaks
+  // Revoke object URLs on unmount to avoid memory leaks
   useEffect(() => {
-    if (!sendModalOpen) {
-      photos.forEach((p) => URL.revokeObjectURL(p.preview));
-      setPhotos([]);
-    }
-  }, [sendModalOpen]); // eslint-disable-line react-hooks/exhaustive-deps
+    return () => { photos.forEach((p) => URL.revokeObjectURL(p.preview)); };
+  }, [photos]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const visibleSteps = STEP_ORDER.filter((s) => {
     if (s === "battery") return brand === "Apple";
@@ -109,7 +106,7 @@ export default function ValueCheck() {
   }
   function reset() {
     setBrand(null); setModelName(null); setModelSearch(""); setStorage(null);
-    setCondition(null); setBatteryHealth(null); setAnswers({}); setStep("brand");
+    setCondition(null); setBatteryHealth(null); setAnswers({}); setPhotos([]); setStep("brand");
   }
 
   const result =
@@ -372,10 +369,101 @@ export default function ValueCheck() {
         </div>
         <button
           disabled={!allAnswered}
-          onClick={() => advance("result")}
+          onClick={() => advance("photos")}
           className="w-full py-4 bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 disabled:opacity-40 disabled:cursor-not-allowed text-white font-bold rounded-2xl transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-sm"
         >
+          Next <ArrowRight size={16} />
+        </button>
+      </div>
+    );
+  }
+
+  // ── Photos ─────────────────────────────────────────────────────────────────
+
+  function renderPhotos() {
+    return (
+      <div className="flex flex-col gap-5">
+        <Q title="Add photos of your phone" hint="Optional — helps us give you a more accurate offer" />
+
+        {/* Hidden file input */}
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*"
+          multiple
+          className="hidden"
+          onChange={(e) => {
+            const incoming = Array.from(e.target.files ?? []);
+            const slots = 5 - photos.length;
+            const valid = incoming.filter((f) => f.size <= 5 * 1024 * 1024).slice(0, slots);
+            setPhotos((prev) => [
+              ...prev,
+              ...valid.map((f) => ({ file: f, preview: URL.createObjectURL(f) })),
+            ]);
+            e.target.value = "";
+          }}
+        />
+
+        <div className="flex flex-col gap-3">
+          {/* Front & back slots when empty */}
+          {photos.length === 0 ? (
+            <div className="grid grid-cols-2 gap-3">
+              {["Front", "Back"].map((label) => (
+                <button
+                  key={label}
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  className="flex flex-col items-center justify-center gap-2 py-10 rounded-2xl border-2 border-dashed border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800/40 hover:border-indigo-400 dark:hover:border-indigo-500 hover:bg-indigo-50/40 dark:hover:bg-indigo-500/5 transition-colors cursor-pointer group"
+                >
+                  <ImagePlus size={22} className="text-zinc-400 group-hover:text-indigo-500 transition-colors" />
+                  <span className="text-sm font-semibold text-zinc-400 dark:text-zinc-500 group-hover:text-indigo-500 transition-colors">{label}</span>
+                </button>
+              ))}
+            </div>
+          ) : (
+            <div className="flex flex-wrap gap-2">
+              {photos.map((p, i) => (
+                <div key={p.preview} className="relative w-[80px] h-[80px] rounded-xl overflow-hidden border border-zinc-200 dark:border-white/10 bg-zinc-100 dark:bg-zinc-800 shrink-0">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={p.preview} alt={`photo ${i + 1}`} className="w-full h-full object-cover" />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      URL.revokeObjectURL(p.preview);
+                      setPhotos((prev) => prev.filter((_, idx) => idx !== i));
+                    }}
+                    className="absolute top-1 right-1 w-5 h-5 rounded-full bg-zinc-900/70 flex items-center justify-center hover:bg-red-500 transition-colors"
+                  >
+                    <X size={10} className="text-white" />
+                  </button>
+                </div>
+              ))}
+              {photos.length < 5 && (
+                <button
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  className="w-[80px] h-[80px] rounded-xl border-2 border-dashed border-zinc-200 dark:border-zinc-700 flex flex-col items-center justify-center gap-1 hover:border-indigo-400 hover:bg-indigo-50/40 dark:hover:bg-indigo-500/5 transition-colors cursor-pointer group shrink-0"
+                >
+                  <ImagePlus size={16} className="text-zinc-400 group-hover:text-indigo-500 transition-colors" />
+                  <span className="text-[10px] text-zinc-400 group-hover:text-indigo-500 transition-colors">Add</span>
+                </button>
+              )}
+            </div>
+          )}
+          <p className="text-xs text-zinc-400 dark:text-zinc-500 text-center">Max 5MB per photo · up to 5 photos</p>
+        </div>
+
+        <button
+          onClick={() => advance("result")}
+          className="w-full py-4 bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white font-bold rounded-2xl transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-sm"
+        >
           See my estimate <ArrowRight size={16} />
+        </button>
+        <button
+          onClick={() => advance("result")}
+          className="text-xs text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200 mx-auto transition-colors cursor-pointer"
+        >
+          Skip for now
         </button>
       </div>
     );
@@ -453,7 +541,7 @@ export default function ValueCheck() {
   const stepContent: Record<Step, () => React.ReactNode> = {
     brand: renderBrand, model: renderModel, storage: renderStorage,
     condition: renderCondition, battery: renderBattery,
-    questions: renderQuestions, result: renderResult,
+    questions: renderQuestions, photos: renderPhotos, result: renderResult,
   };
 
   // ── Shell ──────────────────────────────────────────────────────────────────
@@ -704,90 +792,13 @@ export default function ValueCheck() {
                       </div>
                     </div>
 
-                    {/* Photo upload */}
-                    <div className="flex flex-col gap-2">
-                      <div className="flex items-center justify-between">
-                        <label className="text-xs font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">
-                          Photos <span className="normal-case font-normal text-zinc-400 dark:text-zinc-500">(optional · up to 5)</span>
-                        </label>
-                        {photos.length > 0 && (
-                          <span className="text-xs text-zinc-400">{photos.length}/5</span>
-                        )}
-                      </div>
-
-                      {/* Hidden file input */}
-                      <input
-                        ref={fileInputRef}
-                        type="file"
-                        accept="image/*"
-                        multiple
-                        className="hidden"
-                        onChange={(e) => {
-                          const incoming = Array.from(e.target.files ?? []);
-                          const slots = 5 - photos.length;
-                          const valid = incoming
-                            .filter((f) => f.size <= 5 * 1024 * 1024)
-                            .slice(0, slots);
-                          setPhotos((prev) => [
-                            ...prev,
-                            ...valid.map((f) => ({ file: f, preview: URL.createObjectURL(f) })),
-                          ]);
-                          // reset so same file can be re-selected
-                          e.target.value = "";
-                        }}
-                      />
-
-                      {photos.length === 0 ? (
-                        <button
-                          type="button"
-                          onClick={() => fileInputRef.current?.click()}
-                          className="w-full flex flex-col items-center justify-center gap-2 py-6 rounded-2xl border-2 border-dashed border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800/40 hover:border-indigo-400 dark:hover:border-indigo-500 hover:bg-indigo-50/40 dark:hover:bg-indigo-500/5 transition-colors cursor-pointer group"
-                        >
-                          <ImagePlus size={22} className="text-zinc-400 group-hover:text-indigo-500 transition-colors" />
-                          <span className="text-sm font-medium text-zinc-400 dark:text-zinc-500 group-hover:text-indigo-500 transition-colors">
-                            Tap to add photos
-                          </span>
-                          <span className="text-xs text-zinc-400 dark:text-zinc-600">Max 5MB per photo</span>
-                        </button>
-                      ) : (
-                        <div className="flex flex-wrap gap-2">
-                          {photos.map((p, i) => (
-                            <div key={p.preview} className="relative w-[72px] h-[72px] rounded-xl overflow-hidden border border-zinc-200 dark:border-white/10 bg-zinc-100 dark:bg-zinc-800 shrink-0">
-                              {/* eslint-disable-next-line @next/next/no-img-element */}
-                              <img src={p.preview} alt={`photo ${i + 1}`} className="w-full h-full object-cover" />
-                              <button
-                                type="button"
-                                onClick={() => {
-                                  URL.revokeObjectURL(p.preview);
-                                  setPhotos((prev) => prev.filter((_, idx) => idx !== i));
-                                }}
-                                className="absolute top-1 right-1 w-5 h-5 rounded-full bg-zinc-900/70 flex items-center justify-center hover:bg-red-500 transition-colors"
-                              >
-                                <X size={10} className="text-white" />
-                              </button>
-                            </div>
-                          ))}
-                          {photos.length < 5 && (
-                            <button
-                              type="button"
-                              onClick={() => fileInputRef.current?.click()}
-                              className="w-[72px] h-[72px] rounded-xl border-2 border-dashed border-zinc-200 dark:border-zinc-700 flex flex-col items-center justify-center gap-1 hover:border-indigo-400 hover:bg-indigo-50/40 dark:hover:bg-indigo-500/5 transition-colors cursor-pointer group shrink-0"
-                            >
-                              <ImagePlus size={16} className="text-zinc-400 group-hover:text-indigo-500 transition-colors" />
-                              <span className="text-[10px] text-zinc-400 group-hover:text-indigo-500 transition-colors">Add</span>
-                            </button>
-                          )}
-                        </div>
-                      )}
-                    </div>
-
                     {/* Contact form */}
                     <div className="flex flex-col gap-3">
                       <div className="flex flex-col gap-1.5">
                         <label className="text-xs font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Your name</label>
                         <input
                           type="text"
-                          placeholder="John Smith"
+                          placeholder="Enter your name"
                           value={senderName}
                           onChange={(e) => setSenderName(e.target.value)}
                           className="w-full px-4 py-3 rounded-xl bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-900 dark:text-white text-sm placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-400 transition"
@@ -841,6 +852,7 @@ export default function ValueCheck() {
                               batteryHealth: batteryHealth ?? null,
                               estimatedLow: result.low,
                               estimatedHigh: result.high,
+                              answers,
                               photos: encodedPhotos,
                             }),
                           });

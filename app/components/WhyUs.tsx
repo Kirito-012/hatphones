@@ -43,7 +43,7 @@ const reasons = [
   },
   {
     title: "1 Year Warranty",
-    description: "1 yr warranty on all devices above $200 for absolute peace of mind.",
+    description: "1 yr warranty on all devices for absolute peace of mind.",
     icon: Award,
     accent: "from-teal-500 to-teal-700",
     color: "text-teal-500 dark:text-teal-400",

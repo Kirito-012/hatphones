@@ -405,11 +405,11 @@ export default function SellPage() {
                   </p>
                 </div>
                 <a
-                  href="tel:+14039570532"
+                  href="tel:+14039775164"
                   className="inline-flex items-center gap-2 px-5 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-semibold text-sm transition-colors shadow-sm self-start"
                 >
                   <MessageCircle size={15} />
-                  (403) 957-0532
+                  +1 403-977-5164
                 </a>
               </motion.div>
 

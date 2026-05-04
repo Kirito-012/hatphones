@@ -48,7 +48,7 @@ export function CTA() {
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
-              <button className="group w-full sm:w-auto px-8 py-4 bg-white text-indigo-600 rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-zinc-50 transition-colors shadow-lg cursor-pointer" onClick={() => window.location.href = "/repair"}>
+              <button className="group w-full sm:w-auto px-8 py-4 bg-white text-indigo-600 rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-zinc-50 transition-colors shadow-lg cursor-pointer" onClick={() => window.location.href = "/value-check"}>
                 <span>Get a Free Quote</span>
                 <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
               </button>

@@ -141,7 +141,7 @@ export function Navbar() {
         </button>
 
         {/* CTA */}
-        <a href="/repair#schedule-appointment" className="hidden sm:block px-5 py-2.5 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 rounded-xl font-semibold text-sm hover:bg-zinc-800 dark:hover:bg-zinc-100 transition-colors shadow-sm cursor-pointer">
+        <a href="/value-check" className="hidden sm:block px-5 py-2.5 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 rounded-xl font-semibold text-sm hover:bg-zinc-800 dark:hover:bg-zinc-100 transition-colors shadow-sm cursor-pointer">
           Get Quote
         </a>
 
@@ -194,7 +194,7 @@ export function Navbar() {
                 transition={{ delay: NAV_ITEMS.length * 0.05 + 0.1 }}
                 className="pt-4 mt-2 border-t border-zinc-200 dark:border-white/10"
               >
-                <a href="/repair#schedule-appointment" className="w-full px-6 py-3.5 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 rounded-2xl font-semibold text-base hover:bg-zinc-800 dark:hover:bg-zinc-100 transition-colors shadow-sm cursor-pointer flex justify-center items-center gap-2">
+                <a href="/value-check" className="w-full px-6 py-3.5 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 rounded-2xl font-semibold text-base hover:bg-zinc-800 dark:hover:bg-zinc-100 transition-colors shadow-sm cursor-pointer flex justify-center items-center gap-2">
                   Get Instant Quote
                 </a>
               </motion.div>

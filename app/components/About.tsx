@@ -21,7 +21,7 @@ export function About() {
             </div>
             {/* Friendly Badge Overlay */}
             <div className="absolute top-6 left-6 bg-white/90 dark:bg-zinc-900/90 backdrop-blur-sm text-zinc-900 dark:text-white px-4 py-2 rounded-full font-medium text-sm shadow-sm border border-white/20">
-              Serving you since 2026
+              Serving you since 2022
             </div>
           </div>
 

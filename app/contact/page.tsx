@@ -101,10 +101,10 @@ export default function Contact() {
                   <h3 className="text-sm sm:text-base md:text-lg font-bold text-zinc-900 dark:text-white mb-0.5 md:mb-1">Call Us</h3>
                   <div className="flex items-center gap-2">
                     <p className="text-xs sm:text-sm md:text-base text-zinc-600 dark:text-zinc-400">
-                      +1 (403) 957-0532
+                      +1 403-977-5164
                     </p>
                     <button
-                      onClick={() => copyToClipboard("+14039570532", "phone")}
+                      onClick={() => copyToClipboard("+14039775164", "phone")}
                       title="Copy phone number"
                       className="text-zinc-400 hover:text-indigo-500 transition-colors cursor-pointer shrink-0"
                     >

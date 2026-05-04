@@ -808,7 +808,7 @@ export default function ValueCheck() {
                         <label className="text-xs font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Email or phone number</label>
                         <input
                           type="text"
-                          placeholder="you@email.com or (403) 555-0100"
+                          placeholder="you@email.com or (403) 977-5164"
                           value={senderContact}
                           onChange={(e) => setSenderContact(e.target.value)}
                           className="w-full px-4 py-3 rounded-xl bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-900 dark:text-white text-sm placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-400 transition"

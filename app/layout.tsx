@@ -6,6 +6,7 @@ import { SmoothScroll } from "./components/SmoothScroll";
 import { CartProvider } from "./components/CartContext";
 import { CartDrawer } from "./components/CartDrawer";
 import StructuredData from "./components/StructuredData";
+import GoogleAnalytics from "./components/GoogleAnalytics";
 
 const localBusinessSchema = {
   "@context": "https://schema.org",
@@ -90,9 +91,6 @@ export const metadata: Metadata = {
     apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
     other: [{ rel: "manifest", url: "/site.webmanifest" }],
   },
-  verification: {
-    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
-  },
 };
 
 export default function RootLayout({
@@ -105,6 +103,7 @@ export default function RootLayout({
       <body
         className={`${spaceGrotesk.variable} ${spaceMono.variable} antialiased`}
       >
+        <GoogleAnalytics />
         <StructuredData data={localBusinessSchema} />
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
           <CartProvider>

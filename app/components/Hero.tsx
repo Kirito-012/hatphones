@@ -188,20 +188,22 @@ export function Hero() {
         </div>
 
         {/* RIGHT: Phone Mockup Scene — CSS spin rings, deferred float */}
-        <div className="flex-1 relative w-full h-[500px] lg:h-[600px] flex items-center justify-center opacity-0 animate-heroFadeUp [animation-delay:150ms]">
-          {/* Spinning rings — pure CSS */}
-          <div className={`absolute z-10 w-80 h-80 border border-dashed border-zinc-200 dark:border-white/10 rounded-full ${mounted && isInView ? "animate-spinSlow" : ""}`} />
-          <div className={`absolute z-10 w-[420px] h-[420px] border border-solid border-zinc-100 dark:border-white/5 rounded-full ${mounted && isInView ? "animate-spinSlowReverse" : ""}`} />
+        <div className="flex-1 relative w-full h-[340px] sm:h-[420px] lg:h-[600px] flex items-center justify-center opacity-0 animate-heroFadeUp [animation-delay:150ms]">
+          {/* Spinning rings — hidden on mobile to avoid overflow */}
+          <div className={`hidden sm:block absolute z-10 w-80 h-80 border border-dashed border-zinc-200 dark:border-white/10 rounded-full ${mounted && isInView ? "animate-spinSlow" : ""}`} />
+          <div className={`hidden sm:block absolute z-10 w-[420px] h-[420px] border border-solid border-zinc-100 dark:border-white/5 rounded-full ${mounted && isInView ? "animate-spinSlowReverse" : ""}`} />
 
-          {/* Phone */}
-          <PhoneMockup shouldAnimate={mounted && isInView} />
+          {/* Phone — scaled down on mobile */}
+          <div className="scale-[0.72] sm:scale-90 lg:scale-100 origin-center">
+            <PhoneMockup shouldAnimate={mounted && isInView} />
+          </div>
 
-          {/* Floating Chips — CSS fade-in with delay */}
+          {/* Floating Chips — hidden on mobile */}
           <StatChip
             icon="💸"
             label="Fair Value"
             value="$450 Cash"
-            className="-left-4 lg:-left-6 top-16"
+            className="hidden sm:flex -left-4 lg:-left-6 top-16"
             accentBg="bg-violet-600"
             accentBorder="border-violet-500"
             labelColor="text-violet-100"
@@ -213,7 +215,7 @@ export function Hero() {
             icon="🛡️"
             label="Condition"
             value="Certified"
-            className="-right-4 lg:-right-6 top-24"
+            className="hidden sm:flex -right-4 lg:-right-6 top-24"
             accentBg="bg-teal-500"
             accentBorder="border-teal-400"
             labelColor="text-white"
@@ -225,7 +227,7 @@ export function Hero() {
             icon="🔧"
             label="Fix it fast"
             value="Screen Repair"
-            className="-left-2 lg:-left-4 bottom-24"
+            className="hidden sm:flex -left-2 lg:-left-4 bottom-24"
             accentBg="bg-orange-500"
             accentBorder="border-orange-400"
             labelColor="text-white"
@@ -233,9 +235,9 @@ export function Hero() {
             style={{ animationDelay: "800ms" }}
           />
 
-          {/* Just Sold chip */}
+          {/* Just Sold chip — hidden on mobile */}
           <div
-            className="absolute -right-4 lg:-right-6 bottom-16 z-40 px-5 py-4 bg-fuchsia-600 backdrop-blur-md rounded-2xl border border-fuchsia-500 shadow-lg opacity-0 animate-fadeIn"
+            className="hidden sm:block absolute -right-4 lg:-right-6 bottom-16 z-40 px-5 py-4 bg-fuchsia-600 backdrop-blur-md rounded-2xl border border-fuchsia-500 shadow-lg opacity-0 animate-fadeIn"
             style={{ animationDelay: "900ms" }}
           >
             <p className="text-[10px] font-semibold text-fuchsia-200 uppercase tracking-widest mb-1">Just Sold</p>

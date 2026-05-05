@@ -218,8 +218,15 @@ export default function RepairPage() {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [emailError, setEmailError] = useState("");
   const [name, setName] = useState("");
   const [contact, setContact] = useState("");
+
+  function validateEmail(value: string) {
+    if (!value) return "Email is required.";
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) return "Enter a valid email address.";
+    return "";
+  }
   const [device, setDevice] = useState("");
   const [preferredDate, setPreferredDate] = useState("");
   const [notes, setNotes] = useState("");
@@ -244,6 +251,8 @@ export default function RepairPage() {
 
   const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const emailErr = validateEmail(contact);
+    if (emailErr) { setEmailError(emailErr); return; }
     setLoading(true);
     setError("");
     try {
@@ -783,11 +792,13 @@ export default function RepairPage() {
                             required
                             type="email"
                             value={contact}
-                            onChange={(e) => setContact(e.target.value)}
+                            onChange={(e) => { setContact(e.target.value); if (emailError) setEmailError(validateEmail(e.target.value)); }}
+                            onBlur={(e) => setEmailError(validateEmail(e.target.value))}
                             placeholder="you@example.com"
-                            className={inputWithIconClass}
+                            className={`${inputWithIconClass} ${emailError ? "border-red-400 focus:border-red-400" : ""}`}
                           />
                         </div>
+                        {emailError && <p className="text-xs text-red-500 mt-0.5">{emailError}</p>}
                       </div>
 
                       {/* Device */}

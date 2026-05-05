@@ -14,8 +14,15 @@ export default function Contact() {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [emailError, setEmailError] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [copied, setCopied] = useState<"phone" | "email" | null>(null);
+
+  function validateEmail(value: string) {
+    if (!value) return "Email is required.";
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) return "Enter a valid email address.";
+    return "";
+  }
 
   function copyToClipboard(text: string, type: "phone" | "email") {
     navigator.clipboard.writeText(text).then(() => {
@@ -26,6 +33,8 @@ export default function Contact() {
 
   const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const emailErr = validateEmail(email);
+    if (emailErr) { setEmailError(emailErr); return; }
     setLoading(true);
     setError("");
     try {
@@ -200,7 +209,16 @@ export default function Contact() {
                       </div>
                       <div className="flex flex-col gap-1.5 md:gap-2">
                         <label className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">Email</label>
-                        <input required type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@email.com" className="w-full px-4 py-3 sm:py-3.5 rounded-xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-400 text-zinc-900 dark:text-white text-sm sm:text-base transition" />
+                        <input
+                          required
+                          type="email"
+                          value={email}
+                          onChange={(e) => { setEmail(e.target.value); if (emailError) setEmailError(validateEmail(e.target.value)); }}
+                          onBlur={(e) => setEmailError(validateEmail(e.target.value))}
+                          placeholder="you@email.com"
+                          className={`w-full px-4 py-3 sm:py-3.5 rounded-xl bg-zinc-50 dark:bg-zinc-800/50 border focus:outline-none focus:ring-2 focus:ring-indigo-500/30 text-zinc-900 dark:text-white text-sm sm:text-base transition ${emailError ? "border-red-400 focus:border-red-400" : "border-zinc-200 dark:border-zinc-700 focus:border-indigo-400"}`}
+                        />
+                        {emailError && <p className="text-xs text-red-500 mt-0.5">{emailError}</p>}
                       </div>
                     </div>
                     <div className="flex flex-col gap-1.5 md:gap-2">

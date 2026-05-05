@@ -83,7 +83,16 @@ export default function ValueCheck() {
   const [sendModalOpen, setSendModalOpen] = useState(false);
   const [senderName, setSenderName] = useState("");
   const [senderContact, setSenderContact] = useState("");
+  const [contactError, setContactError] = useState("");
   const [sendStatus, setSendStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+
+  function validateContact(value: string) {
+    if (!value.trim()) return "Email or phone number is required.";
+    const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+    const isPhone = /^[\d\s\-()+]{7,}$/.test(value);
+    if (!isEmail && !isPhone) return "Enter a valid email address or phone number.";
+    return "";
+  }
   const [photos, setPhotos] = useState<Array<{ file: File; preview: string }>>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -810,9 +819,11 @@ export default function ValueCheck() {
                           type="text"
                           placeholder="you@email.com or (403) 977-5164"
                           value={senderContact}
-                          onChange={(e) => setSenderContact(e.target.value)}
-                          className="w-full px-4 py-3 rounded-xl bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-900 dark:text-white text-sm placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-400 transition"
+                          onChange={(e) => { setSenderContact(e.target.value); if (contactError) setContactError(validateContact(e.target.value)); }}
+                          onBlur={(e) => setContactError(validateContact(e.target.value))}
+                          className={`w-full px-4 py-3 rounded-xl bg-zinc-50 dark:bg-zinc-800 border text-zinc-900 dark:text-white text-sm placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 transition ${contactError ? "border-red-400 focus:border-red-400" : "border-zinc-200 dark:border-zinc-700 focus:border-indigo-400"}`}
                         />
+                        {contactError && <p className="text-xs text-red-500 mt-0.5">{contactError}</p>}
                       </div>
                     </div>
 
@@ -823,6 +834,8 @@ export default function ValueCheck() {
                     <button
                       disabled={!senderName.trim() || !senderContact.trim() || sendStatus === "loading"}
                       onClick={async () => {
+                        const err = validateContact(senderContact);
+                        if (err) { setContactError(err); return; }
                         setSendStatus("loading");
                         try {
                           const encodedPhotos = await Promise.all(

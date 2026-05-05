@@ -329,7 +329,7 @@ export default function RepairPage() {
               </h1>
 
               <p className="mt-6 text-base md:text-lg text-zinc-600 dark:text-zinc-300 max-w-2xl leading-relaxed">
-                Fast diagnostics, transparent pricing, and same-day fixes for common issues. Pick a service below and we&apos;ll pre-fill your form.
+                HatPhones repairs iPhones, Samsung Galaxy devices, and most Android phones in Medicine Hat, AB. Screen replacements start at $79, battery swaps from $59, and charging port repairs from $49 — most jobs done same day while you wait. Diagnostics are always free.
               </p>
 
               <div className="mt-7">
@@ -392,7 +392,7 @@ export default function RepairPage() {
 
               <ScrollReveal delay={0.13} className="mt-4">
                 <p className="text-lg text-zinc-600 dark:text-zinc-400 max-w-xl">
-                  Click any service to pre-fill your booking form and skip the back-and-forth.
+                  All repairs come with a 90-day service warranty. Click any service to pre-fill your booking form.
                 </p>
               </ScrollReveal>
             </div>

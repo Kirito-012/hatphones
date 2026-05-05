@@ -64,7 +64,7 @@ Add to the existing schema base:
 
 ---
 
-## Phase 4 — Content rewrites for "answerability"
+## Phase 4 — Content rewrites for "answerability" ✅ DONE
 
 LLMs extract better when pages follow this pattern:
 - **First sentence answers the page's implicit question.**

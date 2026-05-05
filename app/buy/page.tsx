@@ -139,7 +139,7 @@ export default async function BuyPage({
                   Shop Devices
                 </h1>
                 <p className="text-lg md:text-xl lg:text-2xl text-zinc-200/90 leading-relaxed font-medium max-w-2xl">
-                  Find huge savings on certified pre-owned phones, tablets, and MacBooks. Every device is rigorously tested to ensure complete reliability.
+                  HatPhones sells certified pre-owned iPhones, Samsung Galaxy phones, Google Pixels, tablets, and MacBooks in Medicine Hat, AB. Every device is multi-point inspected, fully unlocked, and comes with a warranty. Trade-ins accepted.
                 </p>
               </div>
             </div>

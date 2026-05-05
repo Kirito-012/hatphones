@@ -153,7 +153,7 @@ export default function SellPage() {
               </h1>
 
               <p className="mt-6 text-base md:text-lg text-zinc-600 dark:text-zinc-300 max-w-2xl leading-relaxed">
-                Skip the hassle of online marketplaces. Get a fair offer for your old phone, tablet, or laptop and get paid safely, securely, and instantly.
+                HatPhones buys used iPhones, Samsung Galaxy devices, Google Pixels, and more in Medicine Hat, AB. Bring your device in, get an instant offer, and walk out with cash or Interac e-transfer the same day — no listings, no strangers, no waiting.
               </p>
 
               <div className="mt-7">
@@ -234,7 +234,7 @@ export default function SellPage() {
                   transition={{ delay: 0.14 }}
                   className="text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-sm"
                 >
-                  Selling a phone shouldn&apos;t mean risking your privacy. Here&apos;s how we keep your information safe at every step.
+                  When you sell your phone at HatPhones, we wipe every device before processing and never share your personal information with third parties. Your data is gone before the device leaves your hands.
                 </motion.p>
 
                 <motion.div
@@ -326,7 +326,7 @@ export default function SellPage() {
                   transition={{ delay: 0.16 }}
                   className="text-lg text-zinc-600 dark:text-zinc-400 max-w-sm leading-relaxed"
                 >
-                  Four simple steps. No listings, no waiting, no strangers showing up at your door.
+                  Four steps from check to cash. Use our Value Check tool to get an instant estimate, then drop in at 516 3rd St SE. Walk-ins welcome Monday–Friday 10 AM–6 PM, Saturday 11 AM–6 PM.
                 </motion.p>
 
                 <motion.button

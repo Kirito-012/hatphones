@@ -1,55 +1,48 @@
 "use client";
 
-import { useRef } from "react";
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
+import { useRef, useEffect, useState } from "react";
+import { motion, useInView } from "framer-motion";
 
-// Floating stat chip
+// Floating stat chip — CSS fade-in, no JS animation cost on load
 function StatChip({
   icon,
   label,
   value,
-  delay,
   className,
   accentBg = "bg-white/90 dark:bg-zinc-900/90",
   accentBorder = "border-zinc-100 dark:border-white/10",
   labelColor = "text-zinc-500",
   iconBg,
+  style,
 }: {
   icon: string;
   label: string;
   value: string;
-  delay: number;
   className?: string;
   accentBg?: string;
   accentBorder?: string;
   labelColor?: string;
   iconBg?: string;
+  style?: React.CSSProperties;
 }) {
   return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.8 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ delay, duration: 0.5, type: "spring" }}
-      className={`absolute z-40 flex items-center gap-2.5 px-4 py-3 backdrop-blur-md rounded-2xl border shadow-lg ${accentBg} ${accentBorder} ${className}`}
+    <div
+      style={style}
+      className={`absolute z-40 flex items-center gap-2.5 px-4 py-3 backdrop-blur-md rounded-2xl border shadow-lg opacity-0 animate-fadeIn ${accentBg} ${accentBorder} ${className}`}
     >
       <span className={`text-xl w-8 h-8 flex items-center justify-center rounded-xl ${iconBg ?? ""}`}>{icon}</span>
       <div className="flex flex-col leading-tight">
         <span className={`text-[10px] font-semibold tracking-wider ${labelColor}`}>{label}</span>
         <span className="text-sm font-bold text-white">{value}</span>
       </div>
-    </motion.div>
+    </div>
   );
 }
 
-// Realistic phone mockup shell
+// Phone mockup — float animation via CSS, no framer-motion on mount
 function PhoneMockup({ shouldAnimate }: { shouldAnimate: boolean }) {
   return (
-    <motion.div
-      animate={shouldAnimate ? { y: [0, -10, 0] } : { y: 0 }}
-      transition={shouldAnimate ? { repeat: Infinity, duration: 6, ease: "easeInOut" } : { duration: 0.2 }}
-      className="relative z-20 w-[220px] h-[460px] select-none"
-    >
+    <div className={`relative z-20 w-[220px] h-[460px] select-none ${shouldAnimate ? "animate-float" : ""}`}>
       {/* Phone Shell */}
       <div className="absolute inset-0 rounded-[2.5rem] bg-white dark:bg-zinc-800 border-[4px] border-zinc-200 dark:border-zinc-600 shadow-xl" />
       {/* Screen Bezel */}
@@ -105,46 +98,42 @@ function PhoneMockup({ shouldAnimate }: { shouldAnimate: boolean }) {
       <div className="absolute right-[-2px] top-24 w-[2px] h-10 rounded-r-full bg-zinc-300 dark:bg-zinc-600" />
       <div className="absolute left-[-2px] top-20 w-[2px] h-7 rounded-l-full bg-zinc-300 dark:bg-zinc-600" />
       <div className="absolute left-[-2px] top-32 w-[2px] h-12 rounded-l-full bg-zinc-300 dark:bg-zinc-600" />
-    </motion.div>
+    </div>
   );
 }
 
 export function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
   const isInView = useInView(sectionRef, { margin: "-20% 0px -20% 0px" });
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <section ref={sectionRef} className="relative min-h-screen w-full flex items-center justify-center overflow-hidden pt-32 lg:pt-40 pb-20 bg-white dark:bg-zinc-950 [content-visibility:auto] [contain-intrinsic-size:1px_1000px]">
 
-      {/* Background atmosphere - soft gradient */}
+      {/* Background atmosphere */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 inset-x-0 h-64 bg-gradient-to-b from-slate-100 dark:from-zinc-900 to-transparent" />
       </div>
 
       <div className="container relative z-10 px-6 mx-auto flex flex-col lg:flex-row items-center justify-between gap-16 lg:gap-8">
 
-        {/* ── LEFT: Text Content ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: "easeOut" }}
-          className="flex-1 space-y-6 text-center lg:text-left max-w-2xl mx-auto lg:mx-0"
-        >
+        {/* LEFT: Text Content — CSS fade-in, zero JS blocking */}
+        <div className="flex-1 space-y-6 text-center lg:text-left max-w-2xl mx-auto lg:mx-0 opacity-0 animate-heroFadeUp">
+
           {/* Pill badge */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.1 }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-100 dark:border-indigo-500/20"
-          >
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-100 dark:border-indigo-500/20">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75" />
               <span className="relative inline-flex rounded-full h-2 w-2 bg-indigo-500" />
             </span>
-            <span className="text-sm font-semibold">Local Phone Repair & Resell</span>
-          </motion.div>
+            <span className="text-sm font-semibold">Local Phone Repair &amp; Resell</span>
+          </div>
 
-          {/* Headline */}
+          {/* Headline — LCP element, no animation delay */}
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-zinc-900 dark:text-white leading-[1.1]">
             Your Trusted
             <br />
@@ -175,108 +164,84 @@ export function Hero() {
           {/* CTAs */}
           <div className="flex flex-col gap-4 pt-6 items-center lg:items-start">
             <div className="flex flex-col sm:flex-row items-center gap-4 w-full justify-center lg:justify-start">
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="px-8 py-4 bg-indigo-600 text-white rounded-xl font-semibold hover:bg-indigo-700 w-full sm:w-auto transition-colors shadow-sm cursor-pointer"
-                onClick={() => window.location.href = "/buy/"}
+              <a
+                href="/buy/"
+                className="px-8 py-4 bg-indigo-600 text-white rounded-xl font-semibold hover:bg-indigo-700 w-full sm:w-auto transition-colors shadow-sm text-center"
               >
                 Shop Phones
-              </motion.button>
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="px-8 py-4 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white border border-zinc-200 dark:border-zinc-800 rounded-xl font-semibold hover:bg-zinc-50 dark:hover:bg-zinc-800 w-full sm:w-auto transition-colors shadow-sm cursor-pointer"
-                onClick={() => window.location.href = "/sell/"}
+              </a>
+              <a
+                href="/sell/"
+                className="px-8 py-4 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white border border-zinc-200 dark:border-zinc-800 rounded-xl font-semibold hover:bg-zinc-50 dark:hover:bg-zinc-800 w-full sm:w-auto transition-colors shadow-sm text-center"
               >
                 Sell Your Phone
-              </motion.button>
+              </a>
             </div>
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="px-8 py-4 bg-emerald-50 text-emerald-600 border border-emerald-200 dark:bg-emerald-950/30 dark:text-emerald-400 dark:border-emerald-800/50 rounded-xl font-semibold hover:bg-emerald-100 dark:hover:bg-emerald-900/50 w-full sm:w-auto transition-colors shadow-sm cursor-pointer"
-              onClick={() => window.location.href = "/value-check/"}
+            <a
+              href="/value-check/"
+              className="px-8 py-4 bg-emerald-50 text-emerald-600 border border-emerald-200 dark:bg-emerald-950/30 dark:text-emerald-400 dark:border-emerald-800/50 rounded-xl font-semibold hover:bg-emerald-100 dark:hover:bg-emerald-900/50 w-full sm:w-auto transition-colors shadow-sm text-center"
             >
               Get a Repair Quote
-            </motion.button>
+            </a>
           </div>
-        </motion.div>
+        </div>
 
-        {/* ── RIGHT: Phone Mockup Scene ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 0.15, type: "spring", bounce: 0.3 }}
-          className="flex-1 relative w-full h-[500px] lg:h-[600px] flex items-center justify-center"
-        >
-          <motion.div
-            animate={isInView ? { rotate: 360 } : { rotate: 0 }}
-            transition={isInView ? { repeat: Infinity, duration: 30, ease: "linear" } : { duration: 0.2 }}
-            className="absolute z-10 w-80 h-80 border border-dashed border-zinc-200 dark:border-white/10 rounded-full"
-          />
-          <motion.div
-            animate={isInView ? { rotate: -360 } : { rotate: 0 }}
-            transition={isInView ? { repeat: Infinity, duration: 50, ease: "linear", delay: 0.5 } : { duration: 0.2 }}
-            className="absolute z-10 w-[420px] h-[420px] border border-solid border-zinc-100 dark:border-white/5 rounded-full"
-          />
+        {/* RIGHT: Phone Mockup Scene — CSS spin rings, deferred float */}
+        <div className="flex-1 relative w-full h-[500px] lg:h-[600px] flex items-center justify-center opacity-0 animate-heroFadeUp [animation-delay:150ms]">
+          {/* Spinning rings — pure CSS */}
+          <div className={`absolute z-10 w-80 h-80 border border-dashed border-zinc-200 dark:border-white/10 rounded-full ${mounted && isInView ? "animate-spinSlow" : ""}`} />
+          <div className={`absolute z-10 w-[420px] h-[420px] border border-solid border-zinc-100 dark:border-white/5 rounded-full ${mounted && isInView ? "animate-spinSlowReverse" : ""}`} />
 
           {/* Phone */}
-          <PhoneMockup shouldAnimate={isInView} />
+          <PhoneMockup shouldAnimate={mounted && isInView} />
 
-          {/* ── Floating Chips ── */}
-
-          {/* Top-left: Trade-in — violet */}
+          {/* Floating Chips — CSS fade-in with delay */}
           <StatChip
             icon="💸"
             label="Fair Value"
             value="$450 Cash"
-            delay={0.5}
             className="-left-4 lg:-left-6 top-16"
             accentBg="bg-violet-600"
             accentBorder="border-violet-500"
             labelColor="text-violet-200"
             iconBg="bg-violet-500"
+            style={{ animationDelay: "500ms" }}
           />
 
-          {/* Top-right: Verified — sky */}
           <StatChip
             icon="🛡️"
             label="Condition"
             value="Certified"
-            delay={0.65}
             className="-right-4 lg:-right-6 top-24"
             accentBg="bg-teal-500"
             accentBorder="border-teal-400"
             labelColor="text-teal-100"
             iconBg="bg-teal-400"
+            style={{ animationDelay: "650ms" }}
           />
 
-          {/* Bottom-left: Repair — orange */}
           <StatChip
             icon="🔧"
             label="Fix it fast"
             value="Screen Repair"
-            delay={0.8}
             className="-left-2 lg:-left-4 bottom-24"
             accentBg="bg-orange-500"
             accentBorder="border-orange-400"
             labelColor="text-orange-100"
             iconBg="bg-orange-400"
+            style={{ animationDelay: "800ms" }}
           />
 
-          {/* Bottom-right: Sale — fuchsia */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.9, type: "spring" }}
-            className="absolute -right-4 lg:-right-6 bottom-16 z-40 px-5 py-4 bg-fuchsia-600 backdrop-blur-md rounded-2xl border border-fuchsia-500 shadow-lg"
+          {/* Just Sold chip */}
+          <div
+            className="absolute -right-4 lg:-right-6 bottom-16 z-40 px-5 py-4 bg-fuchsia-600 backdrop-blur-md rounded-2xl border border-fuchsia-500 shadow-lg opacity-0 animate-fadeIn"
+            style={{ animationDelay: "900ms" }}
           >
             <p className="text-[10px] font-semibold text-fuchsia-200 uppercase tracking-widest mb-1">Just Sold</p>
             <p className="text-sm font-bold text-white">iPhone 14 Pro</p>
             <p className="text-xs text-fuchsia-200 mt-1">Found a new home 🏠</p>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
       </div>
     </section>
   );

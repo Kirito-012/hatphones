@@ -1,6 +1,20 @@
 import type { Metadata } from "next";
+import dynamic from "next/dynamic";
 import { Navbar } from "./components/Navbar";
 import StructuredData from "./components/StructuredData";
+import { Hero } from "./components/Hero";
+
+// Below-fold sections: dynamically imported so framer-motion is code-split
+// and doesn't block the initial JS parse/eval for LCP
+const Brands = dynamic(() => import("./components/Brands").then(m => ({ default: m.Brands })));
+const ShopFor = dynamic(() => import("./components/ShopFor").then(m => ({ default: m.ShopFor })));
+const Services = dynamic(() => import("./components/Services").then(m => ({ default: m.Services })));
+const Process = dynamic(() => import("./components/Process").then(m => ({ default: m.Process })));
+const WhyUs = dynamic(() => import("./components/WhyUs").then(m => ({ default: m.WhyUs })));
+const About = dynamic(() => import("./components/About").then(m => ({ default: m.About })));
+const CTA = dynamic(() => import("./components/CTA").then(m => ({ default: m.CTA })));
+const Footer = dynamic(() => import("./components/Footer").then(m => ({ default: m.Footer })));
+const FAQ = dynamic(() => import("./components/FAQ"));
 
 export const metadata: Metadata = {
   title: "Buy, Sell & Repair Phones in Medicine Hat",
@@ -19,16 +33,6 @@ export const metadata: Metadata = {
     images: ["/og-image.png"],
   },
 };
-import { Hero } from "./components/Hero";
-import { Services } from "./components/Services";
-import { Process } from "./components/Process";
-import { Brands } from "./components/Brands";
-import { ShopFor } from "./components/ShopFor";
-import { WhyUs } from "./components/WhyUs";
-import { About } from "./components/About";
-import { CTA } from "./components/CTA";
-import { Footer } from "./components/Footer";
-import FAQ from "./components/FAQ";
 
 const homeFAQs = [
   {

@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { Twitter, Instagram, Facebook } from "lucide-react";
 
 export function Footer() {
   return (
@@ -32,39 +31,28 @@ export function Footer() {
             <h4 className="text-sm font-semibold text-zinc-900 dark:text-white mb-6">Connect</h4>
             <ul className="space-y-4">
               <li><Link href="/contact/" className="text-sm text-zinc-600 dark:text-zinc-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Contact Us</Link></li>
-              <li><Link href="/contact/" className="text-sm text-zinc-600 dark:text-zinc-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Visit Store</Link></li>
-              <li><Link href="/contact/" className="text-sm text-zinc-600 dark:text-zinc-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">FAQ</Link></li>
-              <li><Link href="/contact/" className="text-sm text-zinc-600 dark:text-zinc-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Warranty Info</Link></li>
+              <li>
+                <a
+                  href="https://www.instagram.com/hat_phones"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-zinc-600 dark:text-zinc-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+                >
+                  Instagram
+                </a>
+              </li>
             </ul>
           </div>
 
         </div>
 
-        <div className="flex flex-col md:flex-row items-center justify-between pt-8 gap-6">
+        <div className="flex flex-col md:flex-row items-center justify-between pt-8 gap-4">
           <p className="text-sm text-zinc-500">
             &copy; {new Date().getFullYear()} Hatphones. All rights reserved.
           </p>
-          <div className="flex items-center gap-4">
-            <a
-              href="#"
-              className="w-10 h-10 rounded-full bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-zinc-600 dark:text-zinc-400 hover:bg-indigo-50 hover:text-indigo-600 dark:hover:bg-indigo-500/10 dark:hover:text-indigo-400 transition-colors"
-            >
-              <Twitter size={18} />
-            </a>
-            <a
-              href="https://www.instagram.com/hat_phones"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-10 h-10 rounded-full bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-zinc-600 dark:text-zinc-400 hover:bg-indigo-50 hover:text-indigo-600 dark:hover:bg-indigo-500/10 dark:hover:text-indigo-400 transition-colors"
-            >
-              <Instagram size={18} />
-            </a>
-            <a
-              href="#"
-              className="w-10 h-10 rounded-full bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-zinc-600 dark:text-zinc-400 hover:bg-indigo-50 hover:text-indigo-600 dark:hover:bg-indigo-500/10 dark:hover:text-indigo-400 transition-colors"
-            >
-              <Facebook size={18} />
-            </a>
+          <div className="flex items-center gap-6">
+            <Link href="/privacy/" className="text-sm text-zinc-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Privacy Policy</Link>
+            <Link href="/terms/" className="text-sm text-zinc-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Terms &amp; Conditions</Link>
           </div>
         </div>
       </div>

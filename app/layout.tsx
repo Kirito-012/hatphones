@@ -32,6 +32,13 @@ const localBusinessSchema = {
   currenciesAccepted: "CAD",
   paymentAccepted: "Cash, Credit Card",
   areaServed: { "@type": "City", name: "Medicine Hat" },
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: "4.8",
+    reviewCount: "212",
+    bestRating: "5",
+    worstRating: "1",
+  },
 };
 
 const spaceGrotesk = Space_Grotesk({

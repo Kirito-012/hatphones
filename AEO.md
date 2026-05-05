@@ -12,7 +12,7 @@ The SEO pass already established the base (LocalBusiness schema, sitemap, clean 
 
 ---
 
-## Phase 1 — Allow AI crawlers (5 min)
+## Phase 1 — Allow AI crawlers (5 min) ✅ DONE
 
 Update `app/robots.ts` to **explicitly allow** AI crawlers:
 - `GPTBot` (OpenAI training)
@@ -29,7 +29,7 @@ Keep `/api/` and `/value-check` disallowed for all bots.
 
 ---
 
-## Phase 2 — FAQ pages with FAQPage schema (highest ROI)
+## Phase 2 — FAQ pages with FAQPage schema (highest ROI) ✅ DONE
 
 LLMs disproportionately cite content marked with `FAQPage` JSON-LD. Add a visible FAQ accordion + matching JSON-LD to each main page.
 
@@ -51,7 +51,7 @@ Rules for answers:
 
 ---
 
-## Phase 3 — Expand structured data
+## Phase 3 — Expand structured data ✅ DONE
 
 Add to the existing schema base:
 - **Product** schema for each buy listing (model, price, condition: `"Refurbished"`, brand, availability)
@@ -80,7 +80,7 @@ Needs user input on copy + actual pricing data.
 
 ---
 
-## Phase 5 — `llms.txt` file
+## Phase 5 — `llms.txt` file ✅ DONE
 
 Emerging convention (proposed by Jeremy Howard; adopted by Anthropic, Mintlify, and others). A markdown summary of the site placed at `/llms.txt` — cheap, low-risk, increasingly respected by AI crawlers.
 

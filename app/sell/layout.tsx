@@ -1,6 +1,44 @@
 import type { Metadata } from "next";
 import StructuredData from "../components/StructuredData";
 
+const sellHowToSchema = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  name: "How to Sell Your Phone at HatPhones in Medicine Hat",
+  description: "Sell your used phone or tablet at HatPhones in Medicine Hat, AB. Get paid the same day in cash or e-transfer.",
+  totalTime: "PT30M",
+  step: [
+    {
+      "@type": "HowToStep",
+      position: 1,
+      name: "Check Your Device Value",
+      text: "Use our Value Check tool to get an instant estimate for your device based on model, condition, and storage.",
+      url: "https://www.hatphones.ca/value-check/",
+    },
+    {
+      "@type": "HowToStep",
+      position: 2,
+      name: "Bring Your Device In",
+      text: "Drop into our store at 516 3rd St SE, Medicine Hat, AB. No appointment needed — walk-ins are always welcome.",
+      url: "https://www.hatphones.ca/sell/",
+    },
+    {
+      "@type": "HowToStep",
+      position: 3,
+      name: "We Inspect & Verify",
+      text: "Our team does a quick in-person inspection to confirm condition. Transparent and straightforward, no surprises.",
+      url: "https://www.hatphones.ca/sell/",
+    },
+    {
+      "@type": "HowToStep",
+      position: 4,
+      name: "Get Paid Today",
+      text: "Walk out with cash or Interac e-transfer — same day, every time. Fair market value, no lowball offers.",
+      url: "https://www.hatphones.ca/sell/",
+    },
+  ],
+};
+
 const sellFAQSchema = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
@@ -35,6 +73,7 @@ export const metadata: Metadata = {
 export default function SellLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
+      <StructuredData data={sellHowToSchema} />
       <StructuredData data={sellFAQSchema} />
       {children}
     </>

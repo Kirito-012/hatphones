@@ -74,14 +74,52 @@ export default async function BuyPage({
     "@type": "BreadcrumbList",
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "Home", item: "https://www.hatphones.ca" },
-      { "@type": "ListItem", position: 2, name: "Buy Phones", item: "https://www.hatphones.ca/buy" },
+      { "@type": "ListItem", position: 2, name: "Buy Phones", item: "https://www.hatphones.ca/buy/" },
     ],
+  };
+
+  const productListSchema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Certified Pre-Owned Phones — HatPhones Medicine Hat",
+    description: "Used and refurbished phones available for purchase at HatPhones, Medicine Hat, AB.",
+    url: "https://www.hatphones.ca/buy/",
+    numberOfItems: products.length,
+    itemListElement: products.map((p, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      item: {
+        "@type": "Product",
+        name: p.title,
+        url: `https://www.hatphones.ca/buy/`,
+        image: p.image || undefined,
+        brand: {
+          "@type": "Brand",
+          name: p.category.includes("Apple") ? "Apple"
+            : p.category.includes("Samsung") ? "Samsung"
+            : p.category.includes("Google") ? "Google"
+            : "Other",
+        },
+        condition: "https://schema.org/RefurbishedCondition",
+        offers: {
+          "@type": "Offer",
+          price: p.price.toFixed(2),
+          priceCurrency: "CAD",
+          availability: "https://schema.org/InStock",
+          seller: { "@type": "LocalBusiness", name: "HatPhones" },
+          itemCondition: "https://schema.org/RefurbishedCondition",
+          ...(p.specs.condition && { description: `Condition: ${p.specs.condition}` }),
+          ...(p.specs.storage && { name: `${p.title} — ${p.specs.storage}` }),
+        },
+      },
+    })),
   };
 
   return (
     <main className="min-h-screen bg-zinc-50 dark:bg-zinc-950 flex flex-col">
       <StructuredData data={breadcrumbSchema} />
       <StructuredData data={buyFAQSchema} />
+      <StructuredData data={productListSchema} />
       <Navbar />
 
       <div className="flex-1 flex flex-col pt-20 relative z-20">

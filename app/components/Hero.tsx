@@ -29,12 +29,12 @@ function StatChip({
     <div
       style={style}
       aria-label={`${label}: ${value}`}
-      className={`absolute z-40 flex items-center gap-2.5 px-4 py-3 backdrop-blur-md rounded-2xl border shadow-lg opacity-0 animate-fadeIn ${accentBg} ${accentBorder} ${className}`}
+      className={`absolute z-40 flex items-center gap-1.5 sm:gap-2.5 px-2.5 py-1.5 sm:px-4 sm:py-3 backdrop-blur-md rounded-xl sm:rounded-2xl border shadow-lg opacity-0 animate-fadeIn ${accentBg} ${accentBorder} ${className}`}
     >
-      <span aria-hidden="true" className={`text-xl w-8 h-8 flex items-center justify-center rounded-xl ${iconBg ?? ""}`}>{icon}</span>
+      <span aria-hidden="true" className={`text-base sm:text-xl w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center rounded-lg sm:rounded-xl ${iconBg ?? ""}`}>{icon}</span>
       <div className="flex flex-col leading-tight">
-        <span className={`text-[10px] font-semibold tracking-wider ${labelColor}`}>{label}</span>
-        <span className="text-sm font-bold text-white">{value}</span>
+        <span className={`text-[9px] sm:text-[10px] font-semibold tracking-wider ${labelColor}`}>{label}</span>
+        <span className="text-xs sm:text-sm font-bold text-white">{value}</span>
       </div>
     </div>
   );
@@ -187,23 +187,23 @@ export function Hero() {
           </div>
         </div>
 
-        {/* RIGHT: Phone Mockup Scene — CSS spin rings, deferred float */}
-        <div className="flex-1 relative w-full h-[340px] sm:h-[420px] lg:h-[600px] flex items-center justify-center opacity-0 animate-heroFadeUp [animation-delay:150ms]">
-          {/* Spinning rings — hidden on mobile to avoid overflow */}
+        {/* RIGHT: Phone Mockup Scene — hidden on mobile */}
+        <div className="hidden sm:flex flex-1 relative w-full sm:h-[520px] lg:h-[600px] items-center justify-center opacity-0 animate-heroFadeUp [animation-delay:150ms]">
+          {/* Spinning rings — hidden on mobile */}
           <div className={`hidden sm:block absolute z-10 w-80 h-80 border border-dashed border-zinc-200 dark:border-white/10 rounded-full ${mounted && isInView ? "animate-spinSlow" : ""}`} />
           <div className={`hidden sm:block absolute z-10 w-[420px] h-[420px] border border-solid border-zinc-100 dark:border-white/5 rounded-full ${mounted && isInView ? "animate-spinSlowReverse" : ""}`} />
 
-          {/* Phone — scaled down on mobile */}
-          <div className="scale-[0.72] sm:scale-90 lg:scale-100 origin-center">
+          {/* Phone */}
+          <div className="scale-[0.82] sm:scale-90 lg:scale-100 origin-center">
             <PhoneMockup shouldAnimate={mounted && isInView} />
           </div>
 
-          {/* Floating Chips — hidden on mobile */}
+          {/* Fair Value — left, vertically centred on mobile; top-left on sm+ */}
           <StatChip
             icon="💸"
             label="Fair Value"
             value="$450 Cash"
-            className="hidden sm:flex -left-4 lg:-left-6 top-16"
+            className="left-0 sm:-left-4 lg:-left-6 top-1/2 -translate-y-1/2 sm:translate-y-0 sm:top-16"
             accentBg="bg-violet-600"
             accentBorder="border-violet-500"
             labelColor="text-violet-100"
@@ -211,11 +211,12 @@ export function Hero() {
             style={{ animationDelay: "500ms" }}
           />
 
+          {/* Certified — right, vertically centred on mobile; top-right on sm+ */}
           <StatChip
             icon="🛡️"
             label="Condition"
             value="Certified"
-            className="hidden sm:flex -right-4 lg:-right-6 top-24"
+            className="right-0 sm:-right-4 lg:-right-6 top-1/2 -translate-y-1/2 sm:translate-y-0 sm:top-24"
             accentBg="bg-teal-500"
             accentBorder="border-teal-400"
             labelColor="text-white"
@@ -223,6 +224,7 @@ export function Hero() {
             style={{ animationDelay: "650ms" }}
           />
 
+          {/* Screen Repair — sm+ only */}
           <StatChip
             icon="🔧"
             label="Fix it fast"
@@ -235,7 +237,7 @@ export function Hero() {
             style={{ animationDelay: "800ms" }}
           />
 
-          {/* Just Sold chip — hidden on mobile */}
+          {/* Just Sold — sm+ only */}
           <div
             className="hidden sm:block absolute -right-4 lg:-right-6 bottom-16 z-40 px-5 py-4 bg-fuchsia-600 backdrop-blur-md rounded-2xl border border-fuchsia-500 shadow-lg opacity-0 animate-fadeIn"
             style={{ animationDelay: "900ms" }}

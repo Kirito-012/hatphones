@@ -88,7 +88,7 @@ export function Services() {
               <h3 className="text-xl font-bold text-white mb-1.5">Buy Certified Phones</h3>
               <p className="text-zinc-500 text-sm leading-relaxed mb-5">Shop pre-owned devices tested by our team. Every phone ready to go at a fair price.</p>
               <Link
-                href="/buy"
+                href="/buy/"
                 className="inline-flex items-center gap-2 px-4 py-2.5 bg-white text-zinc-900 rounded-xl text-sm font-bold hover:bg-zinc-100 transition-colors"
               >
                 Shop Devices <ArrowUpRight size={15} />
@@ -116,7 +116,7 @@ export function Services() {
                 Get a competitive cash offer for your old device. Drop it off, walk away paid the same day.
               </p>
               <Link
-                href="/sell"
+                href="/sell/"
                 className="inline-flex items-center gap-2 px-4 py-2.5 bg-white text-emerald-700 rounded-xl text-sm font-bold hover:bg-emerald-50 transition-colors"
               >
                 Get Your Quote <ArrowUpRight size={15} />
@@ -156,7 +156,7 @@ export function Services() {
                 Cracked screen or dead battery? Our certified techs fix it same day using quality parts.
               </p>
               <Link
-                href="/repair"
+                href="/repair/"
                 className="inline-flex items-center gap-2 px-4 py-2.5 bg-amber-500 hover:bg-amber-600 text-white rounded-xl text-sm font-bold transition-colors"
               >
                 Book Repair <ArrowUpRight size={15} />

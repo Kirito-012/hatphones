@@ -14,7 +14,7 @@ const categories = [
     accent: "from-zinc-800 to-zinc-950",
     badge: "Apple",
     badgeColor: "bg-white/10 text-white/80",
-    link: "/buy?category=Apple+iPhones",
+    link: "/buy/?category=Apple+iPhones",
   },
   {
     title: "Androids",
@@ -25,7 +25,7 @@ const categories = [
     accent: "from-emerald-400 to-emerald-600",
     badge: "Android",
     badgeColor: "bg-white/20 text-white/90",
-    link: "/buy?category=Android+Phones",
+    link: "/buy/?category=Android+Phones",
   },
   {
     title: "Tablets",
@@ -35,7 +35,7 @@ const categories = [
     accent: "from-purple-500 to-purple-700",
     badge: "iPad & More",
     badgeColor: "bg-white/20 text-white/90",
-    link: "/buy?category=Tablets",
+    link: "/buy/?category=Tablets",
   },
   {
     title: "Laptops",
@@ -45,7 +45,7 @@ const categories = [
     accent: "from-blue-500 to-blue-700",
     badge: "Mac & PC",
     badgeColor: "bg-white/20 text-white/90",
-    link: "/buy?category=Laptops",
+    link: "/buy/?category=Laptops",
   },
 ];
 

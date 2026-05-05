@@ -63,7 +63,7 @@ const websiteSchema = {
   url: "https://www.hatphones.ca",
   potentialAction: {
     "@type": "SearchAction",
-    target: "https://www.hatphones.ca/buy?q={search_term_string}",
+    target: "https://www.hatphones.ca/buy/?q={search_term_string}",
     "query-input": "required name=search_term_string",
   },
 };

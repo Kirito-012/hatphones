@@ -18,9 +18,9 @@ export const metadata: Metadata = {
   title: "Sell Your Phone — Get an Instant Quote",
   description:
     "Sell your used phone or tablet in Medicine Hat, AB. Get an instant valuation from HatPhones and walk away with cash the same day.",
-  alternates: { canonical: "https://www.hatphones.ca/sell" },
+  alternates: { canonical: "https://www.hatphones.ca/sell/" },
   openGraph: {
-    url: "https://www.hatphones.ca/sell",
+    url: "https://www.hatphones.ca/sell/",
     title: "Sell Your Phone — Get an Instant Quote | HatPhones",
     description:
       "Get an instant valuation for your phone or tablet in Medicine Hat, AB. Walk away with cash the same day.",

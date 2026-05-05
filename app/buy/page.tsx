@@ -7,9 +7,9 @@ export const metadata: Metadata = {
   title: "Buy Certified Pre-Owned Phones",
   description:
     "Shop HatPhones' selection of certified pre-owned iPhones, Samsung, and more in Medicine Hat, AB. Every device tested and quality-checked.",
-  alternates: { canonical: "https://www.hatphones.ca/buy" },
+  alternates: { canonical: "https://www.hatphones.ca/buy/" },
   openGraph: {
-    url: "https://www.hatphones.ca/buy",
+    url: "https://www.hatphones.ca/buy/",
     title: "Buy Certified Pre-Owned Phones | HatPhones",
     description:
       "Shop certified pre-owned iPhones, Samsung, and more in Medicine Hat, AB. Every device tested and quality-checked.",

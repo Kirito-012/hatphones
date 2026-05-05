@@ -21,20 +21,20 @@ export function Footer() {
           <div>
             <h4 className="text-sm font-semibold text-zinc-900 dark:text-white mb-6">Explore</h4>
             <ul className="space-y-4">
-              <li><Link href="/buy" className="text-sm text-zinc-600 dark:text-zinc-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Buy Devices</Link></li>
-              <li><Link href="/sell" className="text-sm text-zinc-600 dark:text-zinc-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Sell Your Tech</Link></li>
-              <li><Link href="/repair" className="text-sm text-zinc-600 dark:text-zinc-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Repair Services</Link></li>
-              <li><Link href="/value-check" className="text-sm text-zinc-600 dark:text-zinc-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Get a Quote</Link></li>
+              <li><Link href="/buy/" className="text-sm text-zinc-600 dark:text-zinc-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Buy Devices</Link></li>
+              <li><Link href="/sell/" className="text-sm text-zinc-600 dark:text-zinc-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Sell Your Tech</Link></li>
+              <li><Link href="/repair/" className="text-sm text-zinc-600 dark:text-zinc-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Repair Services</Link></li>
+              <li><Link href="/value-check/" className="text-sm text-zinc-600 dark:text-zinc-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Get a Quote</Link></li>
             </ul>
           </div>
 
           <div>
             <h4 className="text-sm font-semibold text-zinc-900 dark:text-white mb-6">Connect</h4>
             <ul className="space-y-4">
-              <li><Link href="/contact" className="text-sm text-zinc-600 dark:text-zinc-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Contact Us</Link></li>
-              <li><Link href="/contact" className="text-sm text-zinc-600 dark:text-zinc-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Visit Store</Link></li>
-              <li><Link href="/contact" className="text-sm text-zinc-600 dark:text-zinc-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">FAQ</Link></li>
-              <li><Link href="/contact" className="text-sm text-zinc-600 dark:text-zinc-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Warranty Info</Link></li>
+              <li><Link href="/contact/" className="text-sm text-zinc-600 dark:text-zinc-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Contact Us</Link></li>
+              <li><Link href="/contact/" className="text-sm text-zinc-600 dark:text-zinc-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Visit Store</Link></li>
+              <li><Link href="/contact/" className="text-sm text-zinc-600 dark:text-zinc-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">FAQ</Link></li>
+              <li><Link href="/contact/" className="text-sm text-zinc-600 dark:text-zinc-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Warranty Info</Link></li>
             </ul>
           </div>
 

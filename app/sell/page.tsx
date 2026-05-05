@@ -158,7 +158,7 @@ export default function SellPage() {
 
               <div className="mt-7">
                 <motion.button
-                  onClick={() => router.push("/value-check")}
+                  onClick={() => router.push("/value-check/")}
                   whileHover={{ y: -1 }}
                   whileTap={{ scale: 0.96 }}
                   className="inline-flex items-center gap-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3.5 font-semibold shadow-sm transition-colors cursor-pointer"
@@ -336,7 +336,7 @@ export default function SellPage() {
                   transition={{ delay: 0.22 }}
                   whileHover={{ y: -1 }}
                   whileTap={{ scale: 0.97 }}
-                  onClick={() => router.push("/value-check")}
+                  onClick={() => router.push("/value-check/")}
                   className="self-start inline-flex items-center gap-2 px-5 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-semibold text-sm transition-colors shadow-sm cursor-pointer"
                 >
                   <Search size={15} />
@@ -465,7 +465,7 @@ export default function SellPage() {
                 <motion.button
                   whileHover={{ y: -1 }}
                   whileTap={{ scale: 0.97 }}
-                  onClick={() => router.push("/value-check")}
+                  onClick={() => router.push("/value-check/")}
                   className="inline-flex items-center gap-2 px-5 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-semibold text-sm transition-colors shadow-sm self-start cursor-pointer"
                 >
                   <Search size={15} />
@@ -495,7 +495,7 @@ export default function SellPage() {
                 <motion.button
                   whileHover={{ y: -1 }}
                   whileTap={{ scale: 0.97 }}
-                  onClick={() => router.push("/contact")}
+                  onClick={() => router.push("/contact/")}
                   className="inline-flex items-center gap-2 px-5 py-3 bg-zinc-900 dark:bg-white hover:bg-zinc-700 dark:hover:bg-zinc-100 text-white dark:text-zinc-900 rounded-xl font-semibold text-sm transition-colors shadow-sm self-start cursor-pointer"
                 >
                   Contact us
@@ -560,7 +560,7 @@ export default function SellPage() {
                 <motion.button
                   whileHover={{ y: -2, scale: 1.02 }}
                   whileTap={{ scale: 0.97 }}
-                  onClick={() => router.push("/value-check")}
+                  onClick={() => router.push("/value-check/")}
                   className="group inline-flex items-center gap-3 px-8 py-4 bg-white text-emerald-700 rounded-2xl font-bold text-base hover:bg-emerald-50 transition-colors shadow-lg cursor-pointer"
                 >
                   <Search size={18} />
@@ -594,7 +594,7 @@ export default function SellPage() {
               <motion.button
                 whileHover={{ y: -1 }}
                 whileTap={{ scale: 0.97 }}
-                onClick={() => router.push("/contact")}
+                onClick={() => router.push("/contact/")}
                 className="shrink-0 inline-flex items-center gap-2 px-5 py-2.5 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 rounded-xl font-semibold text-sm hover:bg-zinc-700 dark:hover:bg-zinc-100 transition-colors cursor-pointer"
               >
                 Contact Us

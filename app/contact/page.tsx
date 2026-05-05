@@ -152,7 +152,7 @@ export default function Contact() {
                 href="https://g.page/r/CRX5AuYbGr1hEBM/review"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex items-center gap-4 bg-white dark:bg-zinc-900 rounded-2xl md:rounded-3xl p-4 sm:p-5 md:p-6 border border-zinc-200 dark:border-white/10 shadow-sm hover:border-yellow-400 dark:hover:border-yellow-400/50 hover:shadow-md transition-all duration-200"
+                className="col-span-2 group flex items-center gap-4 bg-white dark:bg-zinc-900 rounded-2xl md:rounded-3xl p-4 sm:p-5 md:p-6 border border-zinc-200 dark:border-white/10 shadow-sm hover:border-yellow-400 dark:hover:border-yellow-400/50 hover:shadow-md transition-all duration-200"
               >
                 <div className="w-10 h-10 md:w-12 md:h-12 bg-yellow-50 dark:bg-yellow-400/10 rounded-xl md:rounded-2xl flex items-center justify-center shrink-0 text-xl">
                   ⭐

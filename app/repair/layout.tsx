@@ -5,9 +5,9 @@ export const metadata: Metadata = {
   title: "Same-Day Phone Repair in Medicine Hat",
   description:
     "Fast, affordable phone and tablet repair in Medicine Hat, AB. Screen replacements, battery swaps, charging ports, and more. Book online with HatPhones.",
-  alternates: { canonical: "https://www.hatphones.ca/repair" },
+  alternates: { canonical: "https://www.hatphones.ca/repair/" },
   openGraph: {
-    url: "https://www.hatphones.ca/repair",
+    url: "https://www.hatphones.ca/repair/",
     title: "Same-Day Phone Repair in Medicine Hat | HatPhones",
     description:
       "Fast, affordable phone and tablet repair in Medicine Hat, AB. Screen replacements, battery swaps, charging ports, and more.",

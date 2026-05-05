@@ -13,7 +13,7 @@ const localBusinessSchema = {
   "@type": ["LocalBusiness", "ElectronicsStore"],
   name: "HatPhones",
   url: "https://www.hatphones.ca",
-  telephone: "+14039570532",
+  telephone: "+14039775164",
   email: "info@hatphones.ca",
   address: {
     "@type": "PostalAddress",

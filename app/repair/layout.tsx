@@ -30,7 +30,7 @@ const repairServiceSchema = {
     "@type": "LocalBusiness",
     name: "HatPhones",
     url: "https://www.hatphones.ca",
-    telephone: "+14039570532",
+    telephone: "+14039775164",
     address: {
       "@type": "PostalAddress",
       streetAddress: "516 3rd St SE",

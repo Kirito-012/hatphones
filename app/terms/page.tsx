@@ -147,7 +147,7 @@ export default function TermsAndConditions() {
                     info@hatphones.ca
                   </a>
                 </p>
-                <p>Phone: +1 (403) 957-0532</p>
+                <p>Phone: +1 (403) 977-5164</p>
               </address>
             </section>
 

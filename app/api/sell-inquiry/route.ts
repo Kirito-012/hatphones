@@ -1,5 +1,6 @@
 import { Resend } from "resend";
 import { NextRequest, NextResponse } from "next/server";
+import { rateLimit, getIP } from "@/lib/rate-limit";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -28,6 +29,14 @@ const BATTERY_LABELS: Record<string, string> = {
 };
 
 export async function POST(req: NextRequest) {
+  const { allowed, retryAfterSeconds } = rateLimit(getIP(req));
+  if (!allowed) {
+    return NextResponse.json(
+      { error: "Too many requests. Please try again later." },
+      { status: 429, headers: { "Retry-After": String(retryAfterSeconds) } }
+    );
+  }
+
   const body = await req.json();
   const { name, contact, brand, model, storage, condition, batteryHealth, estimatedLow, estimatedHigh, answers, photos } = body;
   const photoAttachments: Array<{ filename: string; content: string }> = Array.isArray(photos) ? photos.slice(0, 5) : [];

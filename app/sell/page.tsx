@@ -178,7 +178,7 @@ export default function SellPage() {
                 }}
               >
                 {[
-                  { val: "500+", label: "Devices purchased" },
+                  { val: "100+", label: "Devices purchased" },
                   { val: "Same Day", label: "Payment guaranteed" },
                   { val: "Top Dollar", label: "Fair market value" },
                 ].map((chip) => (

@@ -28,9 +28,10 @@ function StatChip({
   return (
     <div
       style={style}
+      aria-label={`${label}: ${value}`}
       className={`absolute z-40 flex items-center gap-2.5 px-4 py-3 backdrop-blur-md rounded-2xl border shadow-lg opacity-0 animate-fadeIn ${accentBg} ${accentBorder} ${className}`}
     >
-      <span className={`text-xl w-8 h-8 flex items-center justify-center rounded-xl ${iconBg ?? ""}`}>{icon}</span>
+      <span aria-hidden="true" className={`text-xl w-8 h-8 flex items-center justify-center rounded-xl ${iconBg ?? ""}`}>{icon}</span>
       <div className="flex flex-col leading-tight">
         <span className={`text-[10px] font-semibold tracking-wider ${labelColor}`}>{label}</span>
         <span className="text-sm font-bold text-white">{value}</span>
@@ -239,7 +240,7 @@ export function Hero() {
           >
             <p className="text-[10px] font-semibold text-fuchsia-200 uppercase tracking-widest mb-1">Just Sold</p>
             <p className="text-sm font-bold text-white">iPhone 14 Pro</p>
-            <p className="text-xs text-fuchsia-200 mt-1">Found a new home 🏠</p>
+            <p className="text-xs text-fuchsia-200 mt-1">Found a new home <span aria-hidden="true">🏠</span></p>
           </div>
         </div>
       </div>

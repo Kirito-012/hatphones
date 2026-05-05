@@ -52,12 +52,12 @@ export function About() {
               {/* Stats/Guarantees */}
               <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 gap-8 sm:gap-6 pt-8 border-t border-zinc-200 dark:border-white/10">
                 <div>
-                  <h3 className="text-3xl lg:text-4xl font-bold text-zinc-900 dark:text-white mb-2">Thorough</h3>
-                  <p className="text-sm font-medium text-zinc-500">Testing & Diagnostics</p>
+                  <h3 className="text-3xl lg:text-4xl font-bold text-zinc-900 dark:text-white mb-2">500+</h3>
+                  <p className="text-sm font-medium text-zinc-500">Repairs Completed</p>
                 </div>
                 <div>
-                  <h3 className="text-3xl lg:text-4xl font-bold text-zinc-900 dark:text-white mb-2">Quality</h3>
-                  <p className="text-sm font-medium text-zinc-500">Parts Guaranteed</p>
+                  <h3 className="text-3xl lg:text-4xl font-bold text-zinc-900 dark:text-white mb-2">4 yrs</h3>
+                  <p className="text-sm font-medium text-zinc-500">In Business</p>
                 </div>
               </div>
             </motion.div>

@@ -48,6 +48,7 @@ export default function FAQ({ items, accent = "indigo" }: FAQProps) {
           >
             <button
               type="button"
+              aria-expanded={isOpen}
               onClick={() => setOpen(isOpen ? null : i)}
               className={`w-full flex items-center justify-between gap-4 px-6 py-5 text-left focus:outline-none focus-visible:ring-2 ${ring} cursor-pointer`}
             >

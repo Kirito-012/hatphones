@@ -8,6 +8,7 @@ const categories = [
   {
     title: "iPhones",
     description: "Latest Apple devices with certified quality.",
+    cta: "Shop iPhones →",
     type: "img" as const,
     logoUrl: "https://cdn.simpleicons.org/apple/ffffff",
     logoAlt: "Apple logo",
@@ -19,6 +20,7 @@ const categories = [
   {
     title: "Androids",
     description: "Top brands like Samsung, Google, and more.",
+    cta: "Shop Androids →",
     type: "img" as const,
     logoUrl: "https://cdn.simpleicons.org/android/ffffff",
     logoAlt: "Android logo",
@@ -30,6 +32,7 @@ const categories = [
   {
     title: "Tablets",
     description: "iPads and Android tablets for work or play.",
+    cta: "Shop Tablets →",
     type: "icon" as const,
     icon: Tablet,
     accent: "from-purple-500 to-purple-700",
@@ -40,6 +43,7 @@ const categories = [
   {
     title: "Laptops",
     description: "MacBooks and Windows laptops for every budget.",
+    cta: "Shop Laptops →",
     type: "icon" as const,
     icon: Laptop,
     accent: "from-blue-500 to-blue-700",
@@ -106,7 +110,7 @@ export function ShopFor() {
                     {category.description}
                   </p>
                   <div className="mt-4 sm:mt-6 px-4 sm:px-5 py-1.5 sm:py-2 rounded-full bg-white/20 hover:bg-white/30 text-xs sm:text-sm font-semibold text-white transition-colors duration-300">
-                    View All →
+                    {category.cta}
                   </div>
                 </div>
               </ScrollReveal>

@@ -55,80 +55,48 @@ function PhoneMockup({ shouldAnimate }: { shouldAnimate: boolean }) {
       {/* Screen Bezel */}
       <div className="absolute inset-[4px] rounded-[2.2rem] bg-zinc-950 overflow-hidden">
         {/* Screen Content */}
-        <div className="absolute inset-0 bg-white dark:bg-zinc-950 flex flex-col">
-          {/* Status Bar */}
-          <div className="flex justify-between items-center px-5 pt-4 pb-1 text-zinc-900 dark:text-white">
-            <span className="text-[9px] font-semibold opacity-60">9:41</span>
-            <div className="w-24 h-5 rounded-full bg-black mx-auto absolute left-1/2 -translate-x-1/2" />
-            <div className="flex items-center gap-1 opacity-60">
-              <div className="flex gap-[2px] items-end h-3">
-                {[2, 3, 4, 5].map((h, i) => (
-                  <div key={i} style={{ height: `${h * 2}px` }} className="w-1 rounded-sm bg-current" />
-                ))}
-              </div>
-            </div>
+        <div className="absolute inset-0 bg-zinc-50 dark:bg-zinc-950 flex flex-col">
+
+          {/* Header */}
+          <div className="px-4 pt-5 pb-3 bg-white dark:bg-zinc-900 border-b border-zinc-100 dark:border-zinc-800">
+            <p className="text-[10px] font-black tracking-tighter text-zinc-900 dark:text-white uppercase">HAT <span className="font-light opacity-60">PHONES</span></p>
+            <p className="text-[8px] text-zinc-400 mt-0.5">Medicine Hat, AB</p>
           </div>
 
-          {/* App Header */}
-          <div className="px-4 pt-3 pb-2">
+          {/* Featured listing */}
+          <div className="mx-3 mt-3 bg-gradient-to-br from-indigo-600 to-indigo-700 rounded-2xl p-3 shadow-sm">
+            <p className="text-[8px] font-bold text-indigo-200 uppercase tracking-widest mb-1">Featured</p>
+            <p className="text-xs font-bold text-white leading-tight">iPhone 15 Pro</p>
+            <p className="text-[8px] text-indigo-200 mb-2">256GB · Excellent condition</p>
             <div className="flex justify-between items-center">
-              <div>
-                <p className="text-[9px] text-zinc-500 font-medium">Good morning,</p>
-                <p className="text-xs font-bold text-zinc-900 dark:text-white">Hat</p>
-              </div>
-              <div className="w-7 h-7 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center text-[10px] font-bold">A</div>
+              <span className="text-sm font-black text-white">$600</span>
+              <div className="px-2.5 py-1 bg-white rounded-lg text-[8px] font-bold text-indigo-600">In Stock</div>
             </div>
           </div>
 
-          {/* Search Bar */}
-          <div className="mx-4 mb-3">
-            <div className="flex items-center gap-2 px-3 py-2 bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-sm">
-              <span className="text-zinc-400 text-[10px]">🔍</span>
-              <span className="text-[9px] text-zinc-400 font-medium tracking-wide">Search phones...</span>
-            </div>
-          </div>
-
-          {/* Featured Phone Card */}
-          <div className="mx-4 bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-3 mb-3 relative overflow-hidden shadow-sm">
-            <p className="text-[8px] font-semibold text-indigo-500 uppercase tracking-widest mb-0.5">Featured Seller</p>
-            <p className="text-xs font-bold text-zinc-900 dark:text-white">iPhone 15 Pro</p>
-            <p className="text-[9px] text-zinc-500 mb-2">256GB · Natural Titanium</p>
-            <div className="flex justify-between items-center">
-              <span className="text-sm font-bold text-zinc-900 dark:text-white">$899</span>
-              <div className="px-3 py-1 bg-indigo-600 rounded-lg text-[8px] font-bold text-white shadow-sm">BUY</div>
-            </div>
-          </div>
-
-          {/* Mini Listings */}
-          <p className="text-[9px] font-semibold text-zinc-400 px-4 mb-2 tracking-wide">Recent Listings</p>
-          <div className="flex flex-col gap-2 px-4">
+          {/* Listings */}
+          <p className="text-[8px] font-semibold text-zinc-400 px-3 mt-3 mb-1.5 uppercase tracking-widest">Available Now</p>
+          <div className="flex flex-col gap-1.5 px-3">
             {[
-              { name: "Samsung S24 Ultra", price: "$749", badge: "🔥", color: "bg-orange-100 text-orange-600" },
-              { name: "Google Pixel 9 Pro", price: "$599", badge: "✅", color: "bg-emerald-100 text-emerald-600" },
+              { name: "Samsung S24 Ultra", detail: "512GB · Good", price: "$749", dot: "bg-emerald-400" },
+              { name: "Google Pixel 9 Pro", detail: "128GB · Excellent", price: "$599", dot: "bg-emerald-400" },
+              { name: "iPhone 14", detail: "128GB · Fair", price: "$449", dot: "bg-amber-400" },
             ].map((item, i) => (
-              <div key={i} className="flex items-center gap-2.5 p-2 bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-sm">
-                <div className={`w-7 h-7 rounded-full ${item.color} flex items-center justify-center text-[10px]`}>{item.badge}</div>
+              <div key={i} className="flex items-center gap-2 px-2.5 py-2 bg-white dark:bg-zinc-900 rounded-xl border border-zinc-100 dark:border-zinc-800">
+                <div className={`w-1.5 h-1.5 rounded-full shrink-0 ${item.dot}`} />
                 <div className="flex-1 min-w-0">
-                  <p className="text-[10px] font-semibold text-zinc-900 dark:text-white truncate">{item.name}</p>
+                  <p className="text-[9px] font-semibold text-zinc-900 dark:text-white truncate">{item.name}</p>
+                  <p className="text-[7px] text-zinc-400">{item.detail}</p>
                 </div>
-                <p className="text-[10px] font-bold text-zinc-900 dark:text-white">{item.price}</p>
+                <p className="text-[9px] font-bold text-zinc-900 dark:text-white shrink-0">{item.price}</p>
               </div>
             ))}
           </div>
 
-          {/* Bottom Nav */}
-          <div className="mt-auto mx-4 mb-4">
-            <div className="flex justify-around p-2 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-sm">
-              {["🏠", "🔍", "💬", "👤"].map((icon, i) => (
-                <div
-                  key={i}
-                  className={`w-8 h-8 rounded-xl flex items-center justify-center text-base
-                    ${i === 0 ? "bg-zinc-100 dark:bg-zinc-800" : ""}`}
-                >
-                  {icon}
-                </div>
-              ))}
-            </div>
+          {/* Footer strip */}
+          <div className="mt-auto mx-3 mb-3 px-3 py-2 bg-emerald-50 dark:bg-emerald-950/40 rounded-xl border border-emerald-100 dark:border-emerald-800/30 flex items-center justify-between">
+            <p className="text-[8px] font-semibold text-emerald-700 dark:text-emerald-400">Same-day repairs available</p>
+            <span className="text-[8px]">🔧</span>
           </div>
         </div>
       </div>
@@ -211,7 +179,7 @@ export function Hero() {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 className="px-8 py-4 bg-indigo-600 text-white rounded-xl font-semibold hover:bg-indigo-700 w-full sm:w-auto transition-colors shadow-sm cursor-pointer"
-                onClick={() => window.location.href = "/buy"}
+                onClick={() => window.location.href = "/buy/"}
               >
                 Shop Phones
               </motion.button>
@@ -219,7 +187,7 @@ export function Hero() {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 className="px-8 py-4 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white border border-zinc-200 dark:border-zinc-800 rounded-xl font-semibold hover:bg-zinc-50 dark:hover:bg-zinc-800 w-full sm:w-auto transition-colors shadow-sm cursor-pointer"
-                onClick={() => window.location.href = "/sell"}
+                onClick={() => window.location.href = "/sell/"}
               >
                 Sell Your Phone
               </motion.button>
@@ -228,7 +196,7 @@ export function Hero() {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               className="px-8 py-4 bg-emerald-50 text-emerald-600 border border-emerald-200 dark:bg-emerald-950/30 dark:text-emerald-400 dark:border-emerald-800/50 rounded-xl font-semibold hover:bg-emerald-100 dark:hover:bg-emerald-900/50 w-full sm:w-auto transition-colors shadow-sm cursor-pointer"
-              onClick={() => window.location.href = "/value-check"}
+              onClick={() => window.location.href = "/value-check/"}
             >
               Get a Repair Quote
             </motion.button>

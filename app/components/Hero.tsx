@@ -62,7 +62,7 @@ function PhoneMockup({ shouldAnimate }: { shouldAnimate: boolean }) {
             <p className="text-xs font-bold text-white leading-tight">iPhone 15 Pro</p>
             <p className="text-[8px] text-indigo-200 mb-2">256GB · Excellent condition</p>
             <div className="flex justify-between items-center">
-              <span className="text-sm font-black text-white">$600</span>
+              <span className="text-sm font-black text-white">$700</span>
               <div className="px-2.5 py-1 bg-white rounded-lg text-[8px] font-bold text-indigo-600">In Stock</div>
             </div>
           </div>

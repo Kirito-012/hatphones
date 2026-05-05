@@ -64,7 +64,7 @@ export function WhyUs() {
             </div>
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-zinc-900 dark:text-white tracking-tight">
               Honest &amp; Reliable<br />
-              <span className="text-zinc-400 dark:text-zinc-600">Service.</span>
+              <span className="text-zinc-500 dark:text-zinc-500">Service.</span>
             </h2>
           </div>
           <p className="text-zinc-500 dark:text-zinc-400 max-w-xs text-sm leading-relaxed md:text-right">

@@ -53,7 +53,7 @@ function PhoneMockup({ shouldAnimate }: { shouldAnimate: boolean }) {
           {/* Header */}
           <div className="px-4 pt-5 pb-3 bg-white dark:bg-zinc-900 border-b border-zinc-100 dark:border-zinc-800">
             <p className="text-[10px] font-black tracking-tighter text-zinc-900 dark:text-white uppercase">HAT <span className="font-light opacity-60">PHONES</span></p>
-            <p className="text-[8px] text-zinc-400 mt-0.5">Medicine Hat, AB</p>
+            <p className="text-[8px] text-zinc-500 mt-0.5">Medicine Hat, AB</p>
           </div>
 
           {/* Featured listing */}
@@ -68,7 +68,7 @@ function PhoneMockup({ shouldAnimate }: { shouldAnimate: boolean }) {
           </div>
 
           {/* Listings */}
-          <p className="text-[8px] font-semibold text-zinc-400 px-3 mt-3 mb-1.5 uppercase tracking-widest">Available Now</p>
+          <p className="text-[8px] font-semibold text-zinc-500 px-3 mt-3 mb-1.5 uppercase tracking-widest">Available Now</p>
           <div className="flex flex-col gap-1.5 px-3">
             {[
               { name: "Samsung S24 Ultra", detail: "512GB · Good", price: "$749", dot: "bg-emerald-400" },
@@ -79,7 +79,7 @@ function PhoneMockup({ shouldAnimate }: { shouldAnimate: boolean }) {
                 <div className={`w-1.5 h-1.5 rounded-full shrink-0 ${item.dot}`} />
                 <div className="flex-1 min-w-0">
                   <p className="text-[9px] font-semibold text-zinc-900 dark:text-white truncate">{item.name}</p>
-                  <p className="text-[7px] text-zinc-400">{item.detail}</p>
+                  <p className="text-[7px] text-zinc-500">{item.detail}</p>
                 </div>
                 <p className="text-[9px] font-bold text-zinc-900 dark:text-white shrink-0">{item.price}</p>
               </div>
@@ -156,7 +156,7 @@ export function Hero() {
             ].map((stat) => (
               <div key={stat.value} className="flex flex-col">
                 <span className="text-2xl font-bold text-zinc-900 dark:text-white leading-tight">{stat.value} <span className="text-sm text-zinc-500 font-medium">{stat.label}</span></span>
-                {stat.sub && <span className="text-[11px] text-zinc-400 font-medium">{stat.sub}</span>}
+                {stat.sub && <span className="text-[11px] text-zinc-500 dark:text-zinc-400 font-medium">{stat.sub}</span>}
               </div>
             ))}
           </div>
@@ -179,7 +179,7 @@ export function Hero() {
             </div>
             <a
               href="/value-check/"
-              className="px-8 py-4 bg-emerald-50 text-emerald-600 border border-emerald-200 dark:bg-emerald-950/30 dark:text-emerald-400 dark:border-emerald-800/50 rounded-xl font-semibold hover:bg-emerald-100 dark:hover:bg-emerald-900/50 w-full sm:w-auto transition-colors shadow-sm text-center"
+              className="px-8 py-4 bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950/30 dark:text-emerald-300 dark:border-emerald-800/50 rounded-xl font-semibold hover:bg-emerald-100 dark:hover:bg-emerald-900/50 w-full sm:w-auto transition-colors shadow-sm text-center"
             >
               Get a Repair Quote
             </a>
@@ -203,7 +203,7 @@ export function Hero() {
             className="-left-4 lg:-left-6 top-16"
             accentBg="bg-violet-600"
             accentBorder="border-violet-500"
-            labelColor="text-violet-200"
+            labelColor="text-violet-100"
             iconBg="bg-violet-500"
             style={{ animationDelay: "500ms" }}
           />
@@ -215,7 +215,7 @@ export function Hero() {
             className="-right-4 lg:-right-6 top-24"
             accentBg="bg-teal-500"
             accentBorder="border-teal-400"
-            labelColor="text-teal-100"
+            labelColor="text-white"
             iconBg="bg-teal-400"
             style={{ animationDelay: "650ms" }}
           />
@@ -227,7 +227,7 @@ export function Hero() {
             className="-left-2 lg:-left-4 bottom-24"
             accentBg="bg-orange-500"
             accentBorder="border-orange-400"
-            labelColor="text-orange-100"
+            labelColor="text-white"
             iconBg="bg-orange-400"
             style={{ animationDelay: "800ms" }}
           />

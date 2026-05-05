@@ -33,7 +33,7 @@ export function Services() {
             className="text-4xl md:text-5xl lg:text-6xl font-bold text-zinc-900 dark:text-white tracking-tight"
           >
             Everything for your phone.{" "}
-            <span className="text-zinc-400 dark:text-zinc-600">In one place.</span>
+            <span className="text-zinc-500 dark:text-zinc-500">In one place.</span>
           </motion.h2>
         </div>
 

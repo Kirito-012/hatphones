@@ -185,7 +185,7 @@ export async function POST(req: NextRequest) {
         </td></tr>
 
         <tr><td style="padding:24px 0;" align="center">
-          <p style="margin:0;font-size:12px;color:#94a3b8;">HatPhones &middot; hatphones.ca</p>
+          <p style="margin:0;font-size:12px;color:#94a3b8;">HatPhones &middot; <a href="https://www.hatphones.ca" style="color:#94a3b8;text-decoration:none;">https://www.hatphones.ca</a></p>
         </td></tr>
 
       </table>

@@ -1,9 +1,29 @@
 export const dynamic = 'force-dynamic';
 
+import type { Metadata } from "next";
 import { Navbar } from "../components/Navbar";
+
+export const metadata: Metadata = {
+  title: "Buy Certified Pre-Owned Phones",
+  description:
+    "Shop HatPhones' selection of certified pre-owned iPhones, Samsung, and more in Medicine Hat, AB. Every device tested and quality-checked.",
+  alternates: { canonical: "https://www.hatphones.ca/buy" },
+  openGraph: {
+    url: "https://www.hatphones.ca/buy",
+    title: "Buy Certified Pre-Owned Phones | HatPhones",
+    description:
+      "Shop certified pre-owned iPhones, Samsung, and more in Medicine Hat, AB. Every device tested and quality-checked.",
+    images: [{ url: "/og-image-buy.png", width: 1200, height: 630, alt: "Buy Certified Pre-Owned Phones — HatPhones Medicine Hat" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    images: ["/og-image-buy.png"],
+  },
+};
 import { Footer } from "../components/Footer";
+import StructuredData from "../components/StructuredData";
 import Image from "next/image";
-import buyBg from "../assets/buy_bg.png";
+import buyBg from "../assets/buy_bg.webp";
 import { getProducts } from "@/lib/shopify";
 import ProductsGrid from "./products-grid";
 
@@ -15,8 +35,18 @@ export default async function BuyPage({
   const { category, maxPrice } = await searchParams;
   const products = await getProducts();
 
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://www.hatphones.ca" },
+      { "@type": "ListItem", position: 2, name: "Buy Phones", item: "https://www.hatphones.ca/buy" },
+    ],
+  };
+
   return (
     <main className="min-h-screen bg-zinc-50 dark:bg-zinc-950 flex flex-col">
+      <StructuredData data={breadcrumbSchema} />
       <Navbar />
 
       <div className="flex-1 flex flex-col pt-20 relative z-20">

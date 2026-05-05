@@ -5,7 +5,7 @@ import { Navbar } from "../components/Navbar";
 import { Footer } from "../components/Footer";
 import { MapPin, Phone, Mail, Clock, CheckCircle2, Copy, Check } from "lucide-react";
 import Image from "next/image";
-import contactBg from "../assets/contact_bg.png";
+import contactBg from "../assets/contact_bg.webp";
 
 export default function Contact() {
   const [name, setName] = useState("");

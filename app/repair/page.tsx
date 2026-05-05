@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Navbar } from "../components/Navbar";
 import { Footer } from "../components/Footer";
 import { ScrollReveal, ScrollRevealButton } from "../components/ScrollReveal";
+import FAQ from "../components/FAQ";
 import {
   CalendarDays,
   Clock3,
@@ -20,6 +21,33 @@ import {
   Mail,
   MessageSquare,
 } from "lucide-react";
+
+const repairFAQs = [
+  {
+    q: "How long does a screen repair take?",
+    a: "Most iPhone and Samsung screen replacements are completed in 45 to 90 minutes while you wait. We'll give you an accurate time estimate when you drop off your device.",
+  },
+  {
+    q: "Do you use original or aftermarket parts?",
+    a: "We use high-quality parts for all repairs. For screen replacements we offer both OEM-grade and original options depending on the model — we'll walk you through the difference and let you choose.",
+  },
+  {
+    q: "Is there a diagnostic fee?",
+    a: "No — diagnostics are free at HatPhones. Bring your device in and we'll assess the issue at no cost before you commit to any repair.",
+  },
+  {
+    q: "Do you fix water-damaged phones?",
+    a: "Yes, we do water damage assessments and repairs. Results depend on the extent of the damage, but bring it in as soon as possible — the sooner we look at it, the better the chances of recovery.",
+  },
+  {
+    q: "Do repairs come with a warranty?",
+    a: "Yes. All repairs at HatPhones come with a 90-day service warranty. If the same issue comes back within that period, we'll fix it at no charge.",
+  },
+  {
+    q: "Do I need an appointment for a repair?",
+    a: "Walk-ins are welcome, but booking an appointment through our website guarantees your time slot. Most walk-ins are accommodated the same day during store hours: Monday to Friday 10 AM–6 PM, Saturday 11 AM–6 PM.",
+  },
+];
 
 type DeviceCategory = "iphone" | "android" | "other";
 
@@ -941,6 +969,26 @@ export default function RepairPage() {
               )}
             </AnimatePresence>
 
+          </div>
+        </section>
+
+        {/* ── FAQ ── */}
+        <section className="relative w-full py-24 md:py-32 px-6 bg-white dark:bg-zinc-950">
+          <div className="container mx-auto max-w-4xl">
+            <div className="mb-12">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-white/10 shadow-sm mb-6">
+                <span className="w-1.5 h-1.5 rounded-full bg-indigo-500" />
+                <span className="text-sm font-semibold text-zinc-600 dark:text-zinc-300">Common Questions</span>
+              </div>
+              <h2 className="text-4xl md:text-5xl font-bold text-zinc-900 dark:text-white tracking-tight leading-[1.1] mb-4">
+                Phone repair —{" "}
+                <span className="text-zinc-400 dark:text-zinc-600">answered.</span>
+              </h2>
+              <p className="text-lg text-zinc-500 dark:text-zinc-400 leading-relaxed max-w-xl">
+                Everything you need to know about getting your device repaired at HatPhones in Medicine Hat.
+              </p>
+            </div>
+            <FAQ items={repairFAQs} accent="indigo" />
           </div>
         </section>
 

@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { Navbar } from "../components/Navbar";
 import { Footer } from "../components/Footer";
+import FAQ from "../components/FAQ";
 import {
   ShieldCheck,
   Zap,
@@ -17,6 +18,33 @@ import {
   EyeOff,
   Store,
 } from "lucide-react";
+
+const sellFAQs = [
+  {
+    q: "How do I get a quote for my phone?",
+    a: "Use our Value Check tool on the website to get an instant estimate based on your device model, storage, and condition. You can also call or text us and we'll give you a ballpark over the phone. Final offer is confirmed after a quick in-person inspection.",
+  },
+  {
+    q: "Do you buy phones with cracked screens or damage?",
+    a: "It depends on the condition and model. Bring your device in and our team will inspect it on the spot — we'll let you know right away if it's something we can take and what we'd offer for it.",
+  },
+  {
+    q: "How fast do I get paid?",
+    a: "Same day, every time. Once we inspect your device and agree on a price, you walk out with cash or an Interac e-transfer. There's no waiting period or delayed payment.",
+  },
+  {
+    q: "What ID do I need to bring?",
+    a: "You'll need to bring a valid government-issued photo ID — a driver's licence or provincial ID works. This is required for all device purchases as part of our standard process.",
+  },
+  {
+    q: "Do I need to erase my phone before coming in?",
+    a: "You don't have to — we wipe every device ourselves before processing. That said, backing up your data beforehand is always a good idea. We'll remove your accounts and personal information securely.",
+  },
+  {
+    q: "Do I need an appointment to sell my phone?",
+    a: "No appointment needed. Walk-ins are always welcome during store hours: Monday to Friday 10 AM–6 PM, Saturday 11 AM–6 PM. If you prefer, you can also use the Value Check tool and send us your details ahead of time.",
+  },
+];
 
 const privacyFeatures = [
   {
@@ -476,6 +504,26 @@ export default function SellPage() {
               </motion.div>
 
             </div>
+          </div>
+        </section>
+
+        {/* ── FAQ ── */}
+        <section className="relative w-full py-24 md:py-32 px-6 bg-white dark:bg-zinc-950">
+          <div className="container mx-auto max-w-4xl">
+            <div className="mb-12">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-white/10 shadow-sm mb-6">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                <span className="text-sm font-semibold text-zinc-600 dark:text-zinc-300">Common Questions</span>
+              </div>
+              <h2 className="text-4xl md:text-5xl font-bold text-zinc-900 dark:text-white tracking-tight leading-[1.1] mb-4">
+                Selling your phone —{" "}
+                <span className="text-zinc-400 dark:text-zinc-600">answered.</span>
+              </h2>
+              <p className="text-lg text-zinc-500 dark:text-zinc-400 leading-relaxed max-w-xl">
+                Everything you need to know before selling your device to HatPhones in Medicine Hat.
+              </p>
+            </div>
+            <FAQ items={sellFAQs} accent="emerald" />
           </div>
         </section>
 

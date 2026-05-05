@@ -74,7 +74,7 @@ function PhoneMockup({ shouldAnimate }: { shouldAnimate: boolean }) {
             <div className="flex justify-between items-center">
               <div>
                 <p className="text-[9px] text-zinc-500 font-medium">Good morning,</p>
-                <p className="text-xs font-bold text-zinc-900 dark:text-white">Alex</p>
+                <p className="text-xs font-bold text-zinc-900 dark:text-white">Hat</p>
               </div>
               <div className="w-7 h-7 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center text-[10px] font-bold">A</div>
             </div>
@@ -219,7 +219,7 @@ export function Hero() {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 className="px-8 py-4 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white border border-zinc-200 dark:border-zinc-800 rounded-xl font-semibold hover:bg-zinc-50 dark:hover:bg-zinc-800 w-full sm:w-auto transition-colors shadow-sm cursor-pointer"
-              onClick={() => window.location.href = "/sell"}
+                onClick={() => window.location.href = "/sell"}
               >
                 Sell Your Phone
               </motion.button>

@@ -22,10 +22,44 @@ export const metadata: Metadata = {
 };
 import { Footer } from "../components/Footer";
 import StructuredData from "../components/StructuredData";
+import FAQ from "../components/FAQ";
 import Image from "next/image";
 import buyBg from "../assets/buy_bg.webp";
 import { getProducts } from "@/lib/shopify";
 import ProductsGrid from "./products-grid";
+
+const buyFAQs = [
+  {
+    q: "Are your used phones unlocked?",
+    a: "Yes — all phones we sell are fully unlocked and compatible with any Canadian carrier, including Rogers, Bell, Telus, Freedom, and Koodo. You can pop in your existing SIM and go.",
+  },
+  {
+    q: "What warranty comes with a used phone from HatPhones?",
+    a: "Every certified pre-owned device we sell comes with a warranty. Come in and ask about the specific coverage for the model you're interested in — we stand behind every device we sell.",
+  },
+  {
+    q: "Do you accept trade-ins toward a purchase?",
+    a: "Yes. Bring in your old phone and we'll apply its trade-in value toward any device in our inventory. Use our Value Check tool for an estimate on what your device is worth before you visit.",
+  },
+  {
+    q: "How do you test your devices before selling?",
+    a: "Every device goes through a multi-point inspection — screen quality, battery health, cameras, speakers, buttons, charging port, and cellular connectivity. Only phones that pass are listed for sale.",
+  },
+  {
+    q: "What brands and models do you typically carry?",
+    a: "We stock iPhones, Samsung Galaxy phones, and Google Pixel devices most frequently. Inventory changes often — call or text us to check availability on a specific model.",
+  },
+];
+
+const buyFAQSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: buyFAQs.map(({ q, a }) => ({
+    "@type": "Question",
+    name: q,
+    acceptedAnswer: { "@type": "Answer", text: a },
+  })),
+};
 
 export default async function BuyPage({
   searchParams,
@@ -47,6 +81,7 @@ export default async function BuyPage({
   return (
     <main className="min-h-screen bg-zinc-50 dark:bg-zinc-950 flex flex-col">
       <StructuredData data={breadcrumbSchema} />
+      <StructuredData data={buyFAQSchema} />
       <Navbar />
 
       <div className="flex-1 flex flex-col pt-20 relative z-20">
@@ -79,6 +114,26 @@ export default async function BuyPage({
           initialMaxPrice={maxPrice ? parseInt(maxPrice) : undefined}
         />
       </div>
+
+      {/* ── FAQ ── */}
+      <section className="w-full py-24 md:py-32 px-6 bg-white dark:bg-zinc-950">
+        <div className="container mx-auto max-w-4xl">
+          <div className="mb-12">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-white/10 shadow-sm mb-6">
+              <span className="w-1.5 h-1.5 rounded-full bg-indigo-500" />
+              <span className="text-sm font-semibold text-zinc-600 dark:text-zinc-300">Common Questions</span>
+            </div>
+            <h2 className="text-4xl md:text-5xl font-bold text-zinc-900 dark:text-white tracking-tight leading-[1.1] mb-4">
+              Buying a phone —{" "}
+              <span className="text-zinc-400 dark:text-zinc-600">answered.</span>
+            </h2>
+            <p className="text-lg text-zinc-500 dark:text-zinc-400 leading-relaxed max-w-xl">
+              Everything you need to know before buying a certified pre-owned phone from HatPhones.
+            </p>
+          </div>
+          <FAQ items={buyFAQs} accent="indigo" />
+        </div>
+      </section>
 
       <Footer />
     </main>

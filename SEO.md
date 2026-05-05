@@ -30,7 +30,7 @@ Hatphones is a local e-commerce + service platform in Medicine Hat, Alberta, Can
 
 ---
 
-## Phase 1 — Root Metadata & Per-Page Metadata
+## Phase 1 — Root Metadata & Per-Page Metadata ✅ DONE
 
 ### 1.1 Root Layout (`app/layout.tsx`)
 
@@ -91,7 +91,7 @@ Each metadata object also includes `alternates: { canonical: 'https://hatphones.
 
 ---
 
-## Phase 2 — Structured Data (JSON-LD)
+## Phase 2 — Structured Data (JSON-LD) ✅ DONE
 
 Create `app/components/StructuredData.tsx` — a simple component that renders a `<script type="application/ld+json">` tag. Inject it in the root layout and per-page layouts.
 
@@ -181,7 +181,7 @@ Enables sitelinks search box in Google:
 
 ---
 
-## Phase 3 — Sitemap & Robots
+## Phase 3 — Sitemap & Robots ✅ DONE
 
 ### 3.1 `app/sitemap.ts`
 
@@ -214,7 +214,7 @@ export default function robots(): MetadataRoute.Robots {
 
 ---
 
-## Phase 4 — Open Graph Images (4 branded images)
+## Phase 4 — Open Graph Images (4 branded images) ✅ DONE
 
 Use Next.js `ImageResponse` (from `next/og`) to generate branded OG images server-side. Each image: **1200×630px**. Use the indigo brand color scheme.
 
@@ -229,7 +229,7 @@ Each file exports `size`, `contentType`, and a default function using `ImageResp
 
 ---
 
-## Phase 5 — Google Analytics 4 + Search Console
+## Phase 5 — Google Analytics 4 + Search Console ✅ DONE
 
 ### 5.1 `app/components/GoogleAnalytics.tsx`
 
@@ -254,7 +254,7 @@ NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION=REPLACE_ME   # TODO: replace with real toke
 
 ---
 
-## Phase 6 — Technical SEO Hardening
+## Phase 6 — Technical SEO Hardening ✅ DONE
 
 ### 6.1 Canonical Tags
 Every `metadata` export includes `alternates.canonical` pointing to the absolute URL. Prevents duplicate content from `www` vs non-`www`.
@@ -278,7 +278,7 @@ Ensure `public/favicon.ico`, `public/apple-touch-icon.png` (180×180), and `publ
 
 ---
 
-## Phase 7 — Off-Page / Non-Code Recommendations
+## Phase 7 — Off-Page / Non-Code Recommendations ✅ DONE (code part)
 
 Critical for local SEO — action items outside the codebase:
 
@@ -297,8 +297,8 @@ Critical for local SEO — action items outside the codebase:
 - **Email**: info@hatphones.ca
 - **Domain**: `hatphones.ca`
 - **Store Hours**: Mon–Fri 10:00–18:00, Sat 11:00–18:00, Sun Closed
-- **GA4 ID**: Placeholder `G-XXXXXXXXXX` — see TODO.md
-- **GSC Token**: Placeholder `REPLACE_ME` — see TODO.md
+- **GA4 ID**: `G-GPTYJ3ZGCD` ✅
+- **GSC**: Verified via DNS (Domain name provider) — no token needed in code ✅
 - **Google Maps URL**: Needs to be pulled from Google Business Profile
 
 ---
@@ -310,7 +310,9 @@ After implementation:
 - [ ] `https://hatphones.ca/robots.txt` returns correct rules
 - [ ] Paste homepage URL into opengraph.xyz — OG image renders correctly
 - [ ] Paste homepage into Google Rich Results Test — JSON-LD validates
-- [ ] Submit sitemap in Google Search Console
+- [x] Submit sitemap in Google Search Console ✅
 - [ ] Run Lighthouse SEO audit on all 4 main pages — target score ≥ 95
-- [ ] Verify GA4 receiving events in Realtime dashboard
-- [ ] Replace all TODO placeholders in `.env.local`
+- [ ] Verify GA4 receiving events in Realtime dashboard (pending deploy)
+- [x] GSC ownership verified via DNS (Domain name provider) ✅
+- [x] All favicon files placed in `public/` ✅
+- [x] `site.webmanifest` name/short_name filled in ✅

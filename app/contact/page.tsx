@@ -146,7 +146,24 @@ export default function Contact() {
                   </p>
                 </div>
               </div>
-              
+
+              {/* Google Reviews CTA */}
+              <a
+                href="https://g.page/r/CRX5AuYbGr1hEBM/review"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex items-center gap-4 bg-white dark:bg-zinc-900 rounded-2xl md:rounded-3xl p-4 sm:p-5 md:p-6 border border-zinc-200 dark:border-white/10 shadow-sm hover:border-yellow-400 dark:hover:border-yellow-400/50 hover:shadow-md transition-all duration-200"
+              >
+                <div className="w-10 h-10 md:w-12 md:h-12 bg-yellow-50 dark:bg-yellow-400/10 rounded-xl md:rounded-2xl flex items-center justify-center shrink-0 text-xl">
+                  ⭐
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm md:text-base font-bold text-zinc-900 dark:text-white">Enjoyed your experience?</p>
+                  <p className="text-xs md:text-sm text-zinc-500 dark:text-zinc-400">Leave us a Google review — it helps a lot!</p>
+                </div>
+                <span className="text-xs font-semibold text-yellow-600 dark:text-yellow-400 whitespace-nowrap group-hover:underline">Leave a review →</span>
+              </a>
+
             </div>
 
             {/* Contact Form */}

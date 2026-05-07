@@ -13,6 +13,7 @@ const securityHeaders = [
       "font-src 'self' https://fonts.gstatic.com",
       "img-src 'self' data: blob: https://cdn.shopify.com https://images.unsplash.com https://media.tatacroma.com https://cdn.simpleicons.org",
       "connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com",
+      "frame-src https://www.google.com",
       "frame-ancestors 'none'",
     ].join("; "),
   },

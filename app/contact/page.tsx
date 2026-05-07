@@ -256,14 +256,14 @@ export default function Contact() {
           {/* Right Column: Integrated Map */}
           <div className="h-[300px] sm:h-[400px] lg:h-auto lg:min-h-[600px] bg-zinc-200 dark:bg-zinc-800 rounded-3xl overflow-hidden border border-zinc-300 dark:border-white/10 shadow-lg relative group order-2 lg:order-2">
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d5124.824235460429!2d-110.6775265!3d50.0411107!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x455a734e3fc2448f%3A0x61bd1a1be602f915!2sHat%20Phones!5e0!3m2!1sen!2sin!4v1774074756408!5m2!1sen!2sin"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2562.504499681065!2d-110.6775495!3d50.03937990000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x455a734e3fc2448f%3A0x61bd1a1be602f915!2sHat%20Phones%20-%20Buy%2C%20Sell%20%26%20Phone%20Repair!5e0!3m2!1sen!2sin!4v1778148208820!5m2!1sen!2sin"
               width="100%"
               height="100%"
               style={{ border: 0 }}
               allowFullScreen={true}
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-              className="absolute inset-0"
+              className="absolute inset-0 dark:[filter:invert(90%)_hue-rotate(180deg)_brightness(0.85)_contrast(0.9)]"
             ></iframe>
 
             {/* Overlay instruction for the user to change the map later if needed */}

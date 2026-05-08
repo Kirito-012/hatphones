@@ -290,8 +290,6 @@ export default function RepairPage() {
     setSelectedSlot("11:00 AM");
   };
 
-  const estimatedPrice = selectedIssue ? ISSUE_PRICE_MAP[selectedIssue] : null;
-
   const getServicePrice = (serviceTitle: string): string => {
     if (deviceCategory === "iphone" && selectedModel) {
       if (serviceTitle === "Screen Replacement") {
@@ -777,7 +775,7 @@ export default function RepairPage() {
                             required
                             value={name}
                             onChange={(e) => setName(e.target.value)}
-                            placeholder=""
+                            placeholder="Your Name"
                             className={inputWithIconClass}
                           />
                         </div>
@@ -916,24 +914,6 @@ export default function RepairPage() {
 
                   {/* ── Info panel ── */}
                   <div className="flex flex-col gap-4 lg:sticky lg:top-28">
-
-                    {/* Price estimate — only visible when issue selected */}
-                    <AnimatePresence>
-                      {estimatedPrice && (
-                        <motion.div
-                          key="price-card"
-                          initial={{ opacity: 0, y: -10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -10 }}
-                          transition={{ duration: 0.28 }}
-                          className="rounded-2xl bg-indigo-600 p-6 text-white"
-                        >
-                          <p className="text-xs font-semibold text-indigo-200 uppercase tracking-widest mb-1">Estimated Cost</p>
-                          <p className="text-3xl font-black">{estimatedPrice}</p>
-                          <p className="text-sm text-indigo-200 mt-1.5">Final price confirmed after diagnostics.</p>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
 
                     {/* What happens next */}
                     <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-white/10 p-6 shadow-sm">

@@ -4,7 +4,8 @@ import { useState, useRef, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Navbar } from "../components/Navbar";
 import { Footer } from "../components/Footer";
-import { ChevronLeft, ChevronDown, Check, RotateCcw, ArrowRight, Search, ChevronRight, X, Send, ImagePlus } from "lucide-react";
+import { ChevronLeft, ChevronDown, Check, RotateCcw, ArrowRight, Search, ChevronRight, X, Send, ImagePlus, Clock } from "lucide-react";
+
 import {
   BRANDS,
   PHONE_DATA,
@@ -79,8 +80,6 @@ export default function ValueCheck() {
   const [batteryHealth, setBatteryHealth] = useState<BatteryHealth | null>(null);
   const [answers, setAnswers] = useState<Record<string, boolean>>({});
 
-  // Send-details modal state
-  const [sendModalOpen, setSendModalOpen] = useState(false);
   const [senderName, setSenderName] = useState("");
   const [senderContact, setSenderContact] = useState("");
   const [contactError, setContactError] = useState("");
@@ -117,11 +116,6 @@ export default function ValueCheck() {
     setBrand(null); setModelName(null); setModelSearch(""); setStorage(null);
     setCondition(null); setBatteryHealth(null); setAnswers({}); setPhotos([]); setStep("brand");
   }
-
-  const result =
-    step === "result" && brand && modelName && storage && condition
-      ? calculateValue({ brand, modelName, storage, condition, batteryHealth: batteryHealth ?? undefined, answers } as ValueCheckInputs)
-      : null;
 
   // ── Brand ──────────────────────────────────────────────────────────────────
 
@@ -343,8 +337,8 @@ export default function ValueCheck() {
   function renderQuestions() {
     const allAnswered = QUESTIONS.every((q) => q.id in answers);
     return (
-      <div className="flex flex-col gap-5">
-        <Q title="A few quick checks" hint="Answer all questions to see your estimate" />
+      <div className="flex flex-col gap-4">
+        <Q title="A few quick checks" hint="Answer all questions to continue" />
         <div className="rounded-2xl border border-zinc-200 dark:border-white/[0.08] overflow-hidden divide-y divide-zinc-100 dark:divide-white/[0.05] bg-white dark:bg-zinc-900/60">
           {QUESTIONS.map((q) => (
             <div key={q.id} className="flex items-center gap-3 px-4 sm:px-5 py-4">
@@ -466,7 +460,7 @@ export default function ValueCheck() {
           onClick={() => advance("result")}
           className="w-full py-4 bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white font-bold rounded-2xl transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-sm"
         >
-          See my estimate <ArrowRight size={16} />
+          Continue <ArrowRight size={16} />
         </button>
         <button
           onClick={() => advance("result")}
@@ -481,68 +475,149 @@ export default function ValueCheck() {
   // ── Result ─────────────────────────────────────────────────────────────────
 
   function renderResult() {
-    if (!result || !brand || !modelName || !storage || !condition) return null;
-    const conditionLabel = CONDITIONS.find((c) => c.value === condition)?.label ?? condition;
-    const issues = QUESTIONS.filter((q) => answers[q.id] === false);
+    if (!brand || !modelName || !storage || !condition) return null;
+
+    if (sendStatus === "success") {
+      return (
+        <div className="flex flex-col items-center justify-center text-center py-8 gap-4">
+          <div className="w-16 h-16 rounded-full bg-emerald-50 dark:bg-emerald-500/10 flex items-center justify-center">
+            <Check size={28} className="text-emerald-500" strokeWidth={2.5} />
+          </div>
+          <div>
+            <p className="text-xl font-black text-zinc-900 dark:text-white mb-1">We got it!</p>
+            <p className="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed max-w-xs mx-auto">
+              We&apos;ll review your device details and reach out to you within 24 hours.
+            </p>
+          </div>
+          <button
+            onClick={reset}
+            className="mt-2 flex items-center gap-1.5 text-xs text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200 transition-colors cursor-pointer"
+          >
+            <RotateCcw size={12} /> Check another device
+          </button>
+        </div>
+      );
+    }
 
     return (
-      <div className="flex flex-col gap-4">
-        {/* Price hero */}
-        <div className="rounded-2xl overflow-hidden" style={{ background: "linear-gradient(145deg, #3730a3 0%, #6366f1 100%)" }}>
-          <div className="px-6 pt-8 pb-6 text-center">
-            <p className="text-indigo-300 text-[11px] font-bold uppercase tracking-[0.15em] mb-4">
-              Estimated Buy Price
-            </p>
-            <p className="font-black text-white leading-none" style={{ fontSize: "clamp(2.8rem, 10vw, 3.8rem)" }}>
-              ${result.low}
-              <span className="text-indigo-300 mx-2" style={{ fontSize: "0.5em" }}>–</span>
-              ${result.high}
-            </p>
-            <p className="text-indigo-300/80 text-xs mt-3 font-medium">Canadian Dollars · Rough estimate</p>
+      <div className="flex flex-col gap-5">
+        {/* Header */}
+        <div className="flex flex-col gap-1">
+          <div className="flex items-center gap-2 mb-1">
+            <div className="w-8 h-8 rounded-xl bg-indigo-50 dark:bg-indigo-500/10 flex items-center justify-center shrink-0">
+              <Clock size={16} className="text-indigo-600 dark:text-indigo-400" />
+            </div>
+            <span className="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest">Almost there</span>
           </div>
-          <div className="bg-black/20 px-5 py-3.5 flex flex-wrap gap-1.5 justify-center">
-            {[brand, modelName, storage, conditionLabel].map((l) => (
-              <span key={l} className="px-2.5 py-1 rounded-full bg-white/15 text-white/90 text-xs font-medium">{l}</span>
+          <h2 className="text-xl sm:text-2xl font-black text-zinc-900 dark:text-white tracking-tight leading-tight">
+            How can we reach you?
+          </h2>
+          <p className="text-sm text-zinc-500 dark:text-zinc-400 mt-0.5 leading-relaxed">
+            Leave your contact info and we&apos;ll get back to you with a fair offer within 24 hours.
+          </p>
+        </div>
+
+        {/* Device summary */}
+        <div className="rounded-2xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-white/[0.07] overflow-hidden">
+          <p className="px-4 py-2.5 text-[10px] font-bold uppercase tracking-widest text-zinc-400 dark:text-zinc-500 border-b border-zinc-200 dark:border-white/[0.07]">
+            Your device
+          </p>
+          <div className="px-4 py-3 flex flex-wrap gap-1.5">
+            {[
+              brand,
+              modelName,
+              storage,
+              CONDITIONS.find((c) => c.value === condition)?.label ?? condition,
+              ...(batteryHealth ? [BATTERY_HEALTH_OPTIONS.find((b) => b.value === batteryHealth)?.label ?? batteryHealth] : []),
+            ].map((chip) => (
+              <span key={chip} className="px-2.5 py-1 rounded-full bg-white dark:bg-zinc-700 border border-zinc-200 dark:border-white/10 text-zinc-700 dark:text-zinc-200 text-xs font-semibold">
+                {chip}
+              </span>
             ))}
           </div>
         </div>
 
-        {/* Issues breakdown */}
-        {issues.length > 0 && (
-          <div className="rounded-2xl border border-zinc-200 dark:border-white/[0.08] overflow-hidden bg-white dark:bg-zinc-900/60">
-            <p className="px-5 py-3 text-[11px] font-bold uppercase tracking-widest text-zinc-400 dark:text-zinc-500 border-b border-zinc-100 dark:border-white/[0.05]">
-              Deductions applied
-            </p>
-            {issues.map((q) => (
-              <div key={q.id} className="flex items-center justify-between px-5 py-3 border-b last:border-b-0 border-zinc-100 dark:border-white/[0.05]">
-                <p className="text-sm text-zinc-600 dark:text-zinc-300 capitalize">
-                  {q.text.replace(/^Is the |^Are all /, "").replace(/ working fine\?$/, " issue").replace(/\?$/, "")}
-                </p>
-                <span className="text-xs font-bold text-red-500 shrink-0 ml-4">−{Math.round(q.deduction * 100)}%</span>
-              </div>
-            ))}
+        {/* Contact fields */}
+        <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-1.5">
+            <label className="text-xs font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Your name</label>
+            <input
+              type="text"
+              placeholder="Enter your name"
+              value={senderName}
+              onChange={(e) => setSenderName(e.target.value)}
+              className="w-full px-4 py-3 rounded-xl bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-900 dark:text-white text-sm placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-400 transition"
+            />
           </div>
+          <div className="flex flex-col gap-1.5">
+            <label className="text-xs font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Email or phone number</label>
+            <input
+              type="text"
+              placeholder="you@email.com or (403) 977-5164"
+              value={senderContact}
+              onChange={(e) => { setSenderContact(e.target.value); if (contactError) setContactError(validateContact(e.target.value)); }}
+              onBlur={(e) => setContactError(validateContact(e.target.value))}
+              className={`w-full px-4 py-3 rounded-xl bg-zinc-50 dark:bg-zinc-800 border text-zinc-900 dark:text-white text-sm placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 transition ${contactError ? "border-red-400 focus:border-red-400" : "border-zinc-200 dark:border-zinc-700 focus:border-indigo-400"}`}
+            />
+            {contactError && <p className="text-xs text-red-500 mt-0.5">{contactError}</p>}
+          </div>
+        </div>
+
+        {sendStatus === "error" && (
+          <p className="text-xs text-red-500 font-medium">Something went wrong. Please try again.</p>
         )}
 
-        {/* Disclaimer */}
-        <p className="text-xs text-zinc-400 text-center leading-relaxed">
-          Final offer confirmed after in-person inspection. Prices vary with market demand.
+        <button
+          disabled={!senderName.trim() || !senderContact.trim() || sendStatus === "loading"}
+          onClick={async () => {
+            const err = validateContact(senderContact);
+            if (err) { setContactError(err); return; }
+            setSendStatus("loading");
+            try {
+              const calcResult = brand && modelName && storage && condition
+                ? calculateValue({ brand, modelName, storage, condition, batteryHealth: batteryHealth ?? undefined, answers } as ValueCheckInputs)
+                : { low: 0, high: 0 };
+              const encodedPhotos = await Promise.all(
+                photos.map((p) =>
+                  new Promise<{ filename: string; content: string }>((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = () => resolve({ filename: p.file.name, content: (reader.result as string).split(",")[1] });
+                    reader.onerror = reject;
+                    reader.readAsDataURL(p.file);
+                  })
+                )
+              );
+              const res = await fetch("/api/sell-inquiry", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  name: senderName.trim(),
+                  contact: senderContact.trim(),
+                  brand,
+                  model: modelName,
+                  storage,
+                  condition,
+                  batteryHealth: batteryHealth ?? null,
+                  estimatedLow: calcResult.low,
+                  estimatedHigh: calcResult.high,
+                  answers,
+                  photos: encodedPhotos,
+                }),
+              });
+              if (!res.ok) throw new Error();
+              setSendStatus("success");
+            } catch {
+              setSendStatus("error");
+            }
+          }}
+          className="w-full py-3.5 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-40 disabled:cursor-not-allowed text-white font-bold rounded-2xl transition-colors flex items-center justify-center gap-2 text-sm cursor-pointer shadow-sm"
+        >
+          {sendStatus === "loading" ? "Sending…" : <><Send size={15} /> Send to HatPhones</>}
+        </button>
+
+        <p className="text-xs text-zinc-400 text-center -mt-1">
+          We&apos;ll reach out within 24 hours with a fair offer.
         </p>
-
-        {/* CTAs */}
-        <button
-          onClick={() => { setSendModalOpen(true); setSendStatus("idle"); setSenderName(""); setSenderContact(""); }}
-          className="w-full py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-2xl transition-colors flex items-center justify-center gap-2 text-sm shadow-sm cursor-pointer"
-        >
-          <Send size={15} /> Send my details to HatPhones
-        </button>
-
-        <button
-          onClick={reset}
-          className="flex items-center gap-1.5 text-xs text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200 mx-auto transition-colors cursor-pointer mt-1"
-        >
-          <RotateCcw size={12} /> Check another device
-        </button>
       </div>
     );
   }
@@ -592,7 +667,7 @@ export default function ValueCheck() {
               </h1>
 
               <p className="text-zinc-400 text-base sm:text-lg leading-relaxed max-w-md mb-8">
-                Answer a few quick questions and get an honest, fair estimate in under 2 minutes. No signup required.
+                Answer a few quick questions and we&apos;ll reach out to you in less than an hour with a fair offer. No signup required.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-y-2.5 gap-x-5 mb-10">
@@ -612,7 +687,7 @@ export default function ValueCheck() {
                 onClick={() => document.getElementById("wizard")?.scrollIntoView({ behavior: "smooth" })}
                 className="inline-flex items-center gap-2.5 px-8 py-4 bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 text-white font-bold rounded-2xl transition-colors text-base shadow-xl shadow-indigo-900/50 cursor-pointer"
               >
-                Get My Estimate <ArrowRight size={17} />
+                Get My Offer <ArrowRight size={17} />
               </button>
             </div>
 
@@ -685,7 +760,7 @@ export default function ValueCheck() {
           )}
 
           {/* Wizard card */}
-          <div className="bg-white dark:bg-zinc-900 rounded-3xl border border-zinc-200 dark:border-white/[0.07] shadow-sm min-h-screen sm:min-h-0">
+          <div className="bg-white dark:bg-zinc-900 rounded-3xl border border-zinc-200 dark:border-white/[0.07] shadow-sm flex flex-col min-h-[680px]">
             {/* Thin progress stripe */}
             {step !== "result" && (
               <div className="h-1 rounded-t-3xl overflow-hidden bg-zinc-100 dark:bg-zinc-800">
@@ -696,7 +771,7 @@ export default function ValueCheck() {
               </div>
             )}
 
-            <div className="p-6 sm:p-8">
+            <div className="p-6 sm:p-8 flex-1 overflow-y-auto">
               {/* Back button */}
               {step !== "brand" && step !== "result" && (
                 <button
@@ -719,177 +794,6 @@ export default function ValueCheck() {
       </div>
 
       <Footer />
-
-      {/* ── Send Details Modal ── */}
-      <AnimatePresence>
-        {sendModalOpen && result && brand && modelName && storage && condition && (
-          <div
-            className="fixed inset-0 z-[200] flex items-end sm:items-center justify-center p-0 sm:p-6"
-            onClick={() => setSendModalOpen(false)}
-          >
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="absolute inset-0 bg-zinc-900/60 backdrop-blur-sm"
-              aria-hidden="true"
-            />
-            <motion.div
-              initial={{ y: "100%" }}
-              animate={{ y: 0 }}
-              exit={{ y: "100%" }}
-              transition={{ type: "spring", damping: 26, stiffness: 300 }}
-              onClick={(e) => e.stopPropagation()}
-              className="relative bg-white dark:bg-zinc-900 w-full sm:max-w-md rounded-t-3xl sm:rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh] sm:max-h-[85vh] z-10"
-            >
-              {/* Header */}
-              <div className="flex items-center justify-between px-6 pt-6 pb-4 border-b border-zinc-100 dark:border-white/[0.07] shrink-0">
-                <div>
-                  <p className="text-xs font-semibold text-indigo-500 uppercase tracking-widest mb-0.5">Sell Inquiry</p>
-                  <h3 className="text-lg font-black text-zinc-900 dark:text-white leading-tight">Send your details</h3>
-                </div>
-                <button
-                  onClick={() => setSendModalOpen(false)}
-                  className="w-8 h-8 flex items-center justify-center rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors"
-                >
-                  <X size={16} />
-                </button>
-              </div>
-
-              <div className="overflow-y-auto flex-1 px-6 py-5 flex flex-col gap-5">
-                {sendStatus === "success" ? (
-                  <div className="flex flex-col items-center justify-center text-center py-8 gap-4">
-                    <div className="w-16 h-16 rounded-full bg-emerald-50 dark:bg-emerald-500/10 flex items-center justify-center">
-                      <Check size={28} className="text-emerald-500" strokeWidth={2.5} />
-                    </div>
-                    <div>
-                      <p className="text-xl font-black text-zinc-900 dark:text-white mb-1">We got it!</p>
-                      <p className="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed max-w-xs mx-auto">
-                        We&apos;ll review your device details and reach out to arrange a time that works for you.
-                      </p>
-                    </div>
-                    <button
-                      onClick={() => setSendModalOpen(false)}
-                      className="mt-2 px-6 py-2.5 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 rounded-xl font-bold text-sm cursor-pointer hover:bg-zinc-700 dark:hover:bg-zinc-100 transition-colors"
-                    >
-                      Done
-                    </button>
-                  </div>
-                ) : (
-                  <>
-                    {/* Device summary (read-only) */}
-                    <div className="rounded-2xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-white/[0.07] overflow-hidden">
-                      <p className="px-4 py-2.5 text-[10px] font-bold uppercase tracking-widest text-zinc-400 dark:text-zinc-500 border-b border-zinc-200 dark:border-white/[0.07]">
-                        Device details
-                      </p>
-                      <div className="px-4 py-3 flex flex-wrap gap-1.5">
-                        {[
-                          brand,
-                          modelName,
-                          storage,
-                          CONDITIONS.find((c) => c.value === condition)?.label ?? condition,
-                          ...(batteryHealth ? [BATTERY_HEALTH_OPTIONS.find((b) => b.value === batteryHealth)?.label ?? batteryHealth] : []),
-                        ].map((chip) => (
-                          <span key={chip} className="px-2.5 py-1 rounded-full bg-white dark:bg-zinc-700 border border-zinc-200 dark:border-white/10 text-zinc-700 dark:text-zinc-200 text-xs font-semibold">
-                            {chip}
-                          </span>
-                        ))}
-                      </div>
-                      <div className="px-4 py-3 border-t border-zinc-200 dark:border-white/[0.07] flex items-center justify-between">
-                        <span className="text-xs text-zinc-500 dark:text-zinc-400 font-medium">Estimate</span>
-                        <span className="text-sm font-black text-indigo-600 dark:text-indigo-400">${result.low} – ${result.high} CAD</span>
-                      </div>
-                    </div>
-
-                    {/* Contact form */}
-                    <div className="flex flex-col gap-3">
-                      <div className="flex flex-col gap-1.5">
-                        <label className="text-xs font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Your name</label>
-                        <input
-                          type="text"
-                          placeholder="Enter your name"
-                          value={senderName}
-                          onChange={(e) => setSenderName(e.target.value)}
-                          className="w-full px-4 py-3 rounded-xl bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-900 dark:text-white text-sm placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-400 transition"
-                        />
-                      </div>
-                      <div className="flex flex-col gap-1.5">
-                        <label className="text-xs font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Email or phone number</label>
-                        <input
-                          type="text"
-                          placeholder="you@email.com or (403) 977-5164"
-                          value={senderContact}
-                          onChange={(e) => { setSenderContact(e.target.value); if (contactError) setContactError(validateContact(e.target.value)); }}
-                          onBlur={(e) => setContactError(validateContact(e.target.value))}
-                          className={`w-full px-4 py-3 rounded-xl bg-zinc-50 dark:bg-zinc-800 border text-zinc-900 dark:text-white text-sm placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 transition ${contactError ? "border-red-400 focus:border-red-400" : "border-zinc-200 dark:border-zinc-700 focus:border-indigo-400"}`}
-                        />
-                        {contactError && <p className="text-xs text-red-500 mt-0.5">{contactError}</p>}
-                      </div>
-                    </div>
-
-                    {sendStatus === "error" && (
-                      <p className="text-xs text-red-500 font-medium -mt-1">Something went wrong. Please try again.</p>
-                    )}
-
-                    <button
-                      disabled={!senderName.trim() || !senderContact.trim() || sendStatus === "loading"}
-                      onClick={async () => {
-                        const err = validateContact(senderContact);
-                        if (err) { setContactError(err); return; }
-                        setSendStatus("loading");
-                        try {
-                          const encodedPhotos = await Promise.all(
-                            photos.map((p) =>
-                              new Promise<{ filename: string; content: string }>((resolve, reject) => {
-                                const reader = new FileReader();
-                                reader.onload = () =>
-                                  resolve({
-                                    filename: p.file.name,
-                                    content: (reader.result as string).split(",")[1],
-                                  });
-                                reader.onerror = reject;
-                                reader.readAsDataURL(p.file);
-                              })
-                            )
-                          );
-                          const res = await fetch("/api/sell-inquiry", {
-                            method: "POST",
-                            headers: { "Content-Type": "application/json" },
-                            body: JSON.stringify({
-                              name: senderName.trim(),
-                              contact: senderContact.trim(),
-                              brand,
-                              model: modelName,
-                              storage,
-                              condition,
-                              batteryHealth: batteryHealth ?? null,
-                              estimatedLow: result.low,
-                              estimatedHigh: result.high,
-                              answers,
-                              photos: encodedPhotos,
-                            }),
-                          });
-                          if (!res.ok) throw new Error();
-                          setSendStatus("success");
-                        } catch {
-                          setSendStatus("error");
-                        }
-                      }}
-                      className="w-full py-3.5 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-40 disabled:cursor-not-allowed text-white font-bold rounded-2xl transition-colors flex items-center justify-center gap-2 text-sm cursor-pointer shadow-sm"
-                    >
-                      {sendStatus === "loading" ? "Sending…" : <><Send size={15} /> Send to HatPhones</>}
-                    </button>
-
-                    <p className="text-xs text-zinc-400 text-center -mt-1 pb-2">
-                      We&apos;ll get back to you to arrange a time to come in.
-                    </p>
-                  </>
-                )}
-              </div>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
     </main>
   );
 }

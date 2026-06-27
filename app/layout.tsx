@@ -64,11 +64,13 @@ export const metadata: Metadata = {
     template: "%s | HatPhones",
   },
   description:
-    "Medicine Hat's trusted source for certified pre-owned phones, instant device sell quotes, and same-day phone repair. Serving Medicine Hat, AB.",
+    "Medicine Hat's trusted source for certified pre-owned phones, instant device sell quotes, and same-day phone, laptop & computer repair. Serving Medicine Hat, AB.",
   keywords: [
     "buy used phones Medicine Hat",
     "sell phone Medicine Hat",
     "phone repair Medicine Hat",
+    "computer repair Medicine Hat",
+    "laptop repair Medicine Hat",
     "certified pre-owned phones Alberta",
     "same-day phone repair Medicine Hat",
   ],

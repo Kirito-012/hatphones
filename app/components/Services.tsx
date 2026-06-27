@@ -8,7 +8,7 @@ const repairServices = [
   { name: "Screen Replacement", price: "From $79", tone: "bg-indigo-100 dark:bg-indigo-500/20 text-indigo-700 dark:text-indigo-300" },
   { name: "Battery Replacement", price: "From $59", tone: "bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300" },
   { name: "Charging Port", price: "From $49", tone: "bg-amber-100 dark:bg-amber-500/20 text-amber-700 dark:text-amber-300" },
-  { name: "Camera & Audio", price: "From $69", tone: "bg-violet-100 dark:bg-violet-500/20 text-violet-700 dark:text-violet-300" },
+  { name: "Computer & Laptop", price: "Free Quote", tone: "bg-sky-100 dark:bg-sky-500/20 text-sky-700 dark:text-sky-300" },
 ];
 
 export function Services() {
@@ -153,7 +153,7 @@ export function Services() {
               </span>
               <h3 className="text-3xl md:text-4xl font-black text-zinc-900 dark:text-white mb-2 leading-tight">Fast Repairs</h3>
               <p className="text-zinc-600 dark:text-zinc-400 text-sm leading-relaxed max-w-xs mb-6">
-                Cracked screen or dead battery? Our certified techs fix it same day using quality parts.
+                Cracked phone, dead battery, or a slow laptop? Our certified techs repair phones, laptops &amp; computers using quality parts.
               </p>
               <Link
                 href="/repair/"

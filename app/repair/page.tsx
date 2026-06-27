@@ -20,6 +20,10 @@ import {
   Phone,
   Mail,
   MessageSquare,
+  Laptop,
+  ShieldAlert,
+  HardDrive,
+  Cpu,
 } from "lucide-react";
 
 const repairFAQs = [
@@ -46,6 +50,14 @@ const repairFAQs = [
   {
     q: "Do I need an appointment for a repair?",
     a: "Walk-ins are welcome, but booking an appointment through our website guarantees your time slot. Most walk-ins are accommodated the same day during store hours: Monday to Friday 10 AM–6 PM, Saturday 11 AM–6 PM.",
+  },
+  {
+    q: "Do you repair laptops and computers too?",
+    a: "Yes. We service Windows laptops, MacBooks, and desktop computers — screen and battery replacements, keyboard and charging port repairs, virus and software issues, data recovery, and SSD/RAM upgrades. Diagnostics are free.",
+  },
+  {
+    q: "How much does a computer or laptop repair cost?",
+    a: "Computer and laptop pricing depends on the model and the issue, so we quote it after a free diagnostic. Bring your device in and we'll assess it and give you an upfront price before any work begins.",
   },
 ];
 
@@ -141,6 +153,53 @@ const repairServices = [
     borderTint: "border-violet-100 dark:border-violet-500/20",
     iconBg: "bg-violet-50 dark:bg-violet-500/15",
     iconColor: "text-violet-600 dark:text-violet-400",
+  },
+];
+
+const computerServices = [
+  {
+    title: "Hardware Repairs",
+    detail: "Laptop & MacBook screen, battery, keyboard, trackpad, and charging port repairs.",
+    icon: Laptop,
+    chip: "Laptops · MacBooks · Desktops",
+    chipTone: "bg-sky-100 text-sky-700 dark:bg-sky-500/20 dark:text-sky-300",
+    strip: "from-sky-500 to-indigo-500",
+    borderTint: "border-sky-100 dark:border-sky-500/20",
+    iconBg: "bg-sky-50 dark:bg-sky-500/15",
+    iconColor: "text-sky-600 dark:text-sky-400",
+  },
+  {
+    title: "Software & Virus Removal",
+    detail: "Malware removal, OS reinstalls, software troubleshooting, and performance tune-ups.",
+    icon: ShieldAlert,
+    chip: "Speed It Up",
+    chipTone: "bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-300",
+    strip: "from-emerald-500 to-teal-500",
+    borderTint: "border-emerald-100 dark:border-emerald-500/20",
+    iconBg: "bg-emerald-50 dark:bg-emerald-500/15",
+    iconColor: "text-emerald-600 dark:text-emerald-400",
+  },
+  {
+    title: "Data Recovery",
+    detail: "Recover files, photos, and documents from failed or damaged hard drives and SSDs.",
+    icon: HardDrive,
+    chip: "Don't Lose It",
+    chipTone: "bg-violet-100 text-violet-700 dark:bg-violet-500/20 dark:text-violet-300",
+    strip: "from-violet-500 to-fuchsia-500",
+    borderTint: "border-violet-100 dark:border-violet-500/20",
+    iconBg: "bg-violet-50 dark:bg-violet-500/15",
+    iconColor: "text-violet-600 dark:text-violet-400",
+  },
+  {
+    title: "Upgrades & Liquid Damage",
+    detail: "SSD and RAM upgrades for faster performance, plus liquid-damage diagnosis and repair.",
+    icon: Cpu,
+    chip: "Boost & Rescue",
+    chipTone: "bg-amber-100 text-amber-700 dark:bg-amber-500/20 dark:text-amber-300",
+    strip: "from-amber-500 to-orange-500",
+    borderTint: "border-amber-100 dark:border-amber-500/20",
+    iconBg: "bg-amber-50 dark:bg-amber-500/15",
+    iconColor: "text-amber-600 dark:text-amber-400",
   },
 ];
 
@@ -336,7 +395,7 @@ export default function RepairPage() {
               </h1>
 
               <p className="mt-6 text-base md:text-lg text-zinc-600 dark:text-zinc-300 max-w-2xl leading-relaxed">
-                HatPhones repairs iPhones, Samsung Galaxy devices, and most Android phones in Medicine Hat, AB. Screen replacements start at $79, battery swaps from $59, and charging port repairs from $49 — most jobs done same day while you wait. Diagnostics are always free.
+                HatPhones repairs iPhones, Samsung Galaxy devices, and most Android phones in Medicine Hat, AB — plus laptops, MacBooks, and desktop computers. Screen replacements start at $79, battery swaps from $59, and charging port repairs from $49 — most phone jobs done same day while you wait. Diagnostics are always free.
               </p>
 
               <div className="mt-7">
@@ -560,6 +619,85 @@ export default function RepairPage() {
                 </ScrollRevealButton>
               )}
             </div>
+          </div>
+        </section>
+
+        {/* ── Section 1b: Computer & Laptop Repairs ── */}
+        <section className="relative w-full py-24 md:py-32 px-6 bg-white dark:bg-zinc-950">
+          <div className="container mx-auto max-w-7xl">
+
+            <div className="mb-14">
+              <ScrollReveal className="inline-flex items-center gap-2 px-4 py-2 mb-6 rounded-full bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-white/10 shadow-sm">
+                <Laptop size={13} className="text-sky-500" />
+                <span className="text-sm font-semibold text-zinc-600 dark:text-zinc-300">Computer &amp; Laptop Repair</span>
+              </ScrollReveal>
+
+              <ScrollReveal delay={0.07}>
+                <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-zinc-900 dark:text-white tracking-tight">
+                  Laptops, MacBooks &amp;{" "}
+                  <span className="text-zinc-400 dark:text-zinc-600">computers.</span>
+                </h2>
+              </ScrollReveal>
+
+              <ScrollReveal delay={0.13} className="mt-4">
+                <p className="text-lg text-zinc-600 dark:text-zinc-400 max-w-xl">
+                  Slow PC, cracked laptop screen, or a drive that won&apos;t boot? We fix Windows laptops, MacBooks, and desktop computers. Diagnostics are free — bring it in and we&apos;ll quote you upfront.
+                </p>
+              </ScrollReveal>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+              {computerServices.map((service, i) => {
+                const Icon = service.icon;
+                return (
+                  <ScrollRevealButton
+                    key={service.title}
+                    delay={i * 0.07}
+                    onClick={() => handleServiceClick("General Diagnostics")}
+                    className={`relative text-left overflow-hidden rounded-3xl border ${service.borderTint} bg-white dark:bg-zinc-900 shadow-sm hover:shadow-md transition-all duration-300 group flex flex-col cursor-pointer`}
+                  >
+                    {/* Gradient top strip */}
+                    <div className={`h-1 w-full bg-gradient-to-r ${service.strip}`} />
+
+                    <div className="p-6 flex flex-col flex-1">
+                      {/* Icon + chip */}
+                      <div className="flex items-start justify-between mb-5 gap-2">
+                        <div className={`w-11 h-11 rounded-2xl ${service.iconBg} flex items-center justify-center shrink-0`}>
+                          <Icon size={21} className={service.iconColor} strokeWidth={1.75} />
+                        </div>
+                        <span className={`text-[11px] font-bold px-2.5 py-1 rounded-full text-right ${service.chipTone}`}>
+                          {service.chip}
+                        </span>
+                      </div>
+
+                      {/* Title */}
+                      <h3 className="text-[17px] font-bold text-zinc-900 dark:text-white tracking-tight mb-1.5">
+                        {service.title}
+                      </h3>
+
+                      {/* Detail */}
+                      <p className="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mb-5">
+                        {service.detail}
+                      </p>
+
+                      {/* Price + CTA */}
+                      <div className="mt-auto flex items-center justify-between">
+                        <span className="text-base font-bold text-zinc-900 dark:text-white">Free Quote</span>
+                        <span className="flex items-center gap-1 text-xs text-zinc-400 group-hover:text-indigo-500 transition-colors font-medium">
+                          Book this <ArrowRight size={12} />
+                        </span>
+                      </div>
+                    </div>
+                  </ScrollRevealButton>
+                );
+              })}
+            </div>
+
+            <ScrollReveal delay={0.2} className="mt-6">
+              <p className="text-sm text-zinc-400 dark:text-zinc-500">
+                Computer &amp; laptop pricing is quoted after a free diagnostic, since costs vary by model and issue.
+              </p>
+            </ScrollReveal>
           </div>
         </section>
 
@@ -972,11 +1110,11 @@ export default function RepairPage() {
                 <span className="text-sm font-semibold text-zinc-600 dark:text-zinc-300">Common Questions</span>
               </div>
               <h2 className="text-4xl md:text-5xl font-bold text-zinc-900 dark:text-white tracking-tight leading-[1.1] mb-4">
-                Phone repair —{" "}
+                Phone &amp; computer repair —{" "}
                 <span className="text-zinc-400 dark:text-zinc-600">answered.</span>
               </h2>
               <p className="text-lg text-zinc-500 dark:text-zinc-400 leading-relaxed max-w-xl">
-                Everything you need to know about getting your device repaired at HatPhones in Medicine Hat.
+                Everything you need to know about getting your phone, laptop, or computer repaired at HatPhones in Medicine Hat.
               </p>
             </div>
             <FAQ items={repairFAQs} accent="indigo" />

@@ -2,16 +2,25 @@ import type { Metadata } from "next";
 import StructuredData from "../components/StructuredData";
 
 export const metadata: Metadata = {
-  title: "Same-Day Phone Repair in Medicine Hat",
+  title: "Phone, Computer & Laptop Repair in Medicine Hat",
   description:
-    "Fast, affordable phone and tablet repair in Medicine Hat, AB. Screen replacements, battery swaps, charging ports, and more. Book online with HatPhones.",
+    "Fast, affordable phone, laptop, and computer repair in Medicine Hat, AB. Screen and battery replacements, charging ports, virus removal, data recovery, and upgrades. Book online with HatPhones.",
+  keywords: [
+    "phone repair Medicine Hat",
+    "computer repair Medicine Hat",
+    "laptop repair Medicine Hat",
+    "MacBook repair Medicine Hat",
+    "virus removal Medicine Hat",
+    "data recovery Medicine Hat",
+    "same-day phone repair Medicine Hat",
+  ],
   alternates: { canonical: "https://www.hatphones.ca/repair/" },
   openGraph: {
     url: "https://www.hatphones.ca/repair/",
-    title: "Same-Day Phone Repair in Medicine Hat | HatPhones",
+    title: "Phone, Computer & Laptop Repair in Medicine Hat | HatPhones",
     description:
-      "Fast, affordable phone and tablet repair in Medicine Hat, AB. Screen replacements, battery swaps, charging ports, and more.",
-    images: [{ url: "/og-image-repair.png", width: 1200, height: 630, alt: "Same-Day Phone Repair in Medicine Hat — HatPhones" }],
+      "Fast, affordable phone, laptop, and computer repair in Medicine Hat, AB. Screen and battery replacements, charging ports, virus removal, data recovery, and upgrades.",
+    images: [{ url: "/og-image-repair.png", width: 1200, height: 630, alt: "Phone, Computer & Laptop Repair in Medicine Hat — HatPhones" }],
   },
   twitter: {
     card: "summary_large_image",
@@ -22,9 +31,9 @@ export const metadata: Metadata = {
 const repairServiceSchema = {
   "@context": "https://schema.org",
   "@type": "Service",
-  serviceType: "Phone Repair",
-  name: "Phone & Tablet Repair — HatPhones",
-  description: "Same-day phone and tablet repair in Medicine Hat, AB. Screen replacement, battery swap, charging port repair, camera fix, and water damage assessment.",
+  serviceType: ["Phone Repair", "Computer Repair", "Laptop Repair"],
+  name: "Phone, Computer & Laptop Repair — HatPhones",
+  description: "Same-day phone repair plus laptop, MacBook, and desktop computer repair in Medicine Hat, AB. Screen replacement, battery swap, charging port repair, camera fix, water damage, virus removal, data recovery, and hardware upgrades.",
   url: "https://www.hatphones.ca/repair/",
   provider: {
     "@type": "LocalBusiness",
@@ -49,7 +58,7 @@ const repairServiceSchema = {
   areaServed: { "@type": "City", name: "Medicine Hat", containedInPlace: { "@type": "State", name: "Alberta" } },
   hasOfferCatalog: {
     "@type": "OfferCatalog",
-    name: "Phone Repair Services",
+    name: "Phone, Computer & Laptop Repair Services",
     itemListElement: [
       {
         "@type": "Offer",
@@ -86,6 +95,22 @@ const repairServiceSchema = {
         itemOffered: { "@type": "Service", name: "General Diagnostics", description: "Free device diagnostic. No commitment required." },
         priceSpecification: { "@type": "PriceSpecification", price: "0", priceCurrency: "CAD" },
       },
+      {
+        "@type": "Offer",
+        itemOffered: { "@type": "Service", name: "Computer & Laptop Hardware Repair", description: "Laptop, MacBook, and desktop screen, battery, keyboard, trackpad, and charging port repair. Priced after a free diagnostic." },
+      },
+      {
+        "@type": "Offer",
+        itemOffered: { "@type": "Service", name: "Virus Removal & Software Repair", description: "Malware removal, OS reinstalls, software troubleshooting, and performance tune-ups for Windows PCs and Macs. Priced after a free diagnostic." },
+      },
+      {
+        "@type": "Offer",
+        itemOffered: { "@type": "Service", name: "Data Recovery", description: "Recover files, photos, and documents from failed or damaged hard drives and SSDs. Priced after a free diagnostic." },
+      },
+      {
+        "@type": "Offer",
+        itemOffered: { "@type": "Service", name: "Computer Upgrades & Liquid Damage Repair", description: "SSD and RAM upgrades plus liquid-damage diagnosis and repair for laptops and desktops. Priced after a free diagnostic." },
+      },
     ],
   },
 };
@@ -100,6 +125,8 @@ const repairFAQSchema = {
     { "@type": "Question", name: "Do you fix water-damaged phones?", acceptedAnswer: { "@type": "Answer", text: "Yes, we do water damage assessments and repairs. Results depend on the extent of the damage, but bring it in as soon as possible — the sooner we look at it, the better the chances of recovery." } },
     { "@type": "Question", name: "Do repairs come with a warranty?", acceptedAnswer: { "@type": "Answer", text: "Yes. All repairs at HatPhones come with a 90-day service warranty. If the same issue comes back within that period, we'll fix it at no charge." } },
     { "@type": "Question", name: "Do I need an appointment for a repair?", acceptedAnswer: { "@type": "Answer", text: "Walk-ins are welcome, but booking an appointment through our website guarantees your time slot. Most walk-ins are accommodated the same day during store hours: Monday to Friday 10 AM–6 PM, Saturday 11 AM–6 PM." } },
+    { "@type": "Question", name: "Do you repair laptops and computers too?", acceptedAnswer: { "@type": "Answer", text: "Yes. We service Windows laptops, MacBooks, and desktop computers — screen and battery replacements, keyboard and charging port repairs, virus and software issues, data recovery, and SSD/RAM upgrades. Diagnostics are free." } },
+    { "@type": "Question", name: "How much does a computer or laptop repair cost?", acceptedAnswer: { "@type": "Answer", text: "Computer and laptop pricing depends on the model and the issue, so we quote it after a free diagnostic. Bring your device in and we'll assess it and give you an upfront price before any work begins." } },
   ],
 };
 

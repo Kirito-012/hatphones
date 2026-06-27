@@ -13,7 +13,7 @@ export function Footer() {
               </span>
             </div>
             <p className="text-sm text-zinc-600 dark:text-zinc-400 max-w-sm leading-relaxed">
-              Your reliable local destination for quality pre-owned phones, fast repairs, and fair trade-ins. Honest service guaranteed.
+              Your reliable local destination for quality pre-owned phones, fast phone, laptop &amp; computer repair, and fair trade-ins. Honest service guaranteed.
             </p>
           </div>
 
